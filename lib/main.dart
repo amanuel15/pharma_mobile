@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pharma_flutter/injection.dart';
 import 'package:pharma_flutter/presentation/core/app_widget.dart';
 
 void main() {
+  configureDependencies();
   runApp(AppWidget());
 }
 

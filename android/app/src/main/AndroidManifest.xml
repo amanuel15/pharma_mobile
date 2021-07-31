@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pharma_flutter">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
    <application
         android:label="pharma_flutter"
         android:icon="@mipmap/ic_launcher">
@@ -37,5 +41,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAyeGr8Z1BUkr-0AetzUU5Q18FvjJz4hNU" />
     </application>
 </manifest>
