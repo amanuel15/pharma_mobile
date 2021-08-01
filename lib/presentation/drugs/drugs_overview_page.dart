@@ -5,11 +5,10 @@ import 'package:location/location.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multiple_result/multiple_result.dart';
-import 'package:pharma_flutter/application/util/cubit/location_cubit.dart';
-import 'package:pharma_flutter/application/util/location_model.dart';
+import 'package:pharma_flutter/application/pharmacy/pharmacy_locations/pharmacy_locations_cubit.dart';
+import 'package:pharma_flutter/application/util/location/location_cubit.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/injection.dart';
-import 'package:provider/provider.dart';
 
 class PharmaOverviewPage extends StatelessWidget {
   const PharmaOverviewPage({Key? key}) : super(key: key);
@@ -43,15 +42,6 @@ class PharmaOverviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late GoogleMapController mapController;
-
-    final LatLng _center = const LatLng(45.521563, -122.677433);
-
-    void _onMapCreated(GoogleMapController controller) {
-      mapController = controller;
-      //print('The map controller: *** $mapController');
-    }
-
     return Scaffold(
       // appBar: AppBar(
       //   title: const Text('Pharma'),
@@ -60,8 +50,17 @@ class PharmaOverviewPage extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          BlocProvider(
-            create: (context) => getIt<LocationCubit>()..getLocation(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider<LocationCubit>(
+                create: (BuildContext context) =>
+                    getIt<LocationCubit>()..getLocation(),
+              ),
+              BlocProvider<PharmacyLocationsCubit>(
+                create: (BuildContext context) =>
+                    getIt<PharmacyLocationsCubit>(),
+              ),
+            ],
             child: Container(
               constraints: BoxConstraints(
                 maxHeight: 0.8.sh,
@@ -86,12 +85,20 @@ class PharmaOverviewPage extends StatelessWidget {
                       );
                     },
                     locationLoaded: (state) {
-                      return GoogleMap(
-                        onMapCreated: _onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                          target: state.coords,
-                          zoom: 15.0,
-                        ),
+                      return BlocBuilder<PharmacyLocationsCubit,
+                          PharmacyLocationsState>(
+                        builder: (context, stateB) {
+                          return GoogleMap(
+                            onMapCreated: (controller) => context
+                                .read<PharmacyLocationsCubit>()
+                                .getPlaces(),
+                            markers: stateB.markers,
+                            initialCameraPosition: CameraPosition(
+                              target: state.coords,
+                              zoom: 15.0,
+                            ),
+                          );
+                        },
                       );
                     },
                   );
