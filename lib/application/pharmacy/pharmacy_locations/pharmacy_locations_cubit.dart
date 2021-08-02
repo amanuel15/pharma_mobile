@@ -30,9 +30,9 @@ class PharmacyLocationsCubit extends Cubit<PharmacyLocationsState> {
         icon: mapMarker,
       ),
     );
-    print('The marker: ***$_markers');
+    //print('The marker: ***$_markers');
     emit(state.copyWith(markers: _markers));
-    print('The state marker: ***${state.markers}');
+    //print('The state marker: ***${state.markers}');
   }
 
   Future<BitmapDescriptor> setCustomMarker() async {

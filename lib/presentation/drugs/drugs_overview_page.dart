@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -9,6 +10,8 @@ import 'package:pharma_flutter/application/pharmacy/pharmacy_locations/pharmacy_
 import 'package:pharma_flutter/application/util/location/location_cubit.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/injection.dart';
+import 'package:pharma_flutter/presentation/routes/router.gr.dart';
+import 'package:pharma_flutter/presentation/sign_in/sign_in_page.dart';
 
 class PharmaOverviewPage extends StatelessWidget {
   const PharmaOverviewPage({Key? key}) : super(key: key);
@@ -106,13 +109,13 @@ class PharmaOverviewPage extends StatelessWidget {
               ),
             ),
           ),
-          buildFloatingSearchBar(),
+          buildFloatingSearchBar(context),
         ],
       ),
     );
   }
 
-  Widget buildFloatingSearchBar() {
+  Widget buildFloatingSearchBar(BuildContext context) {
     //final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
     return Container(
@@ -138,7 +141,10 @@ class PharmaOverviewPage extends StatelessWidget {
             showIfOpened: false,
             child: CircularButton(
               icon: const Icon(Icons.place),
-              onPressed: () {},
+              onPressed: () {
+                //context.router.pushNamed('/sign-in-page');
+                AutoRouter.of(context).push(SignInRoute());
+              },
             ),
           ),
           FloatingSearchBarAction.searchToClear(

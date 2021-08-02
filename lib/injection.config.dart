@@ -7,6 +7,7 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
+import 'application/auth/sign_in_form/sign_in_form_bloc.dart' as _i5;
 import 'application/pharmacy/pharmacy_locations/pharmacy_locations_cubit.dart'
     as _i4;
 import 'application/util/location/location_cubit.dart'
@@ -19,5 +20,6 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   gh.factory<_i3.LocationCubit>(() => _i3.LocationCubit());
   gh.factory<_i4.PharmacyLocationsCubit>(() => _i4.PharmacyLocationsCubit());
+  gh.factory<_i5.SignInFormBloc>(() => _i5.SignInFormBloc());
   return get;
 }
