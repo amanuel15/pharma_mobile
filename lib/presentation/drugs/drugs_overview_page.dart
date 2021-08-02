@@ -11,7 +11,6 @@ import 'package:pharma_flutter/application/util/location/location_cubit.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/injection.dart';
 import 'package:pharma_flutter/presentation/routes/router.gr.dart';
-import 'package:pharma_flutter/presentation/sign_in/sign_in_page.dart';
 
 class PharmaOverviewPage extends StatelessWidget {
   const PharmaOverviewPage({Key? key}) : super(key: key);
