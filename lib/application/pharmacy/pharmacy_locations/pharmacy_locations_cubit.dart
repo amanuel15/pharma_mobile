@@ -20,7 +20,7 @@ class PharmacyLocationsCubit extends Cubit<PharmacyLocationsState> {
   //BitmapDescriptor mapMarker;
 
   // TODO: make this function a [Future] that gets places from the database
-  getPlaces() async {
+  Future<void> getPlaces() async {
     BitmapDescriptor mapMarker =
         await setCustomMarker(); //* Add a condition to make sure it is not created already
     _markers.add(

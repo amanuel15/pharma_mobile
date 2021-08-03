@@ -58,7 +58,10 @@ class SignInForm extends StatelessWidget {
                     vertical: 120.h,
                   ),
                   child: Form(
-                    autovalidate: state.showErrorMessages,
+                    //autovalidate: state.showErrorMessages,
+                    autovalidateMode: state.showErrorMessages
+                        ? AutovalidateMode.always
+                        : AutovalidateMode.disabled,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

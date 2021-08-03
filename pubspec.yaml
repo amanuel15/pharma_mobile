@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   auto_route: ^2.2.0
+  collection: ^1.15.0
   cupertino_icons: ^1.0.3
   flutter_bloc: ^7.1.0
   flutter_screenutil: ^5.0.0+2
