@@ -17,9 +17,9 @@ class _$SearchHistoryStateTearOff {
   const _$SearchHistoryStateTearOff();
 
   _SearchHistoryState call(
-      {required List<String> searches,
+      {required List<Search> searches,
       required String typedTerm,
-      required List<String> filteredSearchHistory}) {
+      required List<Search> filteredSearchHistory}) {
     return _SearchHistoryState(
       searches: searches,
       typedTerm: typedTerm,
@@ -33,9 +33,9 @@ const $SearchHistoryState = _$SearchHistoryStateTearOff();
 
 /// @nodoc
 mixin _$SearchHistoryState {
-  List<String> get searches => throw _privateConstructorUsedError;
+  List<Search> get searches => throw _privateConstructorUsedError;
   String get typedTerm => throw _privateConstructorUsedError;
-  List<String> get filteredSearchHistory => throw _privateConstructorUsedError;
+  List<Search> get filteredSearchHistory => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SearchHistoryStateCopyWith<SearchHistoryState> get copyWith =>
@@ -48,9 +48,9 @@ abstract class $SearchHistoryStateCopyWith<$Res> {
           SearchHistoryState value, $Res Function(SearchHistoryState) then) =
       _$SearchHistoryStateCopyWithImpl<$Res>;
   $Res call(
-      {List<String> searches,
+      {List<Search> searches,
       String typedTerm,
-      List<String> filteredSearchHistory});
+      List<Search> filteredSearchHistory});
 }
 
 /// @nodoc
@@ -72,7 +72,7 @@ class _$SearchHistoryStateCopyWithImpl<$Res>
       searches: searches == freezed
           ? _value.searches
           : searches // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Search>,
       typedTerm: typedTerm == freezed
           ? _value.typedTerm
           : typedTerm // ignore: cast_nullable_to_non_nullable
@@ -80,7 +80,7 @@ class _$SearchHistoryStateCopyWithImpl<$Res>
       filteredSearchHistory: filteredSearchHistory == freezed
           ? _value.filteredSearchHistory
           : filteredSearchHistory // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Search>,
     ));
   }
 }
@@ -93,9 +93,9 @@ abstract class _$SearchHistoryStateCopyWith<$Res>
       __$SearchHistoryStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<String> searches,
+      {List<Search> searches,
       String typedTerm,
-      List<String> filteredSearchHistory});
+      List<Search> filteredSearchHistory});
 }
 
 /// @nodoc
@@ -119,7 +119,7 @@ class __$SearchHistoryStateCopyWithImpl<$Res>
       searches: searches == freezed
           ? _value.searches
           : searches // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Search>,
       typedTerm: typedTerm == freezed
           ? _value.typedTerm
           : typedTerm // ignore: cast_nullable_to_non_nullable
@@ -127,7 +127,7 @@ class __$SearchHistoryStateCopyWithImpl<$Res>
       filteredSearchHistory: filteredSearchHistory == freezed
           ? _value.filteredSearchHistory
           : filteredSearchHistory // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Search>,
     ));
   }
 }
@@ -141,11 +141,11 @@ class _$_SearchHistoryState implements _SearchHistoryState {
       required this.filteredSearchHistory});
 
   @override
-  final List<String> searches;
+  final List<Search> searches;
   @override
   final String typedTerm;
   @override
-  final List<String> filteredSearchHistory;
+  final List<Search> filteredSearchHistory;
 
   @override
   String toString() {
@@ -182,16 +182,16 @@ class _$_SearchHistoryState implements _SearchHistoryState {
 
 abstract class _SearchHistoryState implements SearchHistoryState {
   const factory _SearchHistoryState(
-      {required List<String> searches,
+      {required List<Search> searches,
       required String typedTerm,
-      required List<String> filteredSearchHistory}) = _$_SearchHistoryState;
+      required List<Search> filteredSearchHistory}) = _$_SearchHistoryState;
 
   @override
-  List<String> get searches => throw _privateConstructorUsedError;
+  List<Search> get searches => throw _privateConstructorUsedError;
   @override
   String get typedTerm => throw _privateConstructorUsedError;
   @override
-  List<String> get filteredSearchHistory => throw _privateConstructorUsedError;
+  List<Search> get filteredSearchHistory => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SearchHistoryStateCopyWith<_SearchHistoryState> get copyWith =>

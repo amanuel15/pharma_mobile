@@ -97,7 +97,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
     return Container(
       constraints: BoxConstraints(maxHeight: 0.8.sh),
       child: BlocProvider<SearchHistoryCubit>(
-        create: (context) => SearchHistoryCubit()..getSearchHistory(),
+        create: (context) => getIt<SearchHistoryCubit>()..getSearchHistory(),
         child: BlocBuilder<SearchHistoryCubit, SearchHistoryState>(
           //buildWhen: (p, c) => !ListEquality().equals(p.filteredSearchHistory, c.filteredSearchHistory),
           builder: (context, state) {
@@ -175,9 +175,9 @@ class FloatingSearchBarWidget extends StatelessWidget {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: state.filteredSearchHistory.reversed
-                                .map((term) => ListTile(
+                                .map((search) => ListTile(
                                       title: Text(
-                                        term,
+                                        search.searchTerm,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(color: Colors.black),
@@ -188,13 +188,14 @@ class FloatingSearchBarWidget extends StatelessWidget {
                                         onPressed: () {
                                           context
                                               .read<SearchHistoryCubit>()
-                                              .deleteSearchTerm(term);
+                                              .deleteSearchTerm(
+                                                  search.searchTerm);
                                         },
                                       ),
                                       onTap: () {
                                         context
                                             .read<SearchHistoryCubit>()
-                                            .addSearchTerm(term);
+                                            .addSearchTerm(search.searchTerm);
                                         controller.close();
                                       },
                                     ))

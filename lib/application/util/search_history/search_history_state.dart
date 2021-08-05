@@ -4,9 +4,9 @@ part of 'search_history_cubit.dart';
 abstract class SearchHistoryState with _$SearchHistoryState {
   // TODO: make sure search words doesnt repeat (maybe use Set instead of List)
   const factory SearchHistoryState({
-    required List<String> searches,
+    required List<Search> searches,
     required String typedTerm,
-    required List<String> filteredSearchHistory,
+    required List<Search> filteredSearchHistory,
   }) = _SearchHistoryState;
 
   factory SearchHistoryState.initial() => SearchHistoryState(

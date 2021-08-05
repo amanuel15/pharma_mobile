@@ -1,39 +1,54 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pharma_flutter/domain/core/i_database_facade.dart';
+import 'package:pharma_flutter/infrastructure/core/database/moor_database.dart';
 
 part 'search_history_state.dart';
 part 'search_history_cubit.freezed.dart';
 
 @injectable
 class SearchHistoryCubit extends Cubit<SearchHistoryState> {
-  SearchHistoryCubit() : super(SearchHistoryState.initial());
+  final IDatabaseFacade _databaseFacade;
 
-  void getSearchHistory() {
-    emit(state.copyWith(searches: ['aman', 'xerxes', 'hello', 'fara sitamem']));
+  SearchHistoryCubit(this._databaseFacade)
+      : super(SearchHistoryState.initial());
+
+  Future<void> getSearchHistory() async {
+    //await _databaseFacade.getSearchHistories();
+    emit(state.copyWith(searches: await _databaseFacade.getSearchHistories()));
     filterSearchTerms(filter: null);
   }
 
-  void addSearchTerm(String searchTerm) {
-    if (state.searches.contains(searchTerm)) {
-      state.searches.removeWhere((t) => t == searchTerm);
-      emit(state.copyWith(searches: state.searches + [searchTerm]));
+  Future<void> addSearchTerm(String searchTerm) async {
+    if (state.searches.contains(Search(searchTerm: searchTerm))) {
+      state.searches.removeWhere((t) => t.searchTerm == searchTerm);
+      //await _databaseFacade.updateSearchHistory(Search(searchTerm: searchTerm));
+      await _databaseFacade.deleteSearchHistory(Search(searchTerm: searchTerm));
+      await _databaseFacade.insertSearchHistory(Search(searchTerm: searchTerm));
+      emit(state.copyWith(
+          searches: state.searches + [Search(searchTerm: searchTerm)]));
       filterSearchTerms(filter: null);
-      return;
+      //return;
+    } else {
+      if (state.searches.length > 4) {
+        await _databaseFacade.deleteSearchHistory(state.searches[0]);
+        state.searches.removeRange(0, state.searches.length - 4);
+      }
+      await _databaseFacade.insertSearchHistory(Search(searchTerm: searchTerm));
+      emit(state.copyWith(
+          searches: state.searches + [Search(searchTerm: searchTerm)]));
+      filterSearchTerms(filter: null);
     }
-    if (state.searches.length > 4) {
-      state.searches.removeRange(0, state.searches.length - 4);
-    }
-    emit(state.copyWith(searches: state.searches + [searchTerm]));
-    filterSearchTerms(filter: null);
   }
 
-  void deleteSearchTerm(String searchTerm) {
-    List<String> newSearchs = List.from(state.searches);
-    newSearchs.removeWhere((t) => t == searchTerm);
+  Future<void> deleteSearchTerm(String searchTerm) async {
+    List<Search> newSearchs = List.from(state.searches);
+    newSearchs.removeWhere((t) => t.searchTerm == searchTerm);
+    await _databaseFacade.deleteSearchHistory(Search(searchTerm: searchTerm));
     emit(
       new SearchHistoryState.initial()
-          .copyWith(searches: List<String>.from(newSearchs)),
+          .copyWith(searches: List<Search>.from(newSearchs)),
     );
     filterSearchTerms(filter: null);
     //emit(state.);
@@ -50,7 +65,7 @@ class SearchHistoryCubit extends Cubit<SearchHistoryState> {
     if (filter != null && filter.isNotEmpty) {
       emit(state.copyWith(
           filteredSearchHistory: state.searches
-              .where((term) => term.startsWith(filter))
+              .where((term) => term.searchTerm.startsWith(filter))
               .toList()));
       if (state.filteredSearchHistory.isEmpty) setTypedTerm(filter);
       // Reversed because we want the last added items to appear first in the UI
