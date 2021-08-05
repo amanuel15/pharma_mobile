@@ -24,33 +24,33 @@ class SearchHistoryCubit extends Cubit<SearchHistoryState> {
     if (state.searches.contains(Search(searchTerm: searchTerm))) {
       state.searches.removeWhere((t) => t.searchTerm == searchTerm);
       //await _databaseFacade.updateSearchHistory(Search(searchTerm: searchTerm));
-      await _databaseFacade.deleteSearchHistory(Search(searchTerm: searchTerm));
-      await _databaseFacade.insertSearchHistory(Search(searchTerm: searchTerm));
       emit(state.copyWith(
           searches: state.searches + [Search(searchTerm: searchTerm)]));
       filterSearchTerms(filter: null);
+      await _databaseFacade.deleteSearchHistory(Search(searchTerm: searchTerm));
+      await _databaseFacade.insertSearchHistory(Search(searchTerm: searchTerm));
       //return;
     } else {
       if (state.searches.length > 4) {
-        await _databaseFacade.deleteSearchHistory(state.searches[0]);
         state.searches.removeRange(0, state.searches.length - 4);
+        await _databaseFacade.deleteSearchHistory(state.searches[0]);
       }
-      await _databaseFacade.insertSearchHistory(Search(searchTerm: searchTerm));
       emit(state.copyWith(
           searches: state.searches + [Search(searchTerm: searchTerm)]));
       filterSearchTerms(filter: null);
+      await _databaseFacade.insertSearchHistory(Search(searchTerm: searchTerm));
     }
   }
 
   Future<void> deleteSearchTerm(String searchTerm) async {
     List<Search> newSearchs = List.from(state.searches);
     newSearchs.removeWhere((t) => t.searchTerm == searchTerm);
-    await _databaseFacade.deleteSearchHistory(Search(searchTerm: searchTerm));
     emit(
       new SearchHistoryState.initial()
           .copyWith(searches: List<Search>.from(newSearchs)),
     );
     filterSearchTerms(filter: null);
+    await _databaseFacade.deleteSearchHistory(Search(searchTerm: searchTerm));
     //emit(state.);
     //emit(state.copyWith(searches: newSearchs));
   }
