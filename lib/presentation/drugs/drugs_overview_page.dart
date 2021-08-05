@@ -99,7 +99,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
       child: BlocProvider<SearchHistoryCubit>(
         create: (context) => SearchHistoryCubit()..getSearchHistory(),
         child: BlocBuilder<SearchHistoryCubit, SearchHistoryState>(
-          //buildWhen: (p, c) => !ListEquality().equals(p.searches, c.searches),
+          //buildWhen: (p, c) => !ListEquality().equals(p.filteredSearchHistory, c.filteredSearchHistory),
           builder: (context, state) {
             return FloatingSearchBar(
               controller: controller,
@@ -115,6 +115,9 @@ class FloatingSearchBarWidget extends StatelessWidget {
               onQueryChanged: (query) {
                 if (state.searches.isEmpty)
                   context.read<SearchHistoryCubit>().setTypedTerm(query);
+                else
+                  BlocProvider.of<SearchHistoryCubit>(context)
+                      .filterSearchTerms(filter: query);
               },
               onSubmitted: (query) {
                 BlocProvider.of<SearchHistoryCubit>(context)
@@ -132,9 +135,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
                     },
                   ),
                 ),
-                FloatingSearchBarAction.searchToClear(
-                  showIfClosed: false,
-                ),
+                FloatingSearchBarAction.searchToClear(),
               ],
               builder: (context, transition) {
                 return ClipRRect(
@@ -144,7 +145,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
                     elevation: 4.0,
                     child: Builder(
                       builder: (context) {
-                        if (state.searches.isEmpty &&
+                        if (state.filteredSearchHistory.isEmpty &&
                             controller.query.isEmpty) {
                           return Container(
                             height: 56.h,
@@ -157,7 +158,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
                               style: Theme.of(context).textTheme.caption,
                             ),
                           );
-                        } else if (state.searches.isEmpty) {
+                        } else if (state.filteredSearchHistory.isEmpty) {
                           return ListTile(
                             title: Text(
                               state.typedTerm,
@@ -173,7 +174,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
                         } else {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
-                            children: state.searches.reversed
+                            children: state.filteredSearchHistory.reversed
                                 .map((term) => ListTile(
                                       title: Text(
                                         term,

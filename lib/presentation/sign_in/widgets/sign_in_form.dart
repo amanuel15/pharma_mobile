@@ -4,6 +4,7 @@ import 'package:pharma_flutter/application/auth/sign_in_form/sign_in_form_bloc.d
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/presentation/sign_in/widgets/elevatedbtn_field_widget.dart';
 import 'package:pharma_flutter/presentation/sign_in/widgets/email_field_widget.dart';
+import 'package:pharma_flutter/presentation/sign_in/widgets/form_field_widget.dart';
 import 'package:pharma_flutter/presentation/sign_in/widgets/password_field_widget.dart';
 import 'package:pharma_flutter/presentation/sign_in/widgets/toggle_signin_widget.dart';
 
@@ -74,9 +75,51 @@ class SignInForm extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 50.h),
-                        EmailField(),
+                        //EmailField(),
+                        FormFieldWidget(
+                          text: 'Email',
+                          textInputType: TextInputType.emailAddress,
+                          obscureText: false,
+                          onChanged: (value) => context
+                              .read<SignInFormBloc>()
+                              .add(SignInFormEvent.emailChanged(value)),
+                          validator: (_) => context
+                              .read<SignInFormBloc>()
+                              .state
+                              .emailAddress
+                              .value
+                              .when(
+                                (e) => e.maybeMap(
+                                  invalidEmail: (_) => 'Invalid Email',
+                                  orElse: () => null,
+                                ),
+                                (_) => null,
+                              ),
+                          icon: Icons.email,
+                        ),
                         SizedBox(height: 20.h),
-                        PasswordField(),
+                        //PasswordField(),
+                        FormFieldWidget(
+                          text: 'Password',
+                          textInputType: TextInputType.text,
+                          obscureText: true,
+                          onChanged: (value) => context
+                              .read<SignInFormBloc>()
+                              .add(SignInFormEvent.passwordChanged(value)),
+                          validator: (_) => context
+                              .read<SignInFormBloc>()
+                              .state
+                              .password
+                              .value
+                              .when(
+                                (e) => e.maybeMap(
+                                  shortPassword: (_) => 'Short Password',
+                                  orElse: () => null,
+                                ),
+                                (_) => null,
+                              ),
+                          icon: Icons.lock,
+                        ),
                         buildForgotPassBtn(),
                         //buildLoginBtn(context),
                         ElevatedBtnWidget(

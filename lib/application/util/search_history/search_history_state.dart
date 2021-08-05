@@ -6,10 +6,12 @@ abstract class SearchHistoryState with _$SearchHistoryState {
   const factory SearchHistoryState({
     required List<String> searches,
     required String typedTerm,
+    required List<String> filteredSearchHistory,
   }) = _SearchHistoryState;
 
   factory SearchHistoryState.initial() => SearchHistoryState(
         searches: [],
         typedTerm: '',
+        filteredSearchHistory: [],
       );
 }

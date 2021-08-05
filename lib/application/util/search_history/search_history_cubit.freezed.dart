@@ -17,10 +17,13 @@ class _$SearchHistoryStateTearOff {
   const _$SearchHistoryStateTearOff();
 
   _SearchHistoryState call(
-      {required List<String> searches, required String typedTerm}) {
+      {required List<String> searches,
+      required String typedTerm,
+      required List<String> filteredSearchHistory}) {
     return _SearchHistoryState(
       searches: searches,
       typedTerm: typedTerm,
+      filteredSearchHistory: filteredSearchHistory,
     );
   }
 }
@@ -32,6 +35,7 @@ const $SearchHistoryState = _$SearchHistoryStateTearOff();
 mixin _$SearchHistoryState {
   List<String> get searches => throw _privateConstructorUsedError;
   String get typedTerm => throw _privateConstructorUsedError;
+  List<String> get filteredSearchHistory => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SearchHistoryStateCopyWith<SearchHistoryState> get copyWith =>
@@ -43,7 +47,10 @@ abstract class $SearchHistoryStateCopyWith<$Res> {
   factory $SearchHistoryStateCopyWith(
           SearchHistoryState value, $Res Function(SearchHistoryState) then) =
       _$SearchHistoryStateCopyWithImpl<$Res>;
-  $Res call({List<String> searches, String typedTerm});
+  $Res call(
+      {List<String> searches,
+      String typedTerm,
+      List<String> filteredSearchHistory});
 }
 
 /// @nodoc
@@ -59,6 +66,7 @@ class _$SearchHistoryStateCopyWithImpl<$Res>
   $Res call({
     Object? searches = freezed,
     Object? typedTerm = freezed,
+    Object? filteredSearchHistory = freezed,
   }) {
     return _then(_value.copyWith(
       searches: searches == freezed
@@ -69,6 +77,10 @@ class _$SearchHistoryStateCopyWithImpl<$Res>
           ? _value.typedTerm
           : typedTerm // ignore: cast_nullable_to_non_nullable
               as String,
+      filteredSearchHistory: filteredSearchHistory == freezed
+          ? _value.filteredSearchHistory
+          : filteredSearchHistory // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -80,7 +92,10 @@ abstract class _$SearchHistoryStateCopyWith<$Res>
           _SearchHistoryState value, $Res Function(_SearchHistoryState) then) =
       __$SearchHistoryStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<String> searches, String typedTerm});
+  $Res call(
+      {List<String> searches,
+      String typedTerm,
+      List<String> filteredSearchHistory});
 }
 
 /// @nodoc
@@ -98,6 +113,7 @@ class __$SearchHistoryStateCopyWithImpl<$Res>
   $Res call({
     Object? searches = freezed,
     Object? typedTerm = freezed,
+    Object? filteredSearchHistory = freezed,
   }) {
     return _then(_SearchHistoryState(
       searches: searches == freezed
@@ -108,6 +124,10 @@ class __$SearchHistoryStateCopyWithImpl<$Res>
           ? _value.typedTerm
           : typedTerm // ignore: cast_nullable_to_non_nullable
               as String,
+      filteredSearchHistory: filteredSearchHistory == freezed
+          ? _value.filteredSearchHistory
+          : filteredSearchHistory // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -116,16 +136,20 @@ class __$SearchHistoryStateCopyWithImpl<$Res>
 
 class _$_SearchHistoryState implements _SearchHistoryState {
   const _$_SearchHistoryState(
-      {required this.searches, required this.typedTerm});
+      {required this.searches,
+      required this.typedTerm,
+      required this.filteredSearchHistory});
 
   @override
   final List<String> searches;
   @override
   final String typedTerm;
+  @override
+  final List<String> filteredSearchHistory;
 
   @override
   String toString() {
-    return 'SearchHistoryState(searches: $searches, typedTerm: $typedTerm)';
+    return 'SearchHistoryState(searches: $searches, typedTerm: $typedTerm, filteredSearchHistory: $filteredSearchHistory)';
   }
 
   @override
@@ -137,14 +161,18 @@ class _$_SearchHistoryState implements _SearchHistoryState {
                     .equals(other.searches, searches)) &&
             (identical(other.typedTerm, typedTerm) ||
                 const DeepCollectionEquality()
-                    .equals(other.typedTerm, typedTerm)));
+                    .equals(other.typedTerm, typedTerm)) &&
+            (identical(other.filteredSearchHistory, filteredSearchHistory) ||
+                const DeepCollectionEquality().equals(
+                    other.filteredSearchHistory, filteredSearchHistory)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(searches) ^
-      const DeepCollectionEquality().hash(typedTerm);
+      const DeepCollectionEquality().hash(typedTerm) ^
+      const DeepCollectionEquality().hash(filteredSearchHistory);
 
   @JsonKey(ignore: true)
   @override
@@ -155,12 +183,15 @@ class _$_SearchHistoryState implements _SearchHistoryState {
 abstract class _SearchHistoryState implements SearchHistoryState {
   const factory _SearchHistoryState(
       {required List<String> searches,
-      required String typedTerm}) = _$_SearchHistoryState;
+      required String typedTerm,
+      required List<String> filteredSearchHistory}) = _$_SearchHistoryState;
 
   @override
   List<String> get searches => throw _privateConstructorUsedError;
   @override
   String get typedTerm => throw _privateConstructorUsedError;
+  @override
+  List<String> get filteredSearchHistory => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SearchHistoryStateCopyWith<_SearchHistoryState> get copyWith =>
