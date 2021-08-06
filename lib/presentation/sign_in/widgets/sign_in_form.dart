@@ -1,3 +1,4 @@
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharma_flutter/application/auth/sign_in_form/sign_in_form_bloc.dart';
@@ -13,8 +14,52 @@ class SignInForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<SignInFormBloc, SignInFormState>(
       listener: (context, state) {
-        state.authFailureOrSuccess!.when(
-          (error) {
+        state.authFailureOrSuccess?.when(
+          (failure) {
+            showFlash(
+              context: context,
+              duration: const Duration(
+                seconds: 3,
+              ),
+              builder: (context, controller) {
+                return Flash.bar(
+                  controller: controller,
+                  position: FlashPosition.bottom,
+                  horizontalDismissDirection:
+                      HorizontalDismissDirection.startToEnd,
+                  margin: EdgeInsets.all(8.r),
+                  borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                  forwardAnimationCurve: Curves.easeOutBack,
+                  reverseAnimationCurve: Curves.slowMiddle,
+                  backgroundColor: Colors.amber,
+                  child: FlashBar(
+                    title: Text(
+                      'SignIn Failure!',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    content: failure.map(
+                      cancelledByUser: (_) => Text('Cancelled'),
+                      serverError: (_) => Text('Server Error'),
+                      emailAlreadyInUse: (_) => Text('Email alreadty in use'),
+                      invalidEmailAndPasswordCombination: (_) =>
+                          Text('Invalid email and password combination'),
+                      emailAddressNotVerified: (_) => Text(
+                        'Please verify your email by checking your email',
+                      ),
+                    ),
+                    icon: Icon(
+                      Icons.warning,
+                      // This color is also pulled from the theme. Let's change it to black.
+                      color: Colors.black,
+                    ),
+                    shouldIconPulse: false,
+                  ),
+                );
+              },
+            );
             // FlushbarHelper.createError(
             //   message: failure.map(
             //     cancelledByUser: (_) => 'Cancelled',
@@ -96,13 +141,14 @@ class SignInForm extends StatelessWidget {
                                 (_) => null,
                               ),
                           icon: Icons.email,
+                          passwordVisiblility: () {},
                         ),
                         SizedBox(height: 20.h),
                         //PasswordField(),
                         FormFieldWidget(
                           text: 'Password',
                           textInputType: TextInputType.text,
-                          obscureText: true,
+                          obscureText: state.showPassword,
                           onChanged: (value) => context
                               .read<SignInFormBloc>()
                               .add(SignInFormEvent.passwordChanged(value)),
@@ -119,6 +165,9 @@ class SignInForm extends StatelessWidget {
                                 (_) => null,
                               ),
                           icon: Icons.lock,
+                          passwordVisiblility: () => context
+                              .read<SignInFormBloc>()
+                              .add(SignInFormEvent.togglePassword()),
                         ),
                         buildForgotPassBtn(),
                         //buildLoginBtn(context),

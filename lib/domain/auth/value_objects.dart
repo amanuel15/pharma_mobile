@@ -28,3 +28,16 @@ class Password extends ValueObject<String> {
 
   const Password._(this.value);
 }
+
+class UserName extends ValueObject<String> {
+  @override
+  final Result<ValueFailure<String>, String> value;
+
+  factory UserName(String input) {
+    return UserName._(
+      validateStringNotEmpty(input),
+    );
+  }
+
+  const UserName._(this.value);
+}

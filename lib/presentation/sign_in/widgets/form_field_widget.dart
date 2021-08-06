@@ -8,6 +8,7 @@ class FormFieldWidget extends StatelessWidget {
   final IconData icon;
   final Function onChanged;
   final Function validator;
+  final Function passwordVisiblility;
   const FormFieldWidget({
     Key? key,
     required this.text,
@@ -16,6 +17,7 @@ class FormFieldWidget extends StatelessWidget {
     required this.onChanged,
     required this.validator,
     required this.icon,
+    required this.passwordVisiblility,
   }) : super(key: key);
 
   @override
@@ -58,9 +60,25 @@ class FormFieldWidget extends StatelessWidget {
                 icon,
                 color: Color(0xff5ac18e),
               ),
+              suffixIcon: text == 'Password'
+                  ? obscureText
+                      ? IconButton(
+                          icon: Icon(Icons.visibility),
+                          onPressed: () => passwordVisiblility(),
+                        )
+                      : IconButton(
+                          icon: Icon(Icons.visibility_off),
+                          onPressed: () => passwordVisiblility(),
+                        )
+                  : SizedBox(),
               hintText: text,
               hintStyle: TextStyle(
                 color: Colors.black38,
+              ),
+              // TODO: fix the field validation
+              errorStyle: TextStyle(
+                fontSize: 0,
+                height: 0,
               ),
             ),
             autocorrect: false,

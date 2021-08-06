@@ -6,6 +6,7 @@ part 'user.freezed.dart';
 abstract class User implements _$User {
   const factory User({
     required String id,
-    required String userName,
+    required String token,
+    required String? userName,
   }) = _User;
 }
