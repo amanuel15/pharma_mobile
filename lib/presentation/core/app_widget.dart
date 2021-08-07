@@ -10,7 +10,9 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<AuthBloc>(),
+      lazy: false,
+      create: (context) =>
+          getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return ScreenUtilInit(

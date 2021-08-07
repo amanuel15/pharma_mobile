@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:pharma_flutter/application/auth/auth_bloc.dart';
 import 'package:pharma_flutter/application/pharmacy/pharmacy_locations/pharmacy_locations_cubit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/application/util/location/location_cubit.dart';
@@ -112,8 +113,9 @@ class FloatingSearchBarWidget extends StatelessWidget {
                       .filterSearchTerms(filter: query);
               },
               onSubmitted: (query) {
-                BlocProvider.of<SearchHistoryCubit>(context)
-                    .addSearchTerm(query);
+                if (query.isNotEmpty)
+                  BlocProvider.of<SearchHistoryCubit>(context)
+                      .addSearchTerm(query);
               },
               transition: CircularFloatingSearchBarTransition(),
               actions: [
@@ -123,7 +125,8 @@ class FloatingSearchBarWidget extends StatelessWidget {
                     icon: const Icon(Icons.place),
                     onPressed: () {
                       //context.router.pushNamed('/sign-in-page');
-                      AutoRouter.of(context).push(SignInRoute());
+                      // AutoRouter.of(context).push(SignInRoute());
+                      context.read<AuthBloc>().add(const AuthEvent.signedOut());
                     },
                   ),
                 ),

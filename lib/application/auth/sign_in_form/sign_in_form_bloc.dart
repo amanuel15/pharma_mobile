@@ -37,6 +37,12 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
           authFailureOrSuccess: null,
         );
       },
+      nameChanged: (e) async* {
+        yield state.copyWith(
+          userName: UserName(e.nameStr),
+          authFailureOrSuccess: null,
+        );
+      },
       signInWithEmailAndPasswordPressed: (e) async* {
         yield* _performLoginWithEmailAndPassword(
           _authFacade.signInWithEmailAndPassword,

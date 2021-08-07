@@ -10,7 +10,7 @@ import 'package:pharma_flutter/presentation/sign_in/widgets/elevatedbtn_field_wi
 import 'package:pharma_flutter/presentation/sign_in/widgets/form_field_widget.dart';
 import 'package:pharma_flutter/presentation/sign_in/widgets/toggle_signin_widget.dart';
 
-class SignInForm extends StatelessWidget {
+class SignUpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInFormBloc, SignInFormState>(
@@ -61,15 +61,6 @@ class SignInForm extends StatelessWidget {
                 );
               },
             );
-            // FlushbarHelper.createError(
-            //   message: failure.map(
-            //     cancelledByUser: (_) => 'Cancelled',
-            //     serverError: (_) => 'Server error',
-            //     emailAlreadyInUse: (_) => 'Email already in use',
-            //     invalidEmailAndPasswordCombination: (_) =>
-            //         'Invalid email and password combination',
-            //   ),
-            // ).show(context);
           },
           (success) {
             success.when(
@@ -114,14 +105,37 @@ class SignInForm extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Sign In',
+                          'Sign Up',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 40.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 50.h),
+                        SizedBox(height: 30.h),
+                        FormFieldWidget(
+                          text: 'Username',
+                          textInputType: TextInputType.text,
+                          obscureText: false,
+                          onChanged: (value) => context
+                              .read<SignInFormBloc>()
+                              .add(SignInFormEvent.nameChanged(value)),
+                          validator: (_) => context
+                              .read<SignInFormBloc>()
+                              .state
+                              .userName
+                              .value
+                              .when(
+                                (e) => e.maybeMap(
+                                  empty: (_) => 'Username required',
+                                  orElse: () => null,
+                                ),
+                                (_) => null,
+                              ),
+                          icon: Icons.person,
+                          passwordVisiblility: () {},
+                        ),
+                        SizedBox(height: 20.h),
                         //EmailField(),
                         FormFieldWidget(
                           text: 'Email',
@@ -146,7 +160,6 @@ class SignInForm extends StatelessWidget {
                           passwordVisiblility: () {},
                         ),
                         SizedBox(height: 20.h),
-                        //PasswordField(),
                         FormFieldWidget(
                           text: 'Password',
                           textInputType: TextInputType.text,
@@ -171,25 +184,25 @@ class SignInForm extends StatelessWidget {
                               .read<SignInFormBloc>()
                               .add(SignInFormEvent.togglePassword()),
                         ),
-                        buildForgotPassBtn(),
-                        //buildLoginBtn(context),
+                        SizedBox(height: 20.h),
                         ElevatedBtnWidget(
-                          type: 'LOGIN',
+                          type: 'SIGNUP',
                           func: () {
                             context.read<SignInFormBloc>().add(
                                   const SignInFormEvent
-                                      .signInWithEmailAndPasswordPressed(),
+                                      .registerWithEmailAndPasswordPressed(),
                                 );
                           },
                         ),
                         //buildSignUpBtn(context),
                         ToggleSigninBtn(
                           func: () {
-                            AutoRouter.of(context).replace(SignUpRoute());
+                            AutoRouter.of(context).replace(SignInRoute());
+                            print('Dont have an account');
                           },
                           type: [
-                            'Don\'t have an Account? ',
-                            'Sign Up',
+                            'Have an Account? ',
+                            'Sign In',
                           ],
                         ),
                       ],
@@ -201,27 +214,6 @@ class SignInForm extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget buildForgotPassBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () {},
-        style: TextButton.styleFrom(
-          padding: EdgeInsets.only(
-            right: 0,
-          ),
-        ),
-        child: Text(
-          'Forgot Passowrd?',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
     );
   }
 }

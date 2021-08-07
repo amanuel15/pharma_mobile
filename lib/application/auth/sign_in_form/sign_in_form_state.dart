@@ -13,11 +13,12 @@ class SignInFormState with _$SignInFormState {
   }) = _SignInFormState;
 
   factory SignInFormState.initial() => SignInFormState(
-      emailAddress: EmailAddress(''),
-      password: Password(''),
-      userName: UserName(''),
-      showErrorMessages: false,
-      isSubmitting: false,
-      authFailureOrSuccess: null,
-      showPassword: false);
+        emailAddress: EmailAddress(''),
+        password: Password(''),
+        userName: UserName(''),
+        showErrorMessages: false,
+        isSubmitting: false,
+        authFailureOrSuccess: null,
+        showPassword: false,
+      );
 }

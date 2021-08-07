@@ -3,20 +3,36 @@ import 'package:injectable/injectable.dart';
 import 'package:pharma_flutter/domain/auth/auth_failure.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/auth/i_auth_facade.dart';
+import 'package:pharma_flutter/domain/core/i_database_facade.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/auth/value_objects.dart';
 import 'package:pharma_flutter/domain/auth/user.dart';
+import 'package:pharma_flutter/infrastructure/core/database/moor_database.dart';
 
 @LazySingleton(as: IAuthFacade)
 class AuthFacade implements IAuthFacade {
   final Dio _dio;
+  final IDatabaseFacade _databaseFacade;
 
-  AuthFacade(this._dio);
+  AuthFacade(this._dio, this._databaseFacade);
 
   @override
-  Future<User?> getSignedInUser() {
-    // TODO: implement getSignedInUser
-    throw UnimplementedError();
+  Future<User?> getSignedInUser() async {
+    try {
+      List<UserRow> possibleUser = await _databaseFacade.getUser();
+      if (possibleUser.isNotEmpty) {
+        return User(
+          id: possibleUser[0].id,
+          token: possibleUser[0].token,
+          userName: '',
+        );
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Couldn\'t find a signed in user!!!');
+      return null;
+    }
   }
 
   @override
@@ -69,10 +85,25 @@ class AuthFacade implements IAuthFacade {
         ),
       );
       print(response.data);
-      return Success(Error(User(
-          id: response.data['id'],
-          token: response.data['X-Access-Token'],
-          userName: null)));
+      try {
+        await _databaseFacade.insertUser(
+          UserRow(
+            id: response.data['id'].toString(),
+            token: response.data['X-Access-Token'].toString(),
+          ),
+        );
+      } catch (e) {
+        print('Could not persist user to Database!!!');
+      }
+      return Success(
+        Error(
+          User(
+            id: response.data['id'],
+            token: response.data['X-Access-Token'],
+            userName: null,
+          ),
+        ),
+      );
     } on DioError catch (e) {
       //print(e.response?.data);
       if (e.response?.data['status'] == 'Invalid Password')
@@ -95,8 +126,7 @@ class AuthFacade implements IAuthFacade {
   }
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<void> signOut() async {
+    await _databaseFacade.deleteUser();
   }
 }

@@ -16,4 +16,8 @@ abstract class IDatabaseFacade {
   Future insertSearchHistory(Search search);
   Future deleteSearchHistory(Search search);
   Future updateSearchHistory(Search search);
+
+  Future<List<UserRow>> getUser();
+  Future insertUser(UserRow userRow);
+  Future deleteUser();
 }
