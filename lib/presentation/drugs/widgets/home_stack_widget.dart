@@ -95,6 +95,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
           //buildWhen: (p, c) => !ListEquality().equals(p.filteredSearchHistory, c.filteredSearchHistory),
           builder: (context, state) {
             return FloatingSearchBar(
+              height: 50.h,
               controller: controller,
               hint: 'Search...',
               scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
@@ -104,7 +105,9 @@ class FloatingSearchBarWidget extends StatelessWidget {
               axisAlignment: 0.0,
               openAxisAlignment: 0.0,
               width: 600,
-              debounceDelay: const Duration(milliseconds: 500),
+              debounceDelay: const Duration(
+                seconds: 1,
+              ), //! This is the debounce delay set it higher
               onQueryChanged: (query) {
                 if (state.searches.isEmpty)
                   context.read<SearchHistoryCubit>().setTypedTerm(query);
