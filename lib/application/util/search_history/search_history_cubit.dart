@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:pharma_flutter/domain/core/i_database_facade.dart';
 import 'package:pharma_flutter/infrastructure/core/database/moor_database.dart';
 

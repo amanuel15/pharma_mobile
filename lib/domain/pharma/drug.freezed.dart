@@ -23,6 +23,9 @@ class _$DrugTearOff {
       required String drugDetail,
       required String drugOrigin,
       required double drugPrice,
+      required int stock,
+      required int rating,
+      required String createdDate,
       required List<String> imageUrls,
       required List<Map<String, dynamic>> location}) {
     return _Drug(
@@ -32,6 +35,9 @@ class _$DrugTearOff {
       drugDetail: drugDetail,
       drugOrigin: drugOrigin,
       drugPrice: drugPrice,
+      stock: stock,
+      rating: rating,
+      createdDate: createdDate,
       imageUrls: imageUrls,
       location: location,
     );
@@ -49,6 +55,9 @@ mixin _$Drug {
   String get drugDetail => throw _privateConstructorUsedError;
   String get drugOrigin => throw _privateConstructorUsedError;
   double get drugPrice => throw _privateConstructorUsedError;
+  int get stock => throw _privateConstructorUsedError;
+  int get rating => throw _privateConstructorUsedError;
+  String get createdDate => throw _privateConstructorUsedError;
   List<String> get imageUrls => throw _privateConstructorUsedError;
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
 
@@ -67,6 +76,9 @@ abstract class $DrugCopyWith<$Res> {
       String drugDetail,
       String drugOrigin,
       double drugPrice,
+      int stock,
+      int rating,
+      String createdDate,
       List<String> imageUrls,
       List<Map<String, dynamic>> location});
 }
@@ -87,6 +99,9 @@ class _$DrugCopyWithImpl<$Res> implements $DrugCopyWith<$Res> {
     Object? drugDetail = freezed,
     Object? drugOrigin = freezed,
     Object? drugPrice = freezed,
+    Object? stock = freezed,
+    Object? rating = freezed,
+    Object? createdDate = freezed,
     Object? imageUrls = freezed,
     Object? location = freezed,
   }) {
@@ -115,6 +130,18 @@ class _$DrugCopyWithImpl<$Res> implements $DrugCopyWith<$Res> {
           ? _value.drugPrice
           : drugPrice // ignore: cast_nullable_to_non_nullable
               as double,
+      stock: stock == freezed
+          ? _value.stock
+          : stock // ignore: cast_nullable_to_non_nullable
+              as int,
+      rating: rating == freezed
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdDate: createdDate == freezed
+          ? _value.createdDate
+          : createdDate // ignore: cast_nullable_to_non_nullable
+              as String,
       imageUrls: imageUrls == freezed
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
@@ -139,6 +166,9 @@ abstract class _$DrugCopyWith<$Res> implements $DrugCopyWith<$Res> {
       String drugDetail,
       String drugOrigin,
       double drugPrice,
+      int stock,
+      int rating,
+      String createdDate,
       List<String> imageUrls,
       List<Map<String, dynamic>> location});
 }
@@ -160,6 +190,9 @@ class __$DrugCopyWithImpl<$Res> extends _$DrugCopyWithImpl<$Res>
     Object? drugDetail = freezed,
     Object? drugOrigin = freezed,
     Object? drugPrice = freezed,
+    Object? stock = freezed,
+    Object? rating = freezed,
+    Object? createdDate = freezed,
     Object? imageUrls = freezed,
     Object? location = freezed,
   }) {
@@ -188,6 +221,18 @@ class __$DrugCopyWithImpl<$Res> extends _$DrugCopyWithImpl<$Res>
           ? _value.drugPrice
           : drugPrice // ignore: cast_nullable_to_non_nullable
               as double,
+      stock: stock == freezed
+          ? _value.stock
+          : stock // ignore: cast_nullable_to_non_nullable
+              as int,
+      rating: rating == freezed
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdDate: createdDate == freezed
+          ? _value.createdDate
+          : createdDate // ignore: cast_nullable_to_non_nullable
+              as String,
       imageUrls: imageUrls == freezed
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
@@ -210,6 +255,9 @@ class _$_Drug extends _Drug {
       required this.drugDetail,
       required this.drugOrigin,
       required this.drugPrice,
+      required this.stock,
+      required this.rating,
+      required this.createdDate,
       required this.imageUrls,
       required this.location})
       : super._();
@@ -227,13 +275,19 @@ class _$_Drug extends _Drug {
   @override
   final double drugPrice;
   @override
+  final int stock;
+  @override
+  final int rating;
+  @override
+  final String createdDate;
+  @override
   final List<String> imageUrls;
   @override
   final List<Map<String, dynamic>> location;
 
   @override
   String toString() {
-    return 'Drug(id: $id, pharmacyId: $pharmacyId, drugName: $drugName, drugDetail: $drugDetail, drugOrigin: $drugOrigin, drugPrice: $drugPrice, imageUrls: $imageUrls, location: $location)';
+    return 'Drug(id: $id, pharmacyId: $pharmacyId, drugName: $drugName, drugDetail: $drugDetail, drugOrigin: $drugOrigin, drugPrice: $drugPrice, stock: $stock, rating: $rating, createdDate: $createdDate, imageUrls: $imageUrls, location: $location)';
   }
 
   @override
@@ -257,6 +311,13 @@ class _$_Drug extends _Drug {
             (identical(other.drugPrice, drugPrice) ||
                 const DeepCollectionEquality()
                     .equals(other.drugPrice, drugPrice)) &&
+            (identical(other.stock, stock) ||
+                const DeepCollectionEquality().equals(other.stock, stock)) &&
+            (identical(other.rating, rating) ||
+                const DeepCollectionEquality().equals(other.rating, rating)) &&
+            (identical(other.createdDate, createdDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdDate, createdDate)) &&
             (identical(other.imageUrls, imageUrls) ||
                 const DeepCollectionEquality()
                     .equals(other.imageUrls, imageUrls)) &&
@@ -274,6 +335,9 @@ class _$_Drug extends _Drug {
       const DeepCollectionEquality().hash(drugDetail) ^
       const DeepCollectionEquality().hash(drugOrigin) ^
       const DeepCollectionEquality().hash(drugPrice) ^
+      const DeepCollectionEquality().hash(stock) ^
+      const DeepCollectionEquality().hash(rating) ^
+      const DeepCollectionEquality().hash(createdDate) ^
       const DeepCollectionEquality().hash(imageUrls) ^
       const DeepCollectionEquality().hash(location);
 
@@ -291,6 +355,9 @@ abstract class _Drug extends Drug {
       required String drugDetail,
       required String drugOrigin,
       required double drugPrice,
+      required int stock,
+      required int rating,
+      required String createdDate,
       required List<String> imageUrls,
       required List<Map<String, dynamic>> location}) = _$_Drug;
   const _Drug._() : super._();
@@ -307,6 +374,12 @@ abstract class _Drug extends Drug {
   String get drugOrigin => throw _privateConstructorUsedError;
   @override
   double get drugPrice => throw _privateConstructorUsedError;
+  @override
+  int get stock => throw _privateConstructorUsedError;
+  @override
+  int get rating => throw _privateConstructorUsedError;
+  @override
+  String get createdDate => throw _privateConstructorUsedError;
   @override
   List<String> get imageUrls => throw _privateConstructorUsedError;
   @override
