@@ -22,6 +22,14 @@ Result<ValueFailure<String>, String> validateStringNotEmpty(String input) {
   }
 }
 
+Result<ValueFailure<int>, int> validateIntNotZero(int input) {
+  if (input == 0) {
+    return Success(input);
+  } else {
+    return Error(ValueFailure.empty(failedValue: input));
+  }
+}
+
 Result<ValueFailure<String>, String> validateSingleLine(String input) {
   if (input.contains('\n')) {
     return Error(ValueFailure.multiline(failedValue: input));

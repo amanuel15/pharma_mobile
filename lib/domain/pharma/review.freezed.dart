@@ -19,9 +19,9 @@ class _$ReviewTearOff {
   _Review call(
       {required String id,
       required String userId,
-      required String reviewBody,
+      required ReviewBody reviewBody,
       required String userName,
-      required double reviewStar}) {
+      required ReviewStar reviewStar}) {
     return _Review(
       id: id,
       userId: userId,
@@ -39,9 +39,9 @@ const $Review = _$ReviewTearOff();
 mixin _$Review {
   String get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
-  String get reviewBody => throw _privateConstructorUsedError;
+  ReviewBody get reviewBody => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
-  double get reviewStar => throw _privateConstructorUsedError;
+  ReviewStar get reviewStar => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReviewCopyWith<Review> get copyWith => throw _privateConstructorUsedError;
@@ -54,9 +54,9 @@ abstract class $ReviewCopyWith<$Res> {
   $Res call(
       {String id,
       String userId,
-      String reviewBody,
+      ReviewBody reviewBody,
       String userName,
-      double reviewStar});
+      ReviewStar reviewStar});
 }
 
 /// @nodoc
@@ -87,7 +87,7 @@ class _$ReviewCopyWithImpl<$Res> implements $ReviewCopyWith<$Res> {
       reviewBody: reviewBody == freezed
           ? _value.reviewBody
           : reviewBody // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ReviewBody,
       userName: userName == freezed
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
@@ -95,7 +95,7 @@ class _$ReviewCopyWithImpl<$Res> implements $ReviewCopyWith<$Res> {
       reviewStar: reviewStar == freezed
           ? _value.reviewStar
           : reviewStar // ignore: cast_nullable_to_non_nullable
-              as double,
+              as ReviewStar,
     ));
   }
 }
@@ -108,9 +108,9 @@ abstract class _$ReviewCopyWith<$Res> implements $ReviewCopyWith<$Res> {
   $Res call(
       {String id,
       String userId,
-      String reviewBody,
+      ReviewBody reviewBody,
       String userName,
-      double reviewStar});
+      ReviewStar reviewStar});
 }
 
 /// @nodoc
@@ -142,7 +142,7 @@ class __$ReviewCopyWithImpl<$Res> extends _$ReviewCopyWithImpl<$Res>
       reviewBody: reviewBody == freezed
           ? _value.reviewBody
           : reviewBody // ignore: cast_nullable_to_non_nullable
-              as String,
+              as ReviewBody,
       userName: userName == freezed
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
@@ -150,7 +150,7 @@ class __$ReviewCopyWithImpl<$Res> extends _$ReviewCopyWithImpl<$Res>
       reviewStar: reviewStar == freezed
           ? _value.reviewStar
           : reviewStar // ignore: cast_nullable_to_non_nullable
-              as double,
+              as ReviewStar,
     ));
   }
 }
@@ -171,11 +171,11 @@ class _$_Review extends _Review {
   @override
   final String userId;
   @override
-  final String reviewBody;
+  final ReviewBody reviewBody;
   @override
   final String userName;
   @override
-  final double reviewStar;
+  final ReviewStar reviewStar;
 
   @override
   String toString() {
@@ -220,9 +220,9 @@ abstract class _Review extends Review {
   const factory _Review(
       {required String id,
       required String userId,
-      required String reviewBody,
+      required ReviewBody reviewBody,
       required String userName,
-      required double reviewStar}) = _$_Review;
+      required ReviewStar reviewStar}) = _$_Review;
   const _Review._() : super._();
 
   @override
@@ -230,11 +230,11 @@ abstract class _Review extends Review {
   @override
   String get userId => throw _privateConstructorUsedError;
   @override
-  String get reviewBody => throw _privateConstructorUsedError;
+  ReviewBody get reviewBody => throw _privateConstructorUsedError;
   @override
   String get userName => throw _privateConstructorUsedError;
   @override
-  double get reviewStar => throw _privateConstructorUsedError;
+  ReviewStar get reviewStar => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ReviewCopyWith<_Review> get copyWith => throw _privateConstructorUsedError;

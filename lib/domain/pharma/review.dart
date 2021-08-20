@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pharma_flutter/domain/core/failures.dart';
+import 'package:pharma_flutter/domain/pharma/value_objects.dart';
 
 part 'review.freezed.dart';
 
@@ -9,16 +11,25 @@ abstract class Review implements _$Review {
   const factory Review({
     required String id,
     required String userId,
-    required String reviewBody,
+    required ReviewBody reviewBody,
     required String userName,
-    required double reviewStar,
+    required ReviewStar reviewStar,
   }) = _Review;
 
   factory Review.empty() => Review(
         id: '',
         userId: '',
-        reviewBody: '',
+        reviewBody: ReviewBody(''),
         userName: '',
-        reviewStar: 0,
+        reviewStar: ReviewStar(0),
       );
+
+  ValueFailure<dynamic>? get failureOption {
+    if (reviewBody.failureOrUnit.isError()) {
+      return reviewBody.failureOrUnit.getError();
+    }
+    if (reviewStar.failureOrUnit.isError()) {
+      return reviewStar.failureOrUnit.getError();
+    }
+  }
 }
