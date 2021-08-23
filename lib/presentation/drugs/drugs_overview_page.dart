@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/application/drugs/main_navigation/main_navigation_cubit.dart';
+import 'package:pharma_flutter/application/drugs/search/search_bloc.dart';
+import 'package:pharma_flutter/application/drugs/search/search_result/search_result_bloc.dart';
 import 'package:pharma_flutter/application/util/search_history/search_history_cubit.dart';
 import 'package:pharma_flutter/injection.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/custom_tab_bar.dart';
@@ -21,6 +23,12 @@ class PharmaOverviewPage extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => getIt<SearchHistoryCubit>()..getSearchHistory(),
+        ),
+        BlocProvider<SearchBloc>(
+          create: (BuildContext context) => getIt<SearchBloc>(),
+        ),
+        BlocProvider<SearchResultBloc>(
+          create: (BuildContext context) => getIt<SearchResultBloc>(),
         ),
       ],
       child: BlocBuilder<MainNavigationCubit, MainNavigationState>(

@@ -27,7 +27,12 @@ class _$DrugTearOff {
       required int rating,
       required String createdDate,
       required List<String> imageUrls,
-      required List<Map<String, dynamic>> location}) {
+      required List<Map<String, dynamic>> location,
+      required int pharmacyRating,
+      required String brandName,
+      required double score,
+      required bool requiresPrescription,
+      required List<dynamic> reviews}) {
     return _Drug(
       id: id,
       pharmacyId: pharmacyId,
@@ -40,6 +45,11 @@ class _$DrugTearOff {
       createdDate: createdDate,
       imageUrls: imageUrls,
       location: location,
+      pharmacyRating: pharmacyRating,
+      brandName: brandName,
+      score: score,
+      requiresPrescription: requiresPrescription,
+      reviews: reviews,
     );
   }
 }
@@ -60,6 +70,11 @@ mixin _$Drug {
   String get createdDate => throw _privateConstructorUsedError;
   List<String> get imageUrls => throw _privateConstructorUsedError;
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
+  int get pharmacyRating => throw _privateConstructorUsedError;
+  String get brandName => throw _privateConstructorUsedError;
+  double get score => throw _privateConstructorUsedError;
+  bool get requiresPrescription => throw _privateConstructorUsedError;
+  List<dynamic> get reviews => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DrugCopyWith<Drug> get copyWith => throw _privateConstructorUsedError;
@@ -80,7 +95,12 @@ abstract class $DrugCopyWith<$Res> {
       int rating,
       String createdDate,
       List<String> imageUrls,
-      List<Map<String, dynamic>> location});
+      List<Map<String, dynamic>> location,
+      int pharmacyRating,
+      String brandName,
+      double score,
+      bool requiresPrescription,
+      List<dynamic> reviews});
 }
 
 /// @nodoc
@@ -104,6 +124,11 @@ class _$DrugCopyWithImpl<$Res> implements $DrugCopyWith<$Res> {
     Object? createdDate = freezed,
     Object? imageUrls = freezed,
     Object? location = freezed,
+    Object? pharmacyRating = freezed,
+    Object? brandName = freezed,
+    Object? score = freezed,
+    Object? requiresPrescription = freezed,
+    Object? reviews = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -150,6 +175,26 @@ class _$DrugCopyWithImpl<$Res> implements $DrugCopyWith<$Res> {
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
+      pharmacyRating: pharmacyRating == freezed
+          ? _value.pharmacyRating
+          : pharmacyRating // ignore: cast_nullable_to_non_nullable
+              as int,
+      brandName: brandName == freezed
+          ? _value.brandName
+          : brandName // ignore: cast_nullable_to_non_nullable
+              as String,
+      score: score == freezed
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as double,
+      requiresPrescription: requiresPrescription == freezed
+          ? _value.requiresPrescription
+          : requiresPrescription // ignore: cast_nullable_to_non_nullable
+              as bool,
+      reviews: reviews == freezed
+          ? _value.reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ));
   }
 }
@@ -170,7 +215,12 @@ abstract class _$DrugCopyWith<$Res> implements $DrugCopyWith<$Res> {
       int rating,
       String createdDate,
       List<String> imageUrls,
-      List<Map<String, dynamic>> location});
+      List<Map<String, dynamic>> location,
+      int pharmacyRating,
+      String brandName,
+      double score,
+      bool requiresPrescription,
+      List<dynamic> reviews});
 }
 
 /// @nodoc
@@ -195,6 +245,11 @@ class __$DrugCopyWithImpl<$Res> extends _$DrugCopyWithImpl<$Res>
     Object? createdDate = freezed,
     Object? imageUrls = freezed,
     Object? location = freezed,
+    Object? pharmacyRating = freezed,
+    Object? brandName = freezed,
+    Object? score = freezed,
+    Object? requiresPrescription = freezed,
+    Object? reviews = freezed,
   }) {
     return _then(_Drug(
       id: id == freezed
@@ -241,6 +296,26 @@ class __$DrugCopyWithImpl<$Res> extends _$DrugCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
+      pharmacyRating: pharmacyRating == freezed
+          ? _value.pharmacyRating
+          : pharmacyRating // ignore: cast_nullable_to_non_nullable
+              as int,
+      brandName: brandName == freezed
+          ? _value.brandName
+          : brandName // ignore: cast_nullable_to_non_nullable
+              as String,
+      score: score == freezed
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as double,
+      requiresPrescription: requiresPrescription == freezed
+          ? _value.requiresPrescription
+          : requiresPrescription // ignore: cast_nullable_to_non_nullable
+              as bool,
+      reviews: reviews == freezed
+          ? _value.reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ));
   }
 }
@@ -259,7 +334,12 @@ class _$_Drug extends _Drug {
       required this.rating,
       required this.createdDate,
       required this.imageUrls,
-      required this.location})
+      required this.location,
+      required this.pharmacyRating,
+      required this.brandName,
+      required this.score,
+      required this.requiresPrescription,
+      required this.reviews})
       : super._();
 
   @override
@@ -284,10 +364,20 @@ class _$_Drug extends _Drug {
   final List<String> imageUrls;
   @override
   final List<Map<String, dynamic>> location;
+  @override
+  final int pharmacyRating;
+  @override
+  final String brandName;
+  @override
+  final double score;
+  @override
+  final bool requiresPrescription;
+  @override
+  final List<dynamic> reviews;
 
   @override
   String toString() {
-    return 'Drug(id: $id, pharmacyId: $pharmacyId, drugName: $drugName, drugDetail: $drugDetail, drugOrigin: $drugOrigin, drugPrice: $drugPrice, stock: $stock, rating: $rating, createdDate: $createdDate, imageUrls: $imageUrls, location: $location)';
+    return 'Drug(id: $id, pharmacyId: $pharmacyId, drugName: $drugName, drugDetail: $drugDetail, drugOrigin: $drugOrigin, drugPrice: $drugPrice, stock: $stock, rating: $rating, createdDate: $createdDate, imageUrls: $imageUrls, location: $location, pharmacyRating: $pharmacyRating, brandName: $brandName, score: $score, requiresPrescription: $requiresPrescription, reviews: $reviews)';
   }
 
   @override
@@ -323,7 +413,20 @@ class _$_Drug extends _Drug {
                     .equals(other.imageUrls, imageUrls)) &&
             (identical(other.location, location) ||
                 const DeepCollectionEquality()
-                    .equals(other.location, location)));
+                    .equals(other.location, location)) &&
+            (identical(other.pharmacyRating, pharmacyRating) ||
+                const DeepCollectionEquality()
+                    .equals(other.pharmacyRating, pharmacyRating)) &&
+            (identical(other.brandName, brandName) ||
+                const DeepCollectionEquality()
+                    .equals(other.brandName, brandName)) &&
+            (identical(other.score, score) ||
+                const DeepCollectionEquality().equals(other.score, score)) &&
+            (identical(other.requiresPrescription, requiresPrescription) ||
+                const DeepCollectionEquality().equals(
+                    other.requiresPrescription, requiresPrescription)) &&
+            (identical(other.reviews, reviews) ||
+                const DeepCollectionEquality().equals(other.reviews, reviews)));
   }
 
   @override
@@ -339,7 +442,12 @@ class _$_Drug extends _Drug {
       const DeepCollectionEquality().hash(rating) ^
       const DeepCollectionEquality().hash(createdDate) ^
       const DeepCollectionEquality().hash(imageUrls) ^
-      const DeepCollectionEquality().hash(location);
+      const DeepCollectionEquality().hash(location) ^
+      const DeepCollectionEquality().hash(pharmacyRating) ^
+      const DeepCollectionEquality().hash(brandName) ^
+      const DeepCollectionEquality().hash(score) ^
+      const DeepCollectionEquality().hash(requiresPrescription) ^
+      const DeepCollectionEquality().hash(reviews);
 
   @JsonKey(ignore: true)
   @override
@@ -359,7 +467,12 @@ abstract class _Drug extends Drug {
       required int rating,
       required String createdDate,
       required List<String> imageUrls,
-      required List<Map<String, dynamic>> location}) = _$_Drug;
+      required List<Map<String, dynamic>> location,
+      required int pharmacyRating,
+      required String brandName,
+      required double score,
+      required bool requiresPrescription,
+      required List<dynamic> reviews}) = _$_Drug;
   const _Drug._() : super._();
 
   @override
@@ -384,6 +497,16 @@ abstract class _Drug extends Drug {
   List<String> get imageUrls => throw _privateConstructorUsedError;
   @override
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
+  @override
+  int get pharmacyRating => throw _privateConstructorUsedError;
+  @override
+  String get brandName => throw _privateConstructorUsedError;
+  @override
+  double get score => throw _privateConstructorUsedError;
+  @override
+  bool get requiresPrescription => throw _privateConstructorUsedError;
+  @override
+  List<dynamic> get reviews => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$DrugCopyWith<_Drug> get copyWith => throw _privateConstructorUsedError;

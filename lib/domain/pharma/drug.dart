@@ -18,6 +18,11 @@ abstract class Drug implements _$Drug {
     required String createdDate,
     required List<String> imageUrls,
     required List<Map<String, dynamic>> location,
+    required int pharmacyRating,
+    required String brandName,
+    required double score,
+    required bool requiresPrescription,
+    required List reviews,
   }) = _Drug;
 
   factory Drug.empty() => Drug(
@@ -32,6 +37,11 @@ abstract class Drug implements _$Drug {
         rating: 0,
         imageUrls: [],
         location: [],
+        pharmacyRating: 0,
+        brandName: '',
+        score: 0,
+        requiresPrescription: true,
+        reviews: [],
       );
 
   // ValueFailure<dynamic> get failureOption {

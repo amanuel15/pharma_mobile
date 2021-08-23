@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:pharma_flutter/application/auth/auth_bloc.dart';
+import 'package:pharma_flutter/application/drugs/main_navigation/main_navigation_cubit.dart';
+import 'package:pharma_flutter/application/drugs/search/search_bloc.dart';
+import 'package:pharma_flutter/application/drugs/search/search_result/search_result_bloc.dart';
 import 'package:pharma_flutter/application/pharmacy/pharmacy_locations/pharmacy_locations_cubit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/application/util/location/location_cubit.dart';
@@ -104,7 +107,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
             openAxisAlignment: 0.0,
             width: 600,
             debounceDelay: const Duration(
-              seconds: 1,
+              seconds: 2,
             ), //! This is the debounce delay set it higher
             onQueryChanged: (query) {
               if (state.searches.isEmpty)
@@ -112,11 +115,18 @@ class FloatingSearchBarWidget extends StatelessWidget {
               else
                 BlocProvider.of<SearchHistoryCubit>(context)
                     .filterSearchTerms(filter: query);
+              if (query.length > 2)
+                context.read<SearchBloc>().add(SearchEvent.search(query));
             },
             onSubmitted: (query) {
+              context.read<MainNavigationCubit>().setIndex(1);
+              context
+                  .read<SearchResultBloc>()
+                  .add(SearchResultEvent.searchDrugs(query));
               if (query.isNotEmpty)
                 BlocProvider.of<SearchHistoryCubit>(context)
                     .addSearchTerm(query);
+              // context.read<SearchBloc>().add(SearchEvent.search(query));
             },
             transition: CircularFloatingSearchBarTransition(),
             actions: [
@@ -133,71 +143,141 @@ class FloatingSearchBarWidget extends StatelessWidget {
               ),
               FloatingSearchBarAction.searchToClear(),
             ],
+            onFocusChanged: (isFocused) {
+              if (!isFocused)
+                context.read<SearchBloc>().add(const SearchEvent.clearSearch());
+            },
             builder: (context, transition) {
               return ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Material(
                   color: Colors.white,
                   elevation: 4.0,
-                  child: Builder(
-                    builder: (context) {
-                      if (state.filteredSearchHistory.isEmpty &&
-                          state.floatingSearchBarController.query.isEmpty) {
-                        return Container(
-                          height: 56.h,
-                          width: double.infinity,
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Start searching...',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.caption,
-                          ),
-                        );
-                      } else if (state.filteredSearchHistory.isEmpty) {
-                        return ListTile(
-                          title: Text(
-                            state.typedTerm,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          leading: const Icon(Icons.search),
-                          onTap: () {
-                            context.read<SearchHistoryCubit>().addSearchTerm(
-                                state.floatingSearchBarController.query);
-                          },
-                        );
-                      } else {
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: state.filteredSearchHistory.reversed
-                              .map((search) => ListTile(
-                                    title: Text(
-                                      search.searchTerm,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                    leading: const Icon(Icons.history),
-                                    trailing: IconButton(
-                                      icon: const Icon(Icons.clear),
-                                      onPressed: () {
+                  child: Column(
+                    children: [
+                      Builder(
+                        builder: (context) {
+                          if (state.filteredSearchHistory.isEmpty &&
+                              state.floatingSearchBarController.query.isEmpty) {
+                            return Container(
+                              height: 56.h,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Start searching...',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.caption,
+                              ),
+                            );
+                          } else if (state.filteredSearchHistory.isEmpty) {
+                            return ListTile(
+                              title: Text(
+                                state.typedTerm,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              leading: const Icon(Icons.search),
+                              onTap: () {
+                                context.read<MainNavigationCubit>().setIndex(1);
+                                context.read<SearchResultBloc>().add(
+                                    SearchResultEvent.searchDrugs(
+                                        state.typedTerm));
+                                context
+                                    .read<SearchHistoryCubit>()
+                                    .addSearchTerm(state
+                                        .floatingSearchBarController.query);
+                                // context
+                                //     .read<SearchBloc>()
+                                //     .add(SearchEvent.search(state.typedTerm));
+                              },
+                            );
+                          } else {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: state.filteredSearchHistory.reversed
+                                  .map(
+                                    (search) => ListTile(
+                                      title: Text(
+                                        search.searchTerm,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      leading: const Icon(Icons.history),
+                                      trailing: IconButton(
+                                        icon: const Icon(Icons.clear),
+                                        onPressed: () {
+                                          context
+                                              .read<SearchHistoryCubit>()
+                                              .deleteSearchTerm(
+                                                  search.searchTerm);
+                                        },
+                                      ),
+                                      onTap: () {
+                                        context
+                                            .read<MainNavigationCubit>()
+                                            .setIndex(1);
+                                        context.read<SearchResultBloc>().add(
+                                            SearchResultEvent.searchDrugs(
+                                                search.searchTerm));
                                         context
                                             .read<SearchHistoryCubit>()
-                                            .deleteSearchTerm(
-                                                search.searchTerm);
+                                            .addSearchTerm(search.searchTerm);
+                                        state.floatingSearchBarController
+                                            .close();
                                       },
                                     ),
-                                    onTap: () {
-                                      context
-                                          .read<SearchHistoryCubit>()
-                                          .addSearchTerm(search.searchTerm);
-                                      state.floatingSearchBarController.close();
-                                    },
-                                  ))
-                              .toList(),
-                        );
-                      }
-                    },
+                                  )
+                                  .toList(),
+                            );
+                          }
+                        },
+                      ),
+                      BlocBuilder<SearchBloc, SearchState>(
+                        builder: (context, stateS) {
+                          return stateS.map(
+                            initial: (_) => SizedBox.shrink(),
+                            loadInProgress: (stateS) {
+                              return CircularProgressIndicator();
+                            },
+                            loadSuccess: (stateS) {
+                              return Column(
+                                children: stateS.recommendations
+                                    .map(
+                                      (recommendation) => ListTile(
+                                        title: Text(
+                                          recommendation.name,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                        leading: const Icon(Icons.search),
+                                        onTap: () {
+                                          context
+                                              .read<MainNavigationCubit>()
+                                              .setIndex(1);
+                                          context.read<SearchResultBloc>().add(
+                                              SearchResultEvent.searchDrugs(
+                                                  recommendation.name));
+                                          context
+                                              .read<SearchHistoryCubit>()
+                                              .addSearchTerm(
+                                                  recommendation.name);
+                                          state.floatingSearchBarController
+                                              .close();
+                                        },
+                                      ),
+                                    )
+                                    .toList(),
+                              );
+                            },
+                            loadFailure: (stateS) {
+                              return Text('Error');
+                            },
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               );
