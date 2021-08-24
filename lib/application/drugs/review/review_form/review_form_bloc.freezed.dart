@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
-part of 'review_bloc.dart';
+part of 'review_form_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,8 +13,8 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$ReviewEventTearOff {
-  const _$ReviewEventTearOff();
+class _$ReviewFormEventTearOff {
+  const _$ReviewFormEventTearOff();
 
   _Initialized initialized(Review? initialReviewOption) {
     return _Initialized(
@@ -28,7 +28,7 @@ class _$ReviewEventTearOff {
     );
   }
 
-  _ReviewStarChanged reviewStarChanged(int reviewStarInt) {
+  _ReviewStarChanged reviewStarChanged(double reviewStarInt) {
     return _ReviewStarChanged(
       reviewStarInt,
     );
@@ -40,15 +40,15 @@ class _$ReviewEventTearOff {
 }
 
 /// @nodoc
-const $ReviewEvent = _$ReviewEventTearOff();
+const $ReviewFormEvent = _$ReviewFormEventTearOff();
 
 /// @nodoc
-mixin _$ReviewEvent {
+mixin _$ReviewFormEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Review? initialReviewOption) initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
-    required TResult Function(int reviewStarInt) reviewStarChanged,
+    required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
   }) =>
       throw _privateConstructorUsedError;
@@ -56,7 +56,7 @@ mixin _$ReviewEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Review? initialReviewOption)? initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
-    TResult Function(int reviewStarInt)? reviewStarChanged,
+    TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
     required TResult orElse(),
   }) =>
@@ -81,19 +81,20 @@ mixin _$ReviewEvent {
 }
 
 /// @nodoc
-abstract class $ReviewEventCopyWith<$Res> {
-  factory $ReviewEventCopyWith(
-          ReviewEvent value, $Res Function(ReviewEvent) then) =
-      _$ReviewEventCopyWithImpl<$Res>;
+abstract class $ReviewFormEventCopyWith<$Res> {
+  factory $ReviewFormEventCopyWith(
+          ReviewFormEvent value, $Res Function(ReviewFormEvent) then) =
+      _$ReviewFormEventCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$ReviewEventCopyWithImpl<$Res> implements $ReviewEventCopyWith<$Res> {
-  _$ReviewEventCopyWithImpl(this._value, this._then);
+class _$ReviewFormEventCopyWithImpl<$Res>
+    implements $ReviewFormEventCopyWith<$Res> {
+  _$ReviewFormEventCopyWithImpl(this._value, this._then);
 
-  final ReviewEvent _value;
+  final ReviewFormEvent _value;
   // ignore: unused_field
-  final $Res Function(ReviewEvent) _then;
+  final $Res Function(ReviewFormEvent) _then;
 }
 
 /// @nodoc
@@ -107,7 +108,8 @@ abstract class _$InitializedCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$InitializedCopyWithImpl<$Res> extends _$ReviewEventCopyWithImpl<$Res>
+class __$InitializedCopyWithImpl<$Res>
+    extends _$ReviewFormEventCopyWithImpl<$Res>
     implements _$InitializedCopyWith<$Res> {
   __$InitializedCopyWithImpl(
       _Initialized _value, $Res Function(_Initialized) _then)
@@ -150,7 +152,7 @@ class _$_Initialized implements _Initialized {
 
   @override
   String toString() {
-    return 'ReviewEvent.initialized(initialReviewOption: $initialReviewOption)';
+    return 'ReviewFormEvent.initialized(initialReviewOption: $initialReviewOption)';
   }
 
   @override
@@ -177,7 +179,7 @@ class _$_Initialized implements _Initialized {
   TResult when<TResult extends Object?>({
     required TResult Function(Review? initialReviewOption) initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
-    required TResult Function(int reviewStarInt) reviewStarChanged,
+    required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
   }) {
     return initialized(initialReviewOption);
@@ -188,7 +190,7 @@ class _$_Initialized implements _Initialized {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Review? initialReviewOption)? initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
-    TResult Function(int reviewStarInt)? reviewStarChanged,
+    TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
     required TResult orElse(),
   }) {
@@ -225,7 +227,7 @@ class _$_Initialized implements _Initialized {
   }
 }
 
-abstract class _Initialized implements ReviewEvent {
+abstract class _Initialized implements ReviewFormEvent {
   const factory _Initialized(Review? initialReviewOption) = _$_Initialized;
 
   Review? get initialReviewOption => throw _privateConstructorUsedError;
@@ -244,7 +246,7 @@ abstract class _$ReviewBodyChangedCopyWith<$Res> {
 
 /// @nodoc
 class __$ReviewBodyChangedCopyWithImpl<$Res>
-    extends _$ReviewEventCopyWithImpl<$Res>
+    extends _$ReviewFormEventCopyWithImpl<$Res>
     implements _$ReviewBodyChangedCopyWith<$Res> {
   __$ReviewBodyChangedCopyWithImpl(
       _ReviewBodyChanged _value, $Res Function(_ReviewBodyChanged) _then)
@@ -276,7 +278,7 @@ class _$_ReviewBodyChanged implements _ReviewBodyChanged {
 
   @override
   String toString() {
-    return 'ReviewEvent.reviewBodyChanged(reviewBodyStr: $reviewBodyStr)';
+    return 'ReviewFormEvent.reviewBodyChanged(reviewBodyStr: $reviewBodyStr)';
   }
 
   @override
@@ -302,7 +304,7 @@ class _$_ReviewBodyChanged implements _ReviewBodyChanged {
   TResult when<TResult extends Object?>({
     required TResult Function(Review? initialReviewOption) initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
-    required TResult Function(int reviewStarInt) reviewStarChanged,
+    required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
   }) {
     return reviewBodyChanged(reviewBodyStr);
@@ -313,7 +315,7 @@ class _$_ReviewBodyChanged implements _ReviewBodyChanged {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Review? initialReviewOption)? initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
-    TResult Function(int reviewStarInt)? reviewStarChanged,
+    TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
     required TResult orElse(),
   }) {
@@ -350,7 +352,7 @@ class _$_ReviewBodyChanged implements _ReviewBodyChanged {
   }
 }
 
-abstract class _ReviewBodyChanged implements ReviewEvent {
+abstract class _ReviewBodyChanged implements ReviewFormEvent {
   const factory _ReviewBodyChanged(String reviewBodyStr) = _$_ReviewBodyChanged;
 
   String get reviewBodyStr => throw _privateConstructorUsedError;
@@ -364,12 +366,12 @@ abstract class _$ReviewStarChangedCopyWith<$Res> {
   factory _$ReviewStarChangedCopyWith(
           _ReviewStarChanged value, $Res Function(_ReviewStarChanged) then) =
       __$ReviewStarChangedCopyWithImpl<$Res>;
-  $Res call({int reviewStarInt});
+  $Res call({double reviewStarInt});
 }
 
 /// @nodoc
 class __$ReviewStarChangedCopyWithImpl<$Res>
-    extends _$ReviewEventCopyWithImpl<$Res>
+    extends _$ReviewFormEventCopyWithImpl<$Res>
     implements _$ReviewStarChangedCopyWith<$Res> {
   __$ReviewStarChangedCopyWithImpl(
       _ReviewStarChanged _value, $Res Function(_ReviewStarChanged) _then)
@@ -386,7 +388,7 @@ class __$ReviewStarChangedCopyWithImpl<$Res>
       reviewStarInt == freezed
           ? _value.reviewStarInt
           : reviewStarInt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ));
   }
 }
@@ -397,11 +399,11 @@ class _$_ReviewStarChanged implements _ReviewStarChanged {
   const _$_ReviewStarChanged(this.reviewStarInt);
 
   @override
-  final int reviewStarInt;
+  final double reviewStarInt;
 
   @override
   String toString() {
-    return 'ReviewEvent.reviewStarChanged(reviewStarInt: $reviewStarInt)';
+    return 'ReviewFormEvent.reviewStarChanged(reviewStarInt: $reviewStarInt)';
   }
 
   @override
@@ -427,7 +429,7 @@ class _$_ReviewStarChanged implements _ReviewStarChanged {
   TResult when<TResult extends Object?>({
     required TResult Function(Review? initialReviewOption) initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
-    required TResult Function(int reviewStarInt) reviewStarChanged,
+    required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
   }) {
     return reviewStarChanged(reviewStarInt);
@@ -438,7 +440,7 @@ class _$_ReviewStarChanged implements _ReviewStarChanged {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Review? initialReviewOption)? initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
-    TResult Function(int reviewStarInt)? reviewStarChanged,
+    TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
     required TResult orElse(),
   }) {
@@ -475,10 +477,10 @@ class _$_ReviewStarChanged implements _ReviewStarChanged {
   }
 }
 
-abstract class _ReviewStarChanged implements ReviewEvent {
-  const factory _ReviewStarChanged(int reviewStarInt) = _$_ReviewStarChanged;
+abstract class _ReviewStarChanged implements ReviewFormEvent {
+  const factory _ReviewStarChanged(double reviewStarInt) = _$_ReviewStarChanged;
 
-  int get reviewStarInt => throw _privateConstructorUsedError;
+  double get reviewStarInt => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$ReviewStarChangedCopyWith<_ReviewStarChanged> get copyWith =>
       throw _privateConstructorUsedError;
@@ -493,7 +495,7 @@ abstract class _$ReviewBtnPressedCopyWith<$Res> {
 
 /// @nodoc
 class __$ReviewBtnPressedCopyWithImpl<$Res>
-    extends _$ReviewEventCopyWithImpl<$Res>
+    extends _$ReviewFormEventCopyWithImpl<$Res>
     implements _$ReviewBtnPressedCopyWith<$Res> {
   __$ReviewBtnPressedCopyWithImpl(
       _ReviewBtnPressed _value, $Res Function(_ReviewBtnPressed) _then)
@@ -510,7 +512,7 @@ class _$_ReviewBtnPressed implements _ReviewBtnPressed {
 
   @override
   String toString() {
-    return 'ReviewEvent.reviewBtnPressed()';
+    return 'ReviewFormEvent.reviewBtnPressed()';
   }
 
   @override
@@ -526,7 +528,7 @@ class _$_ReviewBtnPressed implements _ReviewBtnPressed {
   TResult when<TResult extends Object?>({
     required TResult Function(Review? initialReviewOption) initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
-    required TResult Function(int reviewStarInt) reviewStarChanged,
+    required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
   }) {
     return reviewBtnPressed();
@@ -537,7 +539,7 @@ class _$_ReviewBtnPressed implements _ReviewBtnPressed {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Review? initialReviewOption)? initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
-    TResult Function(int reviewStarInt)? reviewStarChanged,
+    TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
     required TResult orElse(),
   }) {
@@ -574,21 +576,21 @@ class _$_ReviewBtnPressed implements _ReviewBtnPressed {
   }
 }
 
-abstract class _ReviewBtnPressed implements ReviewEvent {
+abstract class _ReviewBtnPressed implements ReviewFormEvent {
   const factory _ReviewBtnPressed() = _$_ReviewBtnPressed;
 }
 
 /// @nodoc
-class _$ReviewStateTearOff {
-  const _$ReviewStateTearOff();
+class _$ReviewFormStateTearOff {
+  const _$ReviewFormStateTearOff();
 
-  _ReviewState call(
+  _ReviewFormState call(
       {required Review review,
       required bool showErrorMessages,
       required bool isEditing,
       required bool isSubmitting,
       required Result<ReviewFailure, Unit>? reviewFailureOrSuccess}) {
-    return _ReviewState(
+    return _ReviewFormState(
       review: review,
       showErrorMessages: showErrorMessages,
       isEditing: isEditing,
@@ -599,10 +601,10 @@ class _$ReviewStateTearOff {
 }
 
 /// @nodoc
-const $ReviewState = _$ReviewStateTearOff();
+const $ReviewFormState = _$ReviewFormStateTearOff();
 
 /// @nodoc
-mixin _$ReviewState {
+mixin _$ReviewFormState {
   Review get review => throw _privateConstructorUsedError;
   bool get showErrorMessages => throw _privateConstructorUsedError;
   bool get isEditing => throw _privateConstructorUsedError;
@@ -611,15 +613,15 @@ mixin _$ReviewState {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $ReviewStateCopyWith<ReviewState> get copyWith =>
+  $ReviewFormStateCopyWith<ReviewFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ReviewStateCopyWith<$Res> {
-  factory $ReviewStateCopyWith(
-          ReviewState value, $Res Function(ReviewState) then) =
-      _$ReviewStateCopyWithImpl<$Res>;
+abstract class $ReviewFormStateCopyWith<$Res> {
+  factory $ReviewFormStateCopyWith(
+          ReviewFormState value, $Res Function(ReviewFormState) then) =
+      _$ReviewFormStateCopyWithImpl<$Res>;
   $Res call(
       {Review review,
       bool showErrorMessages,
@@ -631,12 +633,13 @@ abstract class $ReviewStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ReviewStateCopyWithImpl<$Res> implements $ReviewStateCopyWith<$Res> {
-  _$ReviewStateCopyWithImpl(this._value, this._then);
+class _$ReviewFormStateCopyWithImpl<$Res>
+    implements $ReviewFormStateCopyWith<$Res> {
+  _$ReviewFormStateCopyWithImpl(this._value, this._then);
 
-  final ReviewState _value;
+  final ReviewFormState _value;
   // ignore: unused_field
-  final $Res Function(ReviewState) _then;
+  final $Res Function(ReviewFormState) _then;
 
   @override
   $Res call({
@@ -679,11 +682,11 @@ class _$ReviewStateCopyWithImpl<$Res> implements $ReviewStateCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$ReviewStateCopyWith<$Res>
-    implements $ReviewStateCopyWith<$Res> {
-  factory _$ReviewStateCopyWith(
-          _ReviewState value, $Res Function(_ReviewState) then) =
-      __$ReviewStateCopyWithImpl<$Res>;
+abstract class _$ReviewFormStateCopyWith<$Res>
+    implements $ReviewFormStateCopyWith<$Res> {
+  factory _$ReviewFormStateCopyWith(
+          _ReviewFormState value, $Res Function(_ReviewFormState) then) =
+      __$ReviewFormStateCopyWithImpl<$Res>;
   @override
   $Res call(
       {Review review,
@@ -697,14 +700,15 @@ abstract class _$ReviewStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$ReviewStateCopyWithImpl<$Res> extends _$ReviewStateCopyWithImpl<$Res>
-    implements _$ReviewStateCopyWith<$Res> {
-  __$ReviewStateCopyWithImpl(
-      _ReviewState _value, $Res Function(_ReviewState) _then)
-      : super(_value, (v) => _then(v as _ReviewState));
+class __$ReviewFormStateCopyWithImpl<$Res>
+    extends _$ReviewFormStateCopyWithImpl<$Res>
+    implements _$ReviewFormStateCopyWith<$Res> {
+  __$ReviewFormStateCopyWithImpl(
+      _ReviewFormState _value, $Res Function(_ReviewFormState) _then)
+      : super(_value, (v) => _then(v as _ReviewFormState));
 
   @override
-  _ReviewState get _value => super._value as _ReviewState;
+  _ReviewFormState get _value => super._value as _ReviewFormState;
 
   @override
   $Res call({
@@ -714,7 +718,7 @@ class __$ReviewStateCopyWithImpl<$Res> extends _$ReviewStateCopyWithImpl<$Res>
     Object? isSubmitting = freezed,
     Object? reviewFailureOrSuccess = freezed,
   }) {
-    return _then(_ReviewState(
+    return _then(_ReviewFormState(
       review: review == freezed
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
@@ -741,8 +745,8 @@ class __$ReviewStateCopyWithImpl<$Res> extends _$ReviewStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ReviewState implements _ReviewState {
-  const _$_ReviewState(
+class _$_ReviewFormState implements _ReviewFormState {
+  const _$_ReviewFormState(
       {required this.review,
       required this.showErrorMessages,
       required this.isEditing,
@@ -762,13 +766,13 @@ class _$_ReviewState implements _ReviewState {
 
   @override
   String toString() {
-    return 'ReviewState(review: $review, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSubmitting: $isSubmitting, reviewFailureOrSuccess: $reviewFailureOrSuccess)';
+    return 'ReviewFormState(review: $review, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSubmitting: $isSubmitting, reviewFailureOrSuccess: $reviewFailureOrSuccess)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _ReviewState &&
+        (other is _ReviewFormState &&
             (identical(other.review, review) ||
                 const DeepCollectionEquality().equals(other.review, review)) &&
             (identical(other.showErrorMessages, showErrorMessages) ||
@@ -796,18 +800,18 @@ class _$_ReviewState implements _ReviewState {
 
   @JsonKey(ignore: true)
   @override
-  _$ReviewStateCopyWith<_ReviewState> get copyWith =>
-      __$ReviewStateCopyWithImpl<_ReviewState>(this, _$identity);
+  _$ReviewFormStateCopyWith<_ReviewFormState> get copyWith =>
+      __$ReviewFormStateCopyWithImpl<_ReviewFormState>(this, _$identity);
 }
 
-abstract class _ReviewState implements ReviewState {
-  const factory _ReviewState(
+abstract class _ReviewFormState implements ReviewFormState {
+  const factory _ReviewFormState(
           {required Review review,
           required bool showErrorMessages,
           required bool isEditing,
           required bool isSubmitting,
           required Result<ReviewFailure, Unit>? reviewFailureOrSuccess}) =
-      _$_ReviewState;
+      _$_ReviewFormState;
 
   @override
   Review get review => throw _privateConstructorUsedError;
@@ -822,6 +826,6 @@ abstract class _ReviewState implements ReviewState {
       throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$ReviewStateCopyWith<_ReviewState> get copyWith =>
+  _$ReviewFormStateCopyWith<_ReviewFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -14,6 +14,7 @@ abstract class Review implements _$Review {
     required ReviewBody reviewBody,
     required String userName,
     required ReviewStar reviewStar,
+    required String drugId,
   }) = _Review;
 
   factory Review.empty() => Review(
@@ -22,6 +23,7 @@ abstract class Review implements _$Review {
         reviewBody: ReviewBody(''),
         userName: '',
         reviewStar: ReviewStar(0),
+        drugId: '',
       );
 
   ValueFailure<dynamic>? get failureOption {

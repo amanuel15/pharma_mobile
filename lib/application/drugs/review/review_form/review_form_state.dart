@@ -1,16 +1,16 @@
-part of 'review_bloc.dart';
+part of 'review_form_bloc.dart';
 
 @freezed
-class ReviewState with _$ReviewState {
-  const factory ReviewState({
+class ReviewFormState with _$ReviewFormState {
+  const factory ReviewFormState({
     required Review review,
     required bool showErrorMessages,
     required bool isEditing,
     required bool isSubmitting,
     required Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
-  }) = _ReviewState;
+  }) = _ReviewFormState;
 
-  factory ReviewState.initial() => ReviewState(
+  factory ReviewFormState.initial() => ReviewFormState(
         review: Review.empty(),
         showErrorMessages: false,
         isSubmitting: false,

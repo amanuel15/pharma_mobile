@@ -19,15 +19,15 @@ class ReviewBody extends ValueObject<String> {
   const ReviewBody._(this.value);
 }
 
-class ReviewStar extends ValueObject<int> {
+class ReviewStar extends ValueObject<double> {
   @override
-  final Result<ValueFailure<int>, int> value;
+  final Result<ValueFailure<double>, double> value;
 
-  static const maxLength = 1000;
+  static const maxValue = 5;
 
-  factory ReviewStar(int input) {
+  factory ReviewStar(double input) {
     return ReviewStar._(
-      validateIntNotZero(input),
+      validateStars(input),
     );
   }
 

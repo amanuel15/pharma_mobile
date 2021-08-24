@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:pharma_flutter/application/auth/auth_bloc.dart';
+import 'package:pharma_flutter/application/drugs/search/search_result/search_result_bloc.dart';
 import 'package:pharma_flutter/application/util/search_history/search_history_cubit.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
-import 'package:pharma_flutter/injection.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/drug_card_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pharma_flutter/presentation/drugs/widgets/home_stack_widget.dart';
 
 class SearchStackWidget extends StatelessWidget {
   const SearchStackWidget({Key? key}) : super(key: key);
@@ -26,85 +23,133 @@ class SearchStackWidget extends StatelessWidget {
             constraints: BoxConstraints(
               maxWidth: 90.sw,
             ),
-            child: ListView(
-              children: [
-                DrugCard(
-                  drug: Drug(
-                    id: 'asdsad',
-                    pharmacyId: 'pharmacyId',
-                    drugName:
-                        'Paracetamol. Made in china blah blah blah more stuff to talk. Gsm 4G svg lmg lmao',
-                    drugDetail: 'drugDetail',
-                    drugOrigin: 'Made In Germany',
-                    drugPrice: 200,
-                    stock: 7,
-                    rating: 4,
-                    createdDate: 'Aug 8, 2021',
-                    imageUrls: ['assets/d.jpg'],
-                    location: [],
+            child: BlocBuilder<SearchResultBloc, SearchResultState>(
+              builder: (context, state) {
+                return state.map(
+                  initial: (_) => Center(
+                    child: Text(
+                      'Start Search',
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                DrugCard(
-                  drug: Drug(
-                    id: 'asdsad',
-                    pharmacyId: 'pharmacyId',
-                    drugName:
-                        'Paracetamol. Made in china blah blah blah more stuff to talk. Gsm 4G svg lmg lmao',
-                    drugDetail: 'drugDetail',
-                    drugOrigin: 'Made In Germany',
-                    drugPrice: 200,
-                    stock: 7,
-                    rating: 4,
-                    createdDate: 'Aug 8, 2021',
-                    imageUrls: ['assets/d.jpg'],
-                    location: [],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                DrugCard(
-                  drug: Drug(
-                    id: 'asdsad',
-                    pharmacyId: 'pharmacyId',
-                    drugName:
-                        'Paracetamol. Made in china blah blah blah more stuff to talk. Gsm 4G svg lmg lmao',
-                    drugDetail: 'drugDetail',
-                    drugOrigin: 'Made In Germany',
-                    drugPrice: 200,
-                    stock: 7,
-                    rating: 4,
-                    createdDate: 'Aug 8, 2021',
-                    imageUrls: ['assets/d.jpg'],
-                    location: [],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                DrugCard(
-                  drug: Drug(
-                    id: 'asdsad',
-                    pharmacyId: 'pharmacyId',
-                    drugName:
-                        'Paracetamol. Made in china blah blah blah more stuff to talk. Gsm 4G svg lmg lmao',
-                    drugDetail: 'drugDetail',
-                    drugOrigin: 'Made In Germany',
-                    drugPrice: 200,
-                    stock: 7,
-                    rating: 4,
-                    createdDate: 'Aug 8, 2021',
-                    imageUrls: ['assets/d.jpg'],
-                    location: [],
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-              ],
+                  loadInProgress: (state) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                  loadSuccess: (state) {
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        final drug = state.drugs[index];
+                        return DrugCard(drug: drug);
+                      },
+                      itemCount: state.drugs.length,
+                    );
+                  },
+                  loadFailure: (state) {
+                    return Container();
+                  },
+                );
+                // return ListView(
+                //   children: [
+                //     DrugCard(
+                //       drug: Drug(
+                //         id: 'asdsad',
+                //         pharmacyId: 'pharmacyId',
+                //         drugName:
+                //             'Paracetamol. Made in china blah blah blah more stuff to talk. Gsm 4G svg lmg lmao',
+                //         drugDetail: 'drugDetail',
+                //         drugOrigin: 'Made In Germany',
+                //         drugPrice: 200,
+                //         stock: 7,
+                //         rating: 4,
+                //         createdDate: 'Aug 8, 2021',
+                //         imageUrls: ['assets/d.jpg'],
+                //         location: [],
+                //         brandName: '',
+                //         pharmacyRating: 0,
+                //         requiresPrescription: true,
+                //         reviews: [],
+                //         score: 0,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       height: 10.h,
+                //     ),
+                //     DrugCard(
+                //       drug: Drug(
+                //         id: 'asdsad',
+                //         pharmacyId: 'pharmacyId',
+                //         drugName:
+                //             'Paracetamol. Made in china blah blah blah more stuff to talk. Gsm 4G svg lmg lmao',
+                //         drugDetail: 'drugDetail',
+                //         drugOrigin: 'Made In Germany',
+                //         drugPrice: 200,
+                //         stock: 7,
+                //         rating: 4,
+                //         createdDate: 'Aug 8, 2021',
+                //         imageUrls: ['assets/d.jpg'],
+                //         location: [],
+                //         brandName: '',
+                //         pharmacyRating: 0,
+                //         requiresPrescription: true,
+                //         reviews: [],
+                //         score: 0,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       height: 10.h,
+                //     ),
+                //     DrugCard(
+                //       drug: Drug(
+                //         id: 'asdsad',
+                //         pharmacyId: 'pharmacyId',
+                //         drugName:
+                //             'Paracetamol. Made in china blah blah blah more stuff to talk. Gsm 4G svg lmg lmao',
+                //         drugDetail: 'drugDetail',
+                //         drugOrigin: 'Made In Germany',
+                //         drugPrice: 200,
+                //         stock: 7,
+                //         rating: 4,
+                //         createdDate: 'Aug 8, 2021',
+                //         imageUrls: ['assets/d.jpg'],
+                //         location: [],
+                //         brandName: '',
+                //         pharmacyRating: 0,
+                //         requiresPrescription: true,
+                //         reviews: [],
+                //         score: 0,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       height: 10.h,
+                //     ),
+                //     DrugCard(
+                //       drug: Drug(
+                //         id: 'asdsad',
+                //         pharmacyId: 'pharmacyId',
+                //         drugName:
+                //             'Paracetamol. Made in china blah blah blah more stuff to talk. Gsm 4G svg lmg lmao',
+                //         drugDetail: 'drugDetail',
+                //         drugOrigin: 'Made In Germany',
+                //         drugPrice: 200,
+                //         stock: 7,
+                //         rating: 4,
+                //         createdDate: 'Aug 8, 2021',
+                //         imageUrls: ['assets/d.jpg'],
+                //         location: [],
+                //         brandName: '',
+                //         pharmacyRating: 0,
+                //         requiresPrescription: true,
+                //         reviews: [],
+                //         score: 0,
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       height: 10.h,
+                //     ),
+                //   ],
+                // );
+              },
             ),
           ),
           FloatingSearchBarWidge(),

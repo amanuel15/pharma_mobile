@@ -4,24 +4,25 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
+import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 import 'package:pharma_flutter/domain/pharma/value_objects.dart';
 
-part 'review_event.dart';
-part 'review_state.dart';
-part 'review_bloc.freezed.dart';
+part 'review_form_event.dart';
+part 'review_form_state.dart';
+part 'review_form_bloc.freezed.dart';
 
 @injectable
-class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
-  //final IDrugRepository _drugRepository;
+class ReviewFormBloc extends Bloc<ReviewFormEvent, ReviewFormState> {
+  final IDrugRepository _drugRepository;
 
-  ReviewBloc() : super(ReviewState.initial());
+  ReviewFormBloc(this._drugRepository) : super(ReviewFormState.initial());
 
   @override
-  Stream<ReviewState> mapEventToState(
-    ReviewEvent event,
+  Stream<ReviewFormState> mapEventToState(
+    ReviewFormEvent event,
   ) async* {
     yield* event.map(
       initialized: (e) async* {
@@ -39,12 +40,14 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
         yield state.copyWith(
           review:
               state.review.copyWith(reviewBody: ReviewBody(e.reviewBodyStr)),
+          reviewFailureOrSuccess: null,
         );
       },
       reviewStarChanged: (e) async* {
         yield state.copyWith(
           review:
               state.review.copyWith(reviewStar: ReviewStar(e.reviewStarInt)),
+          reviewFailureOrSuccess: null,
         );
       },
       reviewBtnPressed: (e) async* {
@@ -56,9 +59,8 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
         );
 
         if (state.review.failureOption == null) {
-          // failureOrSuccess = state.isEditing
-          //     ? await _noteRepository.updateReview(state.review)
-          //     : await _noteRepository.createReview(state.review);
+          failureOrSuccess =
+              await _drugRepository.createOrEditReview(state.review);
         }
 
         yield state.copyWith(

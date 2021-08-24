@@ -21,13 +21,15 @@ class _$ReviewTearOff {
       required String userId,
       required ReviewBody reviewBody,
       required String userName,
-      required ReviewStar reviewStar}) {
+      required ReviewStar reviewStar,
+      required String drugId}) {
     return _Review(
       id: id,
       userId: userId,
       reviewBody: reviewBody,
       userName: userName,
       reviewStar: reviewStar,
+      drugId: drugId,
     );
   }
 }
@@ -42,6 +44,7 @@ mixin _$Review {
   ReviewBody get reviewBody => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   ReviewStar get reviewStar => throw _privateConstructorUsedError;
+  String get drugId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReviewCopyWith<Review> get copyWith => throw _privateConstructorUsedError;
@@ -56,7 +59,8 @@ abstract class $ReviewCopyWith<$Res> {
       String userId,
       ReviewBody reviewBody,
       String userName,
-      ReviewStar reviewStar});
+      ReviewStar reviewStar,
+      String drugId});
 }
 
 /// @nodoc
@@ -74,6 +78,7 @@ class _$ReviewCopyWithImpl<$Res> implements $ReviewCopyWith<$Res> {
     Object? reviewBody = freezed,
     Object? userName = freezed,
     Object? reviewStar = freezed,
+    Object? drugId = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -96,6 +101,10 @@ class _$ReviewCopyWithImpl<$Res> implements $ReviewCopyWith<$Res> {
           ? _value.reviewStar
           : reviewStar // ignore: cast_nullable_to_non_nullable
               as ReviewStar,
+      drugId: drugId == freezed
+          ? _value.drugId
+          : drugId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -110,7 +119,8 @@ abstract class _$ReviewCopyWith<$Res> implements $ReviewCopyWith<$Res> {
       String userId,
       ReviewBody reviewBody,
       String userName,
-      ReviewStar reviewStar});
+      ReviewStar reviewStar,
+      String drugId});
 }
 
 /// @nodoc
@@ -129,6 +139,7 @@ class __$ReviewCopyWithImpl<$Res> extends _$ReviewCopyWithImpl<$Res>
     Object? reviewBody = freezed,
     Object? userName = freezed,
     Object? reviewStar = freezed,
+    Object? drugId = freezed,
   }) {
     return _then(_Review(
       id: id == freezed
@@ -151,6 +162,10 @@ class __$ReviewCopyWithImpl<$Res> extends _$ReviewCopyWithImpl<$Res>
           ? _value.reviewStar
           : reviewStar // ignore: cast_nullable_to_non_nullable
               as ReviewStar,
+      drugId: drugId == freezed
+          ? _value.drugId
+          : drugId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -163,7 +178,8 @@ class _$_Review extends _Review {
       required this.userId,
       required this.reviewBody,
       required this.userName,
-      required this.reviewStar})
+      required this.reviewStar,
+      required this.drugId})
       : super._();
 
   @override
@@ -176,10 +192,12 @@ class _$_Review extends _Review {
   final String userName;
   @override
   final ReviewStar reviewStar;
+  @override
+  final String drugId;
 
   @override
   String toString() {
-    return 'Review(id: $id, userId: $userId, reviewBody: $reviewBody, userName: $userName, reviewStar: $reviewStar)';
+    return 'Review(id: $id, userId: $userId, reviewBody: $reviewBody, userName: $userName, reviewStar: $reviewStar, drugId: $drugId)';
   }
 
   @override
@@ -198,7 +216,9 @@ class _$_Review extends _Review {
                     .equals(other.userName, userName)) &&
             (identical(other.reviewStar, reviewStar) ||
                 const DeepCollectionEquality()
-                    .equals(other.reviewStar, reviewStar)));
+                    .equals(other.reviewStar, reviewStar)) &&
+            (identical(other.drugId, drugId) ||
+                const DeepCollectionEquality().equals(other.drugId, drugId)));
   }
 
   @override
@@ -208,7 +228,8 @@ class _$_Review extends _Review {
       const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(reviewBody) ^
       const DeepCollectionEquality().hash(userName) ^
-      const DeepCollectionEquality().hash(reviewStar);
+      const DeepCollectionEquality().hash(reviewStar) ^
+      const DeepCollectionEquality().hash(drugId);
 
   @JsonKey(ignore: true)
   @override
@@ -222,7 +243,8 @@ abstract class _Review extends Review {
       required String userId,
       required ReviewBody reviewBody,
       required String userName,
-      required ReviewStar reviewStar}) = _$_Review;
+      required ReviewStar reviewStar,
+      required String drugId}) = _$_Review;
   const _Review._() : super._();
 
   @override
@@ -235,6 +257,8 @@ abstract class _Review extends Review {
   String get userName => throw _privateConstructorUsedError;
   @override
   ReviewStar get reviewStar => throw _privateConstructorUsedError;
+  @override
+  String get drugId => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ReviewCopyWith<_Review> get copyWith => throw _privateConstructorUsedError;

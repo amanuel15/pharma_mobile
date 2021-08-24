@@ -23,10 +23,18 @@ Result<ValueFailure<String>, String> validateStringNotEmpty(String input) {
 }
 
 Result<ValueFailure<int>, int> validateIntNotZero(int input) {
-  if (input == 0) {
+  if (input != 0) {
     return Success(input);
   } else {
     return Error(ValueFailure.empty(failedValue: input));
+  }
+}
+
+Result<ValueFailure<double>, double> validateStars(double input) {
+  if (input < 0 || input > 5) {
+    return Error(ValueFailure.empty(failedValue: input));
+  } else {
+    return Success(input);
   }
 }
 

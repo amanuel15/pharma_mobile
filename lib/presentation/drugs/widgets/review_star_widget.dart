@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:pharma_flutter/application/drugs/review_bloc/review_bloc.dart';
+import 'package:pharma_flutter/application/drugs/review/review_form/review_form_bloc.dart';
 
 class ReviewReviewBodyField extends HookWidget {
   const ReviewReviewBodyField({
@@ -10,12 +10,12 @@ class ReviewReviewBodyField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textEditingController = useTextEditingController();
+    double stars = 5;
 
-    return BlocListener<ReviewBloc, ReviewState>(
+    return BlocListener<ReviewFormBloc, ReviewFormState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (context, state) {
-        textEditingController.text = state.review.reviewBody.getOrCrash();
+        stars = state.review.reviewStar.getOrCrash();
       },
       child: Container(),
     );

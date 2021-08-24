@@ -23,6 +23,14 @@ class _$ReviewFailureTearOff {
   ServerError serverError() {
     return const ServerError();
   }
+
+  _UnableToUpdate unableToUpdate() {
+    return const _UnableToUpdate();
+  }
+
+  _Unexpected unexpected() {
+    return const _Unexpected();
+  }
 }
 
 /// @nodoc
@@ -34,12 +42,16 @@ mixin _$ReviewFailure {
   TResult when<TResult extends Object?>({
     required TResult Function() unauthorizedAccess,
     required TResult Function() serverError,
+    required TResult Function() unableToUpdate,
+    required TResult Function() unexpected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthorizedAccess,
     TResult Function()? serverError,
+    TResult Function()? unableToUpdate,
+    TResult Function()? unexpected,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,12 +59,16 @@ mixin _$ReviewFailure {
   TResult map<TResult extends Object?>({
     required TResult Function(UnauthorizedAccess value) unauthorizedAccess,
     required TResult Function(ServerError value) serverError,
+    required TResult Function(_UnableToUpdate value) unableToUpdate,
+    required TResult Function(_Unexpected value) unexpected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(UnauthorizedAccess value)? unauthorizedAccess,
     TResult Function(ServerError value)? serverError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
+    TResult Function(_Unexpected value)? unexpected,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -117,6 +133,8 @@ class _$UnauthorizedAccess implements UnauthorizedAccess {
   TResult when<TResult extends Object?>({
     required TResult Function() unauthorizedAccess,
     required TResult Function() serverError,
+    required TResult Function() unableToUpdate,
+    required TResult Function() unexpected,
   }) {
     return unauthorizedAccess();
   }
@@ -126,6 +144,8 @@ class _$UnauthorizedAccess implements UnauthorizedAccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthorizedAccess,
     TResult Function()? serverError,
+    TResult Function()? unableToUpdate,
+    TResult Function()? unexpected,
     required TResult orElse(),
   }) {
     if (unauthorizedAccess != null) {
@@ -139,6 +159,8 @@ class _$UnauthorizedAccess implements UnauthorizedAccess {
   TResult map<TResult extends Object?>({
     required TResult Function(UnauthorizedAccess value) unauthorizedAccess,
     required TResult Function(ServerError value) serverError,
+    required TResult Function(_UnableToUpdate value) unableToUpdate,
+    required TResult Function(_Unexpected value) unexpected,
   }) {
     return unauthorizedAccess(this);
   }
@@ -148,6 +170,8 @@ class _$UnauthorizedAccess implements UnauthorizedAccess {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(UnauthorizedAccess value)? unauthorizedAccess,
     TResult Function(ServerError value)? serverError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
+    TResult Function(_Unexpected value)? unexpected,
     required TResult orElse(),
   }) {
     if (unauthorizedAccess != null) {
@@ -202,6 +226,8 @@ class _$ServerError implements ServerError {
   TResult when<TResult extends Object?>({
     required TResult Function() unauthorizedAccess,
     required TResult Function() serverError,
+    required TResult Function() unableToUpdate,
+    required TResult Function() unexpected,
   }) {
     return serverError();
   }
@@ -211,6 +237,8 @@ class _$ServerError implements ServerError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthorizedAccess,
     TResult Function()? serverError,
+    TResult Function()? unableToUpdate,
+    TResult Function()? unexpected,
     required TResult orElse(),
   }) {
     if (serverError != null) {
@@ -224,6 +252,8 @@ class _$ServerError implements ServerError {
   TResult map<TResult extends Object?>({
     required TResult Function(UnauthorizedAccess value) unauthorizedAccess,
     required TResult Function(ServerError value) serverError,
+    required TResult Function(_UnableToUpdate value) unableToUpdate,
+    required TResult Function(_Unexpected value) unexpected,
   }) {
     return serverError(this);
   }
@@ -233,6 +263,8 @@ class _$ServerError implements ServerError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(UnauthorizedAccess value)? unauthorizedAccess,
     TResult Function(ServerError value)? serverError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
+    TResult Function(_Unexpected value)? unexpected,
     required TResult orElse(),
   }) {
     if (serverError != null) {
@@ -244,4 +276,191 @@ class _$ServerError implements ServerError {
 
 abstract class ServerError implements ReviewFailure {
   const factory ServerError() = _$ServerError;
+}
+
+/// @nodoc
+abstract class _$UnableToUpdateCopyWith<$Res> {
+  factory _$UnableToUpdateCopyWith(
+          _UnableToUpdate value, $Res Function(_UnableToUpdate) then) =
+      __$UnableToUpdateCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$UnableToUpdateCopyWithImpl<$Res>
+    extends _$ReviewFailureCopyWithImpl<$Res>
+    implements _$UnableToUpdateCopyWith<$Res> {
+  __$UnableToUpdateCopyWithImpl(
+      _UnableToUpdate _value, $Res Function(_UnableToUpdate) _then)
+      : super(_value, (v) => _then(v as _UnableToUpdate));
+
+  @override
+  _UnableToUpdate get _value => super._value as _UnableToUpdate;
+}
+
+/// @nodoc
+
+class _$_UnableToUpdate implements _UnableToUpdate {
+  const _$_UnableToUpdate();
+
+  @override
+  String toString() {
+    return 'ReviewFailure.unableToUpdate()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _UnableToUpdate);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unauthorizedAccess,
+    required TResult Function() serverError,
+    required TResult Function() unableToUpdate,
+    required TResult Function() unexpected,
+  }) {
+    return unableToUpdate();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unauthorizedAccess,
+    TResult Function()? serverError,
+    TResult Function()? unableToUpdate,
+    TResult Function()? unexpected,
+    required TResult orElse(),
+  }) {
+    if (unableToUpdate != null) {
+      return unableToUpdate();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(UnauthorizedAccess value) unauthorizedAccess,
+    required TResult Function(ServerError value) serverError,
+    required TResult Function(_UnableToUpdate value) unableToUpdate,
+    required TResult Function(_Unexpected value) unexpected,
+  }) {
+    return unableToUpdate(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(UnauthorizedAccess value)? unauthorizedAccess,
+    TResult Function(ServerError value)? serverError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
+    TResult Function(_Unexpected value)? unexpected,
+    required TResult orElse(),
+  }) {
+    if (unableToUpdate != null) {
+      return unableToUpdate(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UnableToUpdate implements ReviewFailure {
+  const factory _UnableToUpdate() = _$_UnableToUpdate;
+}
+
+/// @nodoc
+abstract class _$UnexpectedCopyWith<$Res> {
+  factory _$UnexpectedCopyWith(
+          _Unexpected value, $Res Function(_Unexpected) then) =
+      __$UnexpectedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$UnexpectedCopyWithImpl<$Res> extends _$ReviewFailureCopyWithImpl<$Res>
+    implements _$UnexpectedCopyWith<$Res> {
+  __$UnexpectedCopyWithImpl(
+      _Unexpected _value, $Res Function(_Unexpected) _then)
+      : super(_value, (v) => _then(v as _Unexpected));
+
+  @override
+  _Unexpected get _value => super._value as _Unexpected;
+}
+
+/// @nodoc
+
+class _$_Unexpected implements _Unexpected {
+  const _$_Unexpected();
+
+  @override
+  String toString() {
+    return 'ReviewFailure.unexpected()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is _Unexpected);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() unauthorizedAccess,
+    required TResult Function() serverError,
+    required TResult Function() unableToUpdate,
+    required TResult Function() unexpected,
+  }) {
+    return unexpected();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? unauthorizedAccess,
+    TResult Function()? serverError,
+    TResult Function()? unableToUpdate,
+    TResult Function()? unexpected,
+    required TResult orElse(),
+  }) {
+    if (unexpected != null) {
+      return unexpected();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(UnauthorizedAccess value) unauthorizedAccess,
+    required TResult Function(ServerError value) serverError,
+    required TResult Function(_UnableToUpdate value) unableToUpdate,
+    required TResult Function(_Unexpected value) unexpected,
+  }) {
+    return unexpected(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(UnauthorizedAccess value)? unauthorizedAccess,
+    TResult Function(ServerError value)? serverError,
+    TResult Function(_UnableToUpdate value)? unableToUpdate,
+    TResult Function(_Unexpected value)? unexpected,
+    required TResult orElse(),
+  }) {
+    if (unexpected != null) {
+      return unexpected(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Unexpected implements ReviewFailure {
+  const factory _Unexpected() = _$_Unexpected;
 }

@@ -112,7 +112,6 @@ class SignInFormBloc extends Bloc<SignInFormEvent, SignInFormState> {
     })
         forwardedCall,
   ) async* {
-    // TODO: check if the nullability casuses any issues
     Result<AuthFailure, Result<User, Unit>>? failureOrSuccess;
 
     final isEmailValid = state.emailAddress.isValid();

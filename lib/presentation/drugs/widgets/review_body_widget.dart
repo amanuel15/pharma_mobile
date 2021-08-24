@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:pharma_flutter/application/drugs/review_bloc/review_bloc.dart';
+import 'package:pharma_flutter/application/drugs/review/review_form/review_form_bloc.dart';
 import 'package:pharma_flutter/domain/pharma/value_objects.dart';
 
 class ReviewReviewBodyField extends HookWidget {
@@ -13,7 +13,7 @@ class ReviewReviewBodyField extends HookWidget {
   Widget build(BuildContext context) {
     final textEditingController = useTextEditingController();
 
-    return BlocListener<ReviewBloc, ReviewState>(
+    return BlocListener<ReviewFormBloc, ReviewFormState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (context, state) {
         textEditingController.text = state.review.reviewBody.getOrCrash();
@@ -30,10 +30,10 @@ class ReviewReviewBodyField extends HookWidget {
           maxLines: null,
           minLines: 5,
           onChanged: (value) => context
-              .read<ReviewBloc>()
-              .add(ReviewEvent.reviewBodyChanged(value)),
+              .read<ReviewFormBloc>()
+              .add(ReviewFormEvent.reviewBodyChanged(value)),
           validator: (_) =>
-              context.read<ReviewBloc>().state.review.reviewBody.value.when(
+              context.read<ReviewFormBloc>().state.review.reviewBody.value.when(
                     (e) => e.maybeMap(
                       empty: (_) => 'Cannot be empty',
                       exceedingLength: (f) => 'Exceeding length, max: ${f.max}',
