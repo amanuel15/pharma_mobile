@@ -12,8 +12,13 @@ abstract class IDrugRepository {
       String searchTerm);
   Future<Result<SearchFailure, List<Drug>>> searchDrugs(String searchTerm);
   //--Review Related--
-  Future<Result<ReviewFailure, List<Review>>> getReviewsForDrug(
-      String drugId, String filterBy, int pageNumber);
+  Future<Result<ReviewFailure, List<Review>>> getReviewsForDrug({
+    required String drugId,
+    required String filterBy,
+    required int pageNumber,
+    required String accessToken,
+    required String userId,
+  });
   Future<Result<ReviewFailure, Unit>> createOrEditReview(Review review);
   Future<Result<ReviewFailure, Unit>> deleteReview(Review review);
 }

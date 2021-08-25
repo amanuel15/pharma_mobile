@@ -22,7 +22,9 @@ class _$ReviewTearOff {
       required ReviewBody reviewBody,
       required String userName,
       required ReviewStar reviewStar,
-      required String drugId}) {
+      required String drugId,
+      required String pharmacyId,
+      required String creationDate}) {
     return _Review(
       id: id,
       userId: userId,
@@ -30,6 +32,8 @@ class _$ReviewTearOff {
       userName: userName,
       reviewStar: reviewStar,
       drugId: drugId,
+      pharmacyId: pharmacyId,
+      creationDate: creationDate,
     );
   }
 }
@@ -45,6 +49,8 @@ mixin _$Review {
   String get userName => throw _privateConstructorUsedError;
   ReviewStar get reviewStar => throw _privateConstructorUsedError;
   String get drugId => throw _privateConstructorUsedError;
+  String get pharmacyId => throw _privateConstructorUsedError;
+  String get creationDate => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReviewCopyWith<Review> get copyWith => throw _privateConstructorUsedError;
@@ -60,7 +66,9 @@ abstract class $ReviewCopyWith<$Res> {
       ReviewBody reviewBody,
       String userName,
       ReviewStar reviewStar,
-      String drugId});
+      String drugId,
+      String pharmacyId,
+      String creationDate});
 }
 
 /// @nodoc
@@ -79,6 +87,8 @@ class _$ReviewCopyWithImpl<$Res> implements $ReviewCopyWith<$Res> {
     Object? userName = freezed,
     Object? reviewStar = freezed,
     Object? drugId = freezed,
+    Object? pharmacyId = freezed,
+    Object? creationDate = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -105,6 +115,14 @@ class _$ReviewCopyWithImpl<$Res> implements $ReviewCopyWith<$Res> {
           ? _value.drugId
           : drugId // ignore: cast_nullable_to_non_nullable
               as String,
+      pharmacyId: pharmacyId == freezed
+          ? _value.pharmacyId
+          : pharmacyId // ignore: cast_nullable_to_non_nullable
+              as String,
+      creationDate: creationDate == freezed
+          ? _value.creationDate
+          : creationDate // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -120,7 +138,9 @@ abstract class _$ReviewCopyWith<$Res> implements $ReviewCopyWith<$Res> {
       ReviewBody reviewBody,
       String userName,
       ReviewStar reviewStar,
-      String drugId});
+      String drugId,
+      String pharmacyId,
+      String creationDate});
 }
 
 /// @nodoc
@@ -140,6 +160,8 @@ class __$ReviewCopyWithImpl<$Res> extends _$ReviewCopyWithImpl<$Res>
     Object? userName = freezed,
     Object? reviewStar = freezed,
     Object? drugId = freezed,
+    Object? pharmacyId = freezed,
+    Object? creationDate = freezed,
   }) {
     return _then(_Review(
       id: id == freezed
@@ -166,6 +188,14 @@ class __$ReviewCopyWithImpl<$Res> extends _$ReviewCopyWithImpl<$Res>
           ? _value.drugId
           : drugId // ignore: cast_nullable_to_non_nullable
               as String,
+      pharmacyId: pharmacyId == freezed
+          ? _value.pharmacyId
+          : pharmacyId // ignore: cast_nullable_to_non_nullable
+              as String,
+      creationDate: creationDate == freezed
+          ? _value.creationDate
+          : creationDate // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -179,7 +209,9 @@ class _$_Review extends _Review {
       required this.reviewBody,
       required this.userName,
       required this.reviewStar,
-      required this.drugId})
+      required this.drugId,
+      required this.pharmacyId,
+      required this.creationDate})
       : super._();
 
   @override
@@ -194,10 +226,14 @@ class _$_Review extends _Review {
   final ReviewStar reviewStar;
   @override
   final String drugId;
+  @override
+  final String pharmacyId;
+  @override
+  final String creationDate;
 
   @override
   String toString() {
-    return 'Review(id: $id, userId: $userId, reviewBody: $reviewBody, userName: $userName, reviewStar: $reviewStar, drugId: $drugId)';
+    return 'Review(id: $id, userId: $userId, reviewBody: $reviewBody, userName: $userName, reviewStar: $reviewStar, drugId: $drugId, pharmacyId: $pharmacyId, creationDate: $creationDate)';
   }
 
   @override
@@ -218,7 +254,13 @@ class _$_Review extends _Review {
                 const DeepCollectionEquality()
                     .equals(other.reviewStar, reviewStar)) &&
             (identical(other.drugId, drugId) ||
-                const DeepCollectionEquality().equals(other.drugId, drugId)));
+                const DeepCollectionEquality().equals(other.drugId, drugId)) &&
+            (identical(other.pharmacyId, pharmacyId) ||
+                const DeepCollectionEquality()
+                    .equals(other.pharmacyId, pharmacyId)) &&
+            (identical(other.creationDate, creationDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.creationDate, creationDate)));
   }
 
   @override
@@ -229,7 +271,9 @@ class _$_Review extends _Review {
       const DeepCollectionEquality().hash(reviewBody) ^
       const DeepCollectionEquality().hash(userName) ^
       const DeepCollectionEquality().hash(reviewStar) ^
-      const DeepCollectionEquality().hash(drugId);
+      const DeepCollectionEquality().hash(drugId) ^
+      const DeepCollectionEquality().hash(pharmacyId) ^
+      const DeepCollectionEquality().hash(creationDate);
 
   @JsonKey(ignore: true)
   @override
@@ -244,7 +288,9 @@ abstract class _Review extends Review {
       required ReviewBody reviewBody,
       required String userName,
       required ReviewStar reviewStar,
-      required String drugId}) = _$_Review;
+      required String drugId,
+      required String pharmacyId,
+      required String creationDate}) = _$_Review;
   const _Review._() : super._();
 
   @override
@@ -259,6 +305,10 @@ abstract class _Review extends Review {
   ReviewStar get reviewStar => throw _privateConstructorUsedError;
   @override
   String get drugId => throw _privateConstructorUsedError;
+  @override
+  String get pharmacyId => throw _privateConstructorUsedError;
+  @override
+  String get creationDate => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ReviewCopyWith<_Review> get copyWith => throw _privateConstructorUsedError;

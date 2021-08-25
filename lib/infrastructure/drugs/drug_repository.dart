@@ -8,6 +8,7 @@ import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/search/search_failure.dart';
 import 'package:pharma_flutter/domain/pharma/recommendation.dart';
+import 'package:pharma_flutter/domain/pharma/value_objects.dart';
 
 @LazySingleton(as: IDrugRepository)
 class DrugRepository implements IDrugRepository {
@@ -132,28 +133,41 @@ class DrugRepository implements IDrugRepository {
   }
 
   @override
-  Future<Result<ReviewFailure, List<Review>>> getReviewsForDrug(
-      String drugId, String filterBy, int pageNumber) async {
+  Future<Result<ReviewFailure, List<Review>>> getReviewsForDrug({
+    required String drugId,
+    required String filterBy,
+    required int pageNumber,
+    required String accessToken,
+    required String userId,
+  }) async {
     Response response;
     try {
       response = await _dio.get(
-          'http://10.0.2.2:3000/client/review/getDrugReviews/',
-          queryParameters: {
-            'drugId': drugId,
-            'filterBy': filterBy,
-            'pageNumber': pageNumber,
-          });
+        'http://10.0.2.2:3000/client/review/getDrugReviews/',
+        queryParameters: {
+          'drugId': drugId,
+          'filterBy': filterBy,
+          'pageNumber': pageNumber,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
       List revs = response.data['data'];
       return Success(revs
           .map(
             (e) => Review(
-              id: e['_id'],
-              userId: e['userId'],
-              reviewBody: e['description'],
-              userName: e['userName'],
-              reviewStar: e['rating'],
-              drugId: e['drugId'],
-            ),
+                id: e['_id'],
+                userId: e['userId'],
+                reviewBody: ReviewBody(e['description']),
+                userName: e['name'],
+                reviewStar: ReviewStar(e['rating'].toDouble()),
+                drugId: e['drugId'],
+                creationDate: e['creationDate'],
+                pharmacyId: e['pharmacyId']),
           )
           .toList());
     } on DioError catch (e) {

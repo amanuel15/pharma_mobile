@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pharma_flutter/application/drugs/review/review_form/review_form_bloc.dart';
 
-class ReviewReviewBodyField extends HookWidget {
-  const ReviewReviewBodyField({
+class ReviewStarField extends HookWidget {
+  const ReviewStarField({
     Key? key,
   }) : super(key: key);
 
@@ -17,7 +18,23 @@ class ReviewReviewBodyField extends HookWidget {
       listener: (context, state) {
         stars = state.review.reviewStar.getOrCrash();
       },
-      child: Container(),
+      child: RatingBar.builder(
+        initialRating: stars,
+        minRating: 1,
+        direction: Axis.horizontal,
+        allowHalfRating: true,
+        itemCount: 5,
+        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+        itemBuilder: (context, _) => Icon(
+          Icons.star,
+          color: Colors.amber,
+        ),
+        onRatingUpdate: (rating) {
+          context
+              .read<ReviewFormBloc>()
+              .add(ReviewFormEvent.reviewStarChanged(rating));
+        },
+      ),
     );
   }
 }
