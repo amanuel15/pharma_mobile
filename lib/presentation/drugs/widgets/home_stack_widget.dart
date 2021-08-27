@@ -119,6 +119,8 @@ class FloatingSearchBarWidget extends StatelessWidget {
                 context.read<SearchBloc>().add(SearchEvent.search(query));
             },
             onSubmitted: (query) {
+              state.floatingSearchBarController.hide();
+              FocusScope.of(context).unfocus();
               context.read<MainNavigationCubit>().setIndex(1);
               context
                   .read<SearchResultBloc>()
@@ -178,6 +180,8 @@ class FloatingSearchBarWidget extends StatelessWidget {
                               ),
                               leading: const Icon(Icons.search),
                               onTap: () {
+                                state.floatingSearchBarController.close();
+                                FocusScope.of(context).unfocus();
                                 context.read<MainNavigationCubit>().setIndex(1);
                                 context.read<SearchResultBloc>().add(
                                     SearchResultEvent.searchDrugs(
@@ -214,6 +218,9 @@ class FloatingSearchBarWidget extends StatelessWidget {
                                         },
                                       ),
                                       onTap: () {
+                                        state.floatingSearchBarController
+                                            .close();
+                                        FocusScope.of(context).unfocus();
                                         context
                                             .read<MainNavigationCubit>()
                                             .setIndex(1);
@@ -251,8 +258,18 @@ class FloatingSearchBarWidget extends StatelessWidget {
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(color: Colors.black),
                                         ),
+                                        subtitle: Text(
+                                          recommendation.brandName,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: Colors.grey[600]),
+                                        ),
                                         leading: const Icon(Icons.search),
                                         onTap: () {
+                                          state.floatingSearchBarController
+                                              .close();
+                                          FocusScope.of(context).unfocus();
                                           context
                                               .read<MainNavigationCubit>()
                                               .setIndex(1);

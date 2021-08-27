@@ -16,9 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$ReviewActorEventTearOff {
   const _$ReviewActorEventTearOff();
 
-  _Deleted deleted(Review review) {
+  _Deleted deleted(Review review, String accessToken, String userId) {
     return _Deleted(
       review,
+      accessToken,
+      userId,
     );
   }
 
@@ -40,14 +42,15 @@ const $ReviewActorEvent = _$ReviewActorEventTearOff();
 mixin _$ReviewActorEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Review review) deleted,
+    required TResult Function(Review review, String accessToken, String userId)
+        deleted,
     required TResult Function() created,
     required TResult Function(Review review) edited,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Review review)? deleted,
+    TResult Function(Review review, String accessToken, String userId)? deleted,
     TResult Function()? created,
     TResult Function(Review review)? edited,
     required TResult orElse(),
@@ -91,7 +94,7 @@ class _$ReviewActorEventCopyWithImpl<$Res>
 abstract class _$DeletedCopyWith<$Res> {
   factory _$DeletedCopyWith(_Deleted value, $Res Function(_Deleted) then) =
       __$DeletedCopyWithImpl<$Res>;
-  $Res call({Review review});
+  $Res call({Review review, String accessToken, String userId});
 
   $ReviewCopyWith<$Res> get review;
 }
@@ -108,12 +111,22 @@ class __$DeletedCopyWithImpl<$Res> extends _$ReviewActorEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? review = freezed,
+    Object? accessToken = freezed,
+    Object? userId = freezed,
   }) {
     return _then(_Deleted(
       review == freezed
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
               as Review,
+      accessToken == freezed
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
@@ -128,14 +141,18 @@ class __$DeletedCopyWithImpl<$Res> extends _$ReviewActorEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Deleted implements _Deleted {
-  const _$_Deleted(this.review);
+  const _$_Deleted(this.review, this.accessToken, this.userId);
 
   @override
   final Review review;
+  @override
+  final String accessToken;
+  @override
+  final String userId;
 
   @override
   String toString() {
-    return 'ReviewActorEvent.deleted(review: $review)';
+    return 'ReviewActorEvent.deleted(review: $review, accessToken: $accessToken, userId: $userId)';
   }
 
   @override
@@ -143,12 +160,20 @@ class _$_Deleted implements _Deleted {
     return identical(this, other) ||
         (other is _Deleted &&
             (identical(other.review, review) ||
-                const DeepCollectionEquality().equals(other.review, review)));
+                const DeepCollectionEquality().equals(other.review, review)) &&
+            (identical(other.accessToken, accessToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.accessToken, accessToken)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(review);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(review) ^
+      const DeepCollectionEquality().hash(accessToken) ^
+      const DeepCollectionEquality().hash(userId);
 
   @JsonKey(ignore: true)
   @override
@@ -158,23 +183,24 @@ class _$_Deleted implements _Deleted {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Review review) deleted,
+    required TResult Function(Review review, String accessToken, String userId)
+        deleted,
     required TResult Function() created,
     required TResult Function(Review review) edited,
   }) {
-    return deleted(review);
+    return deleted(review, accessToken, userId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Review review)? deleted,
+    TResult Function(Review review, String accessToken, String userId)? deleted,
     TResult Function()? created,
     TResult Function(Review review)? edited,
     required TResult orElse(),
   }) {
     if (deleted != null) {
-      return deleted(review);
+      return deleted(review, accessToken, userId);
     }
     return orElse();
   }
@@ -205,9 +231,12 @@ class _$_Deleted implements _Deleted {
 }
 
 abstract class _Deleted implements ReviewActorEvent {
-  const factory _Deleted(Review review) = _$_Deleted;
+  const factory _Deleted(Review review, String accessToken, String userId) =
+      _$_Deleted;
 
   Review get review => throw _privateConstructorUsedError;
+  String get accessToken => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$DeletedCopyWith<_Deleted> get copyWith =>
       throw _privateConstructorUsedError;
@@ -250,7 +279,8 @@ class _$_Created implements _Created {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Review review) deleted,
+    required TResult Function(Review review, String accessToken, String userId)
+        deleted,
     required TResult Function() created,
     required TResult Function(Review review) edited,
   }) {
@@ -260,7 +290,7 @@ class _$_Created implements _Created {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Review review)? deleted,
+    TResult Function(Review review, String accessToken, String userId)? deleted,
     TResult Function()? created,
     TResult Function(Review review)? edited,
     required TResult orElse(),
@@ -371,7 +401,8 @@ class _$_Edited implements _Edited {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Review review) deleted,
+    required TResult Function(Review review, String accessToken, String userId)
+        deleted,
     required TResult Function() created,
     required TResult Function(Review review) edited,
   }) {
@@ -381,7 +412,7 @@ class _$_Edited implements _Edited {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Review review)? deleted,
+    TResult Function(Review review, String accessToken, String userId)? deleted,
     TResult Function()? created,
     TResult Function(Review review)? edited,
     required TResult orElse(),

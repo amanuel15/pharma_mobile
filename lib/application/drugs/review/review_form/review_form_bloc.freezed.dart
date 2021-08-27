@@ -589,13 +589,17 @@ class _$ReviewFormStateTearOff {
       required bool showErrorMessages,
       required bool isEditing,
       required bool isSubmitting,
-      required Result<ReviewFailure, Unit>? reviewFailureOrSuccess}) {
+      required Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
+      required String accessToken,
+      required String userId}) {
     return _ReviewFormState(
       review: review,
       showErrorMessages: showErrorMessages,
       isEditing: isEditing,
       isSubmitting: isSubmitting,
       reviewFailureOrSuccess: reviewFailureOrSuccess,
+      accessToken: accessToken,
+      userId: userId,
     );
   }
 }
@@ -611,6 +615,8 @@ mixin _$ReviewFormState {
   bool get isSubmitting => throw _privateConstructorUsedError;
   Result<ReviewFailure, Unit>? get reviewFailureOrSuccess =>
       throw _privateConstructorUsedError;
+  String get accessToken => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReviewFormStateCopyWith<ReviewFormState> get copyWith =>
@@ -627,7 +633,9 @@ abstract class $ReviewFormStateCopyWith<$Res> {
       bool showErrorMessages,
       bool isEditing,
       bool isSubmitting,
-      Result<ReviewFailure, Unit>? reviewFailureOrSuccess});
+      Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
+      String accessToken,
+      String userId});
 
   $ReviewCopyWith<$Res> get review;
 }
@@ -648,6 +656,8 @@ class _$ReviewFormStateCopyWithImpl<$Res>
     Object? isEditing = freezed,
     Object? isSubmitting = freezed,
     Object? reviewFailureOrSuccess = freezed,
+    Object? accessToken = freezed,
+    Object? userId = freezed,
   }) {
     return _then(_value.copyWith(
       review: review == freezed
@@ -670,6 +680,14 @@ class _$ReviewFormStateCopyWithImpl<$Res>
           ? _value.reviewFailureOrSuccess
           : reviewFailureOrSuccess // ignore: cast_nullable_to_non_nullable
               as Result<ReviewFailure, Unit>?,
+      accessToken: accessToken == freezed
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
@@ -693,7 +711,9 @@ abstract class _$ReviewFormStateCopyWith<$Res>
       bool showErrorMessages,
       bool isEditing,
       bool isSubmitting,
-      Result<ReviewFailure, Unit>? reviewFailureOrSuccess});
+      Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
+      String accessToken,
+      String userId});
 
   @override
   $ReviewCopyWith<$Res> get review;
@@ -717,6 +737,8 @@ class __$ReviewFormStateCopyWithImpl<$Res>
     Object? isEditing = freezed,
     Object? isSubmitting = freezed,
     Object? reviewFailureOrSuccess = freezed,
+    Object? accessToken = freezed,
+    Object? userId = freezed,
   }) {
     return _then(_ReviewFormState(
       review: review == freezed
@@ -739,6 +761,14 @@ class __$ReviewFormStateCopyWithImpl<$Res>
           ? _value.reviewFailureOrSuccess
           : reviewFailureOrSuccess // ignore: cast_nullable_to_non_nullable
               as Result<ReviewFailure, Unit>?,
+      accessToken: accessToken == freezed
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -751,7 +781,9 @@ class _$_ReviewFormState implements _ReviewFormState {
       required this.showErrorMessages,
       required this.isEditing,
       required this.isSubmitting,
-      required this.reviewFailureOrSuccess});
+      required this.reviewFailureOrSuccess,
+      required this.accessToken,
+      required this.userId});
 
   @override
   final Review review;
@@ -763,10 +795,14 @@ class _$_ReviewFormState implements _ReviewFormState {
   final bool isSubmitting;
   @override
   final Result<ReviewFailure, Unit>? reviewFailureOrSuccess;
+  @override
+  final String accessToken;
+  @override
+  final String userId;
 
   @override
   String toString() {
-    return 'ReviewFormState(review: $review, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSubmitting: $isSubmitting, reviewFailureOrSuccess: $reviewFailureOrSuccess)';
+    return 'ReviewFormState(review: $review, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSubmitting: $isSubmitting, reviewFailureOrSuccess: $reviewFailureOrSuccess, accessToken: $accessToken, userId: $userId)';
   }
 
   @override
@@ -786,7 +822,12 @@ class _$_ReviewFormState implements _ReviewFormState {
                     .equals(other.isSubmitting, isSubmitting)) &&
             (identical(other.reviewFailureOrSuccess, reviewFailureOrSuccess) ||
                 const DeepCollectionEquality().equals(
-                    other.reviewFailureOrSuccess, reviewFailureOrSuccess)));
+                    other.reviewFailureOrSuccess, reviewFailureOrSuccess)) &&
+            (identical(other.accessToken, accessToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.accessToken, accessToken)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
   }
 
   @override
@@ -796,7 +837,9 @@ class _$_ReviewFormState implements _ReviewFormState {
       const DeepCollectionEquality().hash(showErrorMessages) ^
       const DeepCollectionEquality().hash(isEditing) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
-      const DeepCollectionEquality().hash(reviewFailureOrSuccess);
+      const DeepCollectionEquality().hash(reviewFailureOrSuccess) ^
+      const DeepCollectionEquality().hash(accessToken) ^
+      const DeepCollectionEquality().hash(userId);
 
   @JsonKey(ignore: true)
   @override
@@ -806,12 +849,13 @@ class _$_ReviewFormState implements _ReviewFormState {
 
 abstract class _ReviewFormState implements ReviewFormState {
   const factory _ReviewFormState(
-          {required Review review,
-          required bool showErrorMessages,
-          required bool isEditing,
-          required bool isSubmitting,
-          required Result<ReviewFailure, Unit>? reviewFailureOrSuccess}) =
-      _$_ReviewFormState;
+      {required Review review,
+      required bool showErrorMessages,
+      required bool isEditing,
+      required bool isSubmitting,
+      required Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
+      required String accessToken,
+      required String userId}) = _$_ReviewFormState;
 
   @override
   Review get review => throw _privateConstructorUsedError;
@@ -824,6 +868,10 @@ abstract class _ReviewFormState implements ReviewFormState {
   @override
   Result<ReviewFailure, Unit>? get reviewFailureOrSuccess =>
       throw _privateConstructorUsedError;
+  @override
+  String get accessToken => throw _privateConstructorUsedError;
+  @override
+  String get userId => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ReviewFormStateCopyWith<_ReviewFormState> get copyWith =>

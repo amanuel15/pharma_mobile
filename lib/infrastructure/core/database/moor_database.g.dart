@@ -151,39 +151,30 @@ class $SearchesTable extends Searches with TableInfo<$SearchesTable, Search> {
 
 class UserRow extends DataClass implements Insertable<UserRow> {
   final String id;
-  final String token;
-  final String? userName;
-  UserRow({required this.id, required this.token, this.userName});
+  final String userName;
+  UserRow({required this.id, required this.userName});
   factory UserRow.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return UserRow(
       id: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      token: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}token'])!,
       userName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name'])!,
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
-    map['token'] = Variable<String>(token);
-    if (!nullToAbsent || userName != null) {
-      map['user_name'] = Variable<String?>(userName);
-    }
+    map['user_name'] = Variable<String>(userName);
     return map;
   }
 
   UserTableCompanion toCompanion(bool nullToAbsent) {
     return UserTableCompanion(
       id: Value(id),
-      token: Value(token),
-      userName: userName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(userName),
+      userName: Value(userName),
     );
   }
 
@@ -192,8 +183,7 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return UserRow(
       id: serializer.fromJson<String>(json['id']),
-      token: serializer.fromJson<String>(json['token']),
-      userName: serializer.fromJson<String?>(json['userName']),
+      userName: serializer.fromJson<String>(json['userName']),
     );
   }
   @override
@@ -201,70 +191,58 @@ class UserRow extends DataClass implements Insertable<UserRow> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
-      'token': serializer.toJson<String>(token),
-      'userName': serializer.toJson<String?>(userName),
+      'userName': serializer.toJson<String>(userName),
     };
   }
 
-  UserRow copyWith({String? id, String? token, String? userName}) => UserRow(
+  UserRow copyWith({String? id, String? userName}) => UserRow(
         id: id ?? this.id,
-        token: token ?? this.token,
         userName: userName ?? this.userName,
       );
   @override
   String toString() {
     return (StringBuffer('UserRow(')
           ..write('id: $id, ')
-          ..write('token: $token, ')
           ..write('userName: $userName')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      $mrjf($mrjc(id.hashCode, $mrjc(token.hashCode, userName.hashCode)));
+  int get hashCode => $mrjf($mrjc(id.hashCode, userName.hashCode));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is UserRow &&
           other.id == this.id &&
-          other.token == this.token &&
           other.userName == this.userName);
 }
 
 class UserTableCompanion extends UpdateCompanion<UserRow> {
   final Value<String> id;
-  final Value<String> token;
-  final Value<String?> userName;
+  final Value<String> userName;
   const UserTableCompanion({
     this.id = const Value.absent(),
-    this.token = const Value.absent(),
     this.userName = const Value.absent(),
   });
   UserTableCompanion.insert({
     required String id,
-    required String token,
-    this.userName = const Value.absent(),
+    required String userName,
   })  : id = Value(id),
-        token = Value(token);
+        userName = Value(userName);
   static Insertable<UserRow> custom({
     Expression<String>? id,
-    Expression<String>? token,
-    Expression<String?>? userName,
+    Expression<String>? userName,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (token != null) 'token': token,
       if (userName != null) 'user_name': userName,
     });
   }
 
-  UserTableCompanion copyWith(
-      {Value<String>? id, Value<String>? token, Value<String?>? userName}) {
+  UserTableCompanion copyWith({Value<String>? id, Value<String>? userName}) {
     return UserTableCompanion(
       id: id ?? this.id,
-      token: token ?? this.token,
       userName: userName ?? this.userName,
     );
   }
@@ -275,11 +253,8 @@ class UserTableCompanion extends UpdateCompanion<UserRow> {
     if (id.present) {
       map['id'] = Variable<String>(id.value);
     }
-    if (token.present) {
-      map['token'] = Variable<String>(token.value);
-    }
     if (userName.present) {
-      map['user_name'] = Variable<String?>(userName.value);
+      map['user_name'] = Variable<String>(userName.value);
     }
     return map;
   }
@@ -288,7 +263,6 @@ class UserTableCompanion extends UpdateCompanion<UserRow> {
   String toString() {
     return (StringBuffer('UserTableCompanion(')
           ..write('id: $id, ')
-          ..write('token: $token, ')
           ..write('userName: $userName')
           ..write(')'))
         .toString();
@@ -304,16 +278,12 @@ class $UserTableTable extends UserTable
   late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
       'id', aliasedName, false,
       typeName: 'TEXT', requiredDuringInsert: true);
-  final VerificationMeta _tokenMeta = const VerificationMeta('token');
-  late final GeneratedColumn<String?> token = GeneratedColumn<String?>(
-      'token', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
   final VerificationMeta _userNameMeta = const VerificationMeta('userName');
   late final GeneratedColumn<String?> userName = GeneratedColumn<String?>(
-      'user_name', aliasedName, true,
-      typeName: 'TEXT', requiredDuringInsert: false);
+      'user_name', aliasedName, false,
+      typeName: 'TEXT', requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, token, userName];
+  List<GeneratedColumn> get $columns => [id, userName];
   @override
   String get aliasedName => _alias ?? 'user_table';
   @override
@@ -328,15 +298,11 @@ class $UserTableTable extends UserTable
     } else if (isInserting) {
       context.missing(_idMeta);
     }
-    if (data.containsKey('token')) {
-      context.handle(
-          _tokenMeta, token.isAcceptableOrUnknown(data['token']!, _tokenMeta));
-    } else if (isInserting) {
-      context.missing(_tokenMeta);
-    }
     if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
           userName.isAcceptableOrUnknown(data['user_name']!, _userNameMeta));
+    } else if (isInserting) {
+      context.missing(_userNameMeta);
     }
     return context;
   }

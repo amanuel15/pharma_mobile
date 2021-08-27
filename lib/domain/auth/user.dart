@@ -7,6 +7,6 @@ abstract class User implements _$User {
   const factory User({
     required String id,
     required String token,
-    required String? userName,
+    required String userName,
   }) = _User;
 }

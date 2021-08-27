@@ -25,7 +25,8 @@ class ReviewActorBloc extends Bloc<ReviewActorEvent, ReviewActorState> {
     yield* event.map(
       deleted: (e) async* {
         yield const ReviewActorState.actionInProgress();
-        final possibleFailure = await _drugRepository.deleteReview(e.review);
+        final possibleFailure = await _drugRepository.deleteReview(
+            review: e.review, userId: e.userId, accessToken: e.accessToken);
         yield possibleFailure.when(
           (f) => ReviewActorState.deleteFailure(f),
           (_) => const ReviewActorState.deleteSuccess(),

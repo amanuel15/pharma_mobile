@@ -1,3 +1,4 @@
+import 'package:pharma_flutter/domain/auth/user.dart';
 import 'package:pharma_flutter/infrastructure/core/database/moor_database.dart';
 
 abstract class IDatabaseFacade {
@@ -17,7 +18,7 @@ abstract class IDatabaseFacade {
   Future deleteSearchHistory(Search search);
   Future updateSearchHistory(Search search);
 
-  Future<List<UserRow>> getUser();
-  Future insertUser(UserRow userRow);
+  Future<User?> getUser();
+  Future insertUser(UserRow userRow, String accessToken);
   Future deleteUser();
 }

@@ -17,7 +17,7 @@ class _$UserTearOff {
   const _$UserTearOff();
 
   _User call(
-      {required String id, required String token, required String? userName}) {
+      {required String id, required String token, required String userName}) {
     return _User(
       id: id,
       token: token,
@@ -33,7 +33,7 @@ const $User = _$UserTearOff();
 mixin _$User {
   String get id => throw _privateConstructorUsedError;
   String get token => throw _privateConstructorUsedError;
-  String? get userName => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ mixin _$User {
 abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res>;
-  $Res call({String id, String token, String? userName});
+  $Res call({String id, String token, String userName});
 }
 
 /// @nodoc
@@ -72,7 +72,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
       userName: userName == freezed
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -82,7 +82,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$UserCopyWith(_User value, $Res Function(_User) then) =
       __$UserCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String token, String? userName});
+  $Res call({String id, String token, String userName});
 }
 
 /// @nodoc
@@ -112,7 +112,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
       userName: userName == freezed
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -128,7 +128,7 @@ class _$_User implements _User {
   @override
   final String token;
   @override
-  final String? userName;
+  final String userName;
 
   @override
   String toString() {
@@ -165,14 +165,14 @@ abstract class _User implements User {
   const factory _User(
       {required String id,
       required String token,
-      required String? userName}) = _$_User;
+      required String userName}) = _$_User;
 
   @override
   String get id => throw _privateConstructorUsedError;
   @override
   String get token => throw _privateConstructorUsedError;
   @override
-  String? get userName => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;

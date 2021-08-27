@@ -19,6 +19,26 @@ abstract class IDrugRepository {
     required String accessToken,
     required String userId,
   });
-  Future<Result<ReviewFailure, Unit>> createOrEditReview(Review review);
-  Future<Result<ReviewFailure, Unit>> deleteReview(Review review);
+  Future<Result<ReviewFailure, Unit>> createOrEditReview({
+    required Review review,
+    required String accessToken,
+    required String userId,
+  });
+  Future<Result<ReviewFailure, Unit>> deleteReview({
+    required Review review,
+    required String accessToken,
+    required String userId,
+  });
+
+  Future<Result<ReviewFailure, List<Review>>> getReviewsForUser({
+    required int pageNumber,
+    required String accessToken,
+    required String userId,
+  });
+  Future<Result<ReviewFailure, Unit>> subscribeToDrug({
+    required Drug drug,
+    required String accessToken,
+    required String userId,
+    required int expiresInDays,
+  });
 }

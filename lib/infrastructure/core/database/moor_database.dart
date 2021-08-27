@@ -1,6 +1,8 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:moor/moor.dart';
+import 'package:pharma_flutter/domain/auth/user.dart';
 import 'package:pharma_flutter/domain/core/i_database_facade.dart';
 
 part 'moor_database.g.dart';
@@ -15,8 +17,7 @@ class Searches extends Table {
 @DataClassName('UserRow')
 class UserTable extends Table {
   TextColumn get id => text()();
-  TextColumn get token => text()();
-  TextColumn get userName => text().nullable()();
+  TextColumn get userName => text()();
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -24,6 +25,8 @@ class UserTable extends Table {
 @LazySingleton(as: IDatabaseFacade)
 @UseMoor(tables: [Searches, UserTable])
 class AppDatabase extends _$AppDatabase implements IDatabaseFacade {
+  final _storage = FlutterSecureStorage();
+
   AppDatabase()
       : super(
           FlutterQueryExecutor.inDatabaseFolder(
@@ -52,7 +55,31 @@ class AppDatabase extends _$AppDatabase implements IDatabaseFacade {
   Future deleteSearchHistory(Search search) => delete(searches).delete(search);
 
   // User auth persistance related
-  Future<List<UserRow>> getUser() => select(userTable).get();
-  Future insertUser(UserRow userRow) => into(userTable).insert(userRow);
-  Future deleteUser() => delete(userTable).go();
+  Future<User?> getUser() async {
+    String? token = await _storage.read(key: 'X-Access-Token');
+    List<UserRow> possibleUser = await select(userTable).get();
+    if (possibleUser.isNotEmpty && token != null) {
+      return User(
+        id: possibleUser[0].id,
+        token: token,
+        userName: possibleUser[0].userName,
+      );
+    } else
+      return null;
+  }
+
+  Future insertUser(UserRow userRow, String accessToken) async {
+    deleteUser();
+    try {
+      await _storage.write(key: 'X-Access-Token', value: accessToken);
+    } catch (e) {
+      return await _storage.deleteAll();
+    }
+    return into(userTable).insert(userRow);
+  }
+
+  Future deleteUser() async {
+    // await _storage.deleteAll();
+    return delete(userTable).go();
+  }
 }

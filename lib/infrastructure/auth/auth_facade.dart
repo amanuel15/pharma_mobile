@@ -19,16 +19,8 @@ class AuthFacade implements IAuthFacade {
   @override
   Future<User?> getSignedInUser() async {
     try {
-      List<UserRow> possibleUser = await _databaseFacade.getUser();
-      if (possibleUser.isNotEmpty) {
-        return User(
-          id: possibleUser[0].id,
-          token: possibleUser[0].token,
-          userName: '',
-        );
-      } else {
-        return null;
-      }
+      User? possibleUser = await _databaseFacade.getUser();
+      return possibleUser;
     } catch (e) {
       print('Couldn\'t find a signed in user!!!');
       return null;
@@ -89,8 +81,9 @@ class AuthFacade implements IAuthFacade {
         await _databaseFacade.insertUser(
           UserRow(
             id: response.data['id'].toString(),
-            token: response.data['X-Access-Token'].toString(),
+            userName: response.data['userName'].toString(),
           ),
+          response.data['X-Access-Token'].toString(),
         );
       } catch (e) {
         print('Could not persist user to Database!!!');
@@ -100,7 +93,7 @@ class AuthFacade implements IAuthFacade {
           User(
             id: response.data['id'],
             token: response.data['X-Access-Token'],
-            userName: null,
+            userName: response.data['userName'],
           ),
         ),
       );

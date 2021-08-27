@@ -8,6 +8,8 @@ class ReviewFormState with _$ReviewFormState {
     required bool isEditing,
     required bool isSubmitting,
     required Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
+    required String accessToken,
+    required String userId,
   }) = _ReviewFormState;
 
   factory ReviewFormState.initial() => ReviewFormState(
@@ -16,5 +18,7 @@ class ReviewFormState with _$ReviewFormState {
         isSubmitting: false,
         isEditing: false,
         reviewFailureOrSuccess: null,
+        accessToken: '',
+        userId: '',
       );
 }

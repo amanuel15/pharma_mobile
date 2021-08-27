@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pharma_flutter/application/drugs/review/review_form/review_form_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReviewStarField extends HookWidget {
   const ReviewStarField({
@@ -11,7 +12,7 @@ class ReviewStarField extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    double stars = 5;
+    double stars = 3.5;
 
     return BlocListener<ReviewFormBloc, ReviewFormState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
@@ -25,6 +26,7 @@ class ReviewStarField extends HookWidget {
         allowHalfRating: true,
         itemCount: 5,
         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+        itemSize: 40.r,
         itemBuilder: (context, _) => Icon(
           Icons.star,
           color: Colors.amber,

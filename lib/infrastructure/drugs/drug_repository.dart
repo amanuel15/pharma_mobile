@@ -99,7 +99,11 @@ class DrugRepository implements IDrugRepository {
   }
 
   @override
-  Future<Result<ReviewFailure, Unit>> createOrEditReview(Review review) async {
+  Future<Result<ReviewFailure, Unit>> createOrEditReview({
+    required Review review,
+    required String accessToken,
+    required String userId,
+  }) async {
     Response response;
     try {
       response = await _dio.post(
@@ -109,6 +113,12 @@ class DrugRepository implements IDrugRepository {
           'drugId': review.drugId,
           'description': review.reviewBody.getOrCrash(),
         },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
       );
       return Success(unit);
     } on DioError catch (e) {
@@ -117,7 +127,11 @@ class DrugRepository implements IDrugRepository {
   }
 
   @override
-  Future<Result<ReviewFailure, Unit>> deleteReview(Review review) async {
+  Future<Result<ReviewFailure, Unit>> deleteReview({
+    required Review review,
+    required String accessToken,
+    required String userId,
+  }) async {
     Response response;
     try {
       response = await _dio.post(
@@ -125,6 +139,12 @@ class DrugRepository implements IDrugRepository {
         data: {
           'reviewId': review.id,
         },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
       );
       return Success(unit);
     } on DioError catch (e) {
@@ -170,6 +190,76 @@ class DrugRepository implements IDrugRepository {
                 pharmacyId: e['pharmacyId']),
           )
           .toList());
+    } on DioError catch (e) {
+      return Error(ReviewFailure.unexpected());
+    }
+  }
+
+  @override
+  Future<Result<ReviewFailure, List<Review>>> getReviewsForUser({
+    required int pageNumber,
+    required String accessToken,
+    required String userId,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/review/getDrugReviews/',
+        queryParameters: {
+          'pageNumber': pageNumber,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      List revs = response.data['data'];
+      return Success(revs
+          .map(
+            (e) => Review(
+                id: e['_id'],
+                userId: e['userId'],
+                reviewBody: ReviewBody(e['description']),
+                userName: e['name'],
+                reviewStar: ReviewStar(e['rating'].toDouble()),
+                drugId: e['drugId'],
+                creationDate: e['creationDate'],
+                pharmacyId: e['pharmacyId']),
+          )
+          .toList());
+    } on DioError catch (e) {
+      return Error(ReviewFailure.unexpected());
+    }
+  }
+
+  @override
+  Future<Result<ReviewFailure, Unit>> subscribeToDrug({
+    required Drug drug,
+    required String accessToken,
+    required String userId,
+    required int expiresInDays,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/review/getDrugReviews/',
+        queryParameters: {
+          'drugId': drug.id,
+          'brandName': drug.brandName,
+          "name": drug.drugName,
+          "pharmacyId": drug.pharmacyId,
+          "expiresInDays": expiresInDays,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      return Success(unit);
     } on DioError catch (e) {
       return Error(ReviewFailure.unexpected());
     }

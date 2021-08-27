@@ -59,8 +59,11 @@ class ReviewFormBloc extends Bloc<ReviewFormEvent, ReviewFormState> {
         );
 
         if (state.review.failureOption == null) {
-          failureOrSuccess =
-              await _drugRepository.createOrEditReview(state.review);
+          failureOrSuccess = await _drugRepository.createOrEditReview(
+            review: state.review,
+            userId: state.userId,
+            accessToken: state.accessToken,
+          );
         }
 
         yield state.copyWith(
