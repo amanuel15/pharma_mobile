@@ -14,7 +14,7 @@ abstract class Drug implements _$Drug {
     required String drugOrigin,
     required double drugPrice,
     required int stock,
-    required int rating,
+    required double rating,
     required String createdDate,
     required List<String> imageUrls,
     required List<Map<String, dynamic>> location,

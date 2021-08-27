@@ -6,10 +6,12 @@ import 'package:pharma_flutter/application/auth/auth_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/bloc/review_fetcher_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_actor/review_actor_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_form/review_form_bloc.dart';
+import 'package:pharma_flutter/domain/auth/user.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/injection.dart';
+import 'package:pharma_flutter/presentation/drugs/widgets/review_body_widget.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/review_star_widget.dart';
 
 class DrugDetailPage extends StatelessWidget {
@@ -124,19 +126,22 @@ class DrugDetailPage extends StatelessWidget {
                     BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, state) {
                         return state.maybeMap(
-                          authenticated: (state) {
+                          authenticated: (stateAuth) {
                             context.read<ReviewFetcherBloc>().add(
                                   ReviewFetcherEvent.fetchReviews(
                                     drug.id,
-                                    state.user.token,
+                                    stateAuth.user.token,
                                     0,
-                                    state.user.id,
+                                    stateAuth.user.id,
                                     'Least-Helpful',
                                   ),
                                 );
                             return Column(
                               children: [
-                                ReviewForm(),
+                                ReviewForm(
+                                  user: stateAuth.user,
+                                  drug: drug,
+                                ),
                                 BlocBuilder<ReviewFetcherBloc,
                                     ReviewFetcherState>(
                                   builder: (context, state) {
@@ -159,8 +164,9 @@ class DrugDetailPage extends StatelessWidget {
                                       loadSuccess: (state) {
                                         return Column(children: [
                                           ...state.reviews
-                                              .map((review) =>
-                                                  ReviewCard(review: review))
+                                              .map((review) => ReviewCard(
+                                                  review: review,
+                                                  user: stateAuth.user))
                                               .toList()
                                         ]);
                                         // return ListView.builder(
@@ -214,27 +220,102 @@ class DrugDetailPage extends StatelessWidget {
 
 class ReviewCard extends StatelessWidget {
   final Review review;
+  final User user;
 
-  const ReviewCard({Key? key, required this.review}) : super(key: key);
+  const ReviewCard({Key? key, required this.review, required this.user})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 1,
-      color: Colors.grey[100],
+      color: review.userId != user.id ? Colors.grey[100] : Colors.grey[300],
       margin: EdgeInsets.fromLTRB(15.w, 3.h, 15.w, 3.h),
       child: Padding(
         padding: EdgeInsets.all(8.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              review.userName,
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
+            if (review.userId == user.id)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'You',
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green[300],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (_) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Warning',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24.sp,
+                                    ),
+                                  ),
+                                  content: Text(
+                                    'Are you sure you want to delete this review?',
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        context.read<ReviewActorBloc>().add(
+                                            ReviewActorEvent.deleted(
+                                                review, user.token, user.id));
+                                      },
+                                      child: Text('YES'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text('NO'),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          size: 24.r,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.edit,
+                          size: 24.r,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
+            if (review.userId != user.id)
+              Text(
+                review.userName,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             Text(
               'Reviewed on ' + review.creationDate,
               style: TextStyle(color: Colors.grey[600]),
@@ -270,14 +351,20 @@ class ReviewCard extends StatelessWidget {
 
 class ReviewForm extends StatelessWidget {
   final Review? editReview;
+  final User user;
+  final Drug drug;
 
-  const ReviewForm({Key? key, this.editReview}) : super(key: key);
+  const ReviewForm(
+      {Key? key, this.editReview, required this.user, required this.drug})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(user);
     return BlocProvider(
-      create: (context) =>
-          getIt<ReviewFormBloc>()..add(ReviewFormEvent.initialized(editReview)),
+      create: (context) => getIt<ReviewFormBloc>()
+        ..add(ReviewFormEvent.initialized(
+            editReview, user.id, user.token, user.userName, drug.id)),
       child: BlocConsumer<ReviewFormBloc, ReviewFormState>(
         listenWhen: (p, c) =>
             p.reviewFailureOrSuccess != c.reviewFailureOrSuccess,
@@ -357,20 +444,7 @@ class ReviewForm extends StatelessWidget {
                     SizedBox(
                       height: 10.h,
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Write a review!',
-                        hintText: 'Write a review!',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                      minLines: 3,
-                      maxLines: 5,
-                    ),
+                    ReviewBodyField(),
                     SizedBox(
                       height: 2.h,
                     ),

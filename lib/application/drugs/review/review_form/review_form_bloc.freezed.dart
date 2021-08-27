@@ -16,9 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$ReviewFormEventTearOff {
   const _$ReviewFormEventTearOff();
 
-  _Initialized initialized(Review? initialReviewOption) {
+  _Initialized initialized(Review? initialReviewOption, String userId,
+      String accessToken, String userName, String drugId) {
     return _Initialized(
       initialReviewOption,
+      userId,
+      accessToken,
+      userName,
+      drugId,
     );
   }
 
@@ -46,7 +51,9 @@ const $ReviewFormEvent = _$ReviewFormEventTearOff();
 mixin _$ReviewFormEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Review? initialReviewOption) initialized,
+    required TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)
+        initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
     required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
@@ -54,7 +61,9 @@ mixin _$ReviewFormEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Review? initialReviewOption)? initialized,
+    TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)?
+        initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
     TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
@@ -102,7 +111,12 @@ abstract class _$InitializedCopyWith<$Res> {
   factory _$InitializedCopyWith(
           _Initialized value, $Res Function(_Initialized) then) =
       __$InitializedCopyWithImpl<$Res>;
-  $Res call({Review? initialReviewOption});
+  $Res call(
+      {Review? initialReviewOption,
+      String userId,
+      String accessToken,
+      String userName,
+      String drugId});
 
   $ReviewCopyWith<$Res>? get initialReviewOption;
 }
@@ -121,12 +135,32 @@ class __$InitializedCopyWithImpl<$Res>
   @override
   $Res call({
     Object? initialReviewOption = freezed,
+    Object? userId = freezed,
+    Object? accessToken = freezed,
+    Object? userName = freezed,
+    Object? drugId = freezed,
   }) {
     return _then(_Initialized(
       initialReviewOption == freezed
           ? _value.initialReviewOption
           : initialReviewOption // ignore: cast_nullable_to_non_nullable
               as Review?,
+      userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+      accessToken == freezed
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      userName == freezed
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      drugId == freezed
+          ? _value.drugId
+          : drugId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
@@ -145,14 +179,23 @@ class __$InitializedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Initialized implements _Initialized {
-  const _$_Initialized(this.initialReviewOption);
+  const _$_Initialized(this.initialReviewOption, this.userId, this.accessToken,
+      this.userName, this.drugId);
 
   @override
   final Review? initialReviewOption;
+  @override
+  final String userId;
+  @override
+  final String accessToken;
+  @override
+  final String userName;
+  @override
+  final String drugId;
 
   @override
   String toString() {
-    return 'ReviewFormEvent.initialized(initialReviewOption: $initialReviewOption)';
+    return 'ReviewFormEvent.initialized(initialReviewOption: $initialReviewOption, userId: $userId, accessToken: $accessToken, userName: $userName, drugId: $drugId)';
   }
 
   @override
@@ -161,13 +204,27 @@ class _$_Initialized implements _Initialized {
         (other is _Initialized &&
             (identical(other.initialReviewOption, initialReviewOption) ||
                 const DeepCollectionEquality()
-                    .equals(other.initialReviewOption, initialReviewOption)));
+                    .equals(other.initialReviewOption, initialReviewOption)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.accessToken, accessToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.accessToken, accessToken)) &&
+            (identical(other.userName, userName) ||
+                const DeepCollectionEquality()
+                    .equals(other.userName, userName)) &&
+            (identical(other.drugId, drugId) ||
+                const DeepCollectionEquality().equals(other.drugId, drugId)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(initialReviewOption);
+      const DeepCollectionEquality().hash(initialReviewOption) ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(accessToken) ^
+      const DeepCollectionEquality().hash(userName) ^
+      const DeepCollectionEquality().hash(drugId);
 
   @JsonKey(ignore: true)
   @override
@@ -177,25 +234,31 @@ class _$_Initialized implements _Initialized {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Review? initialReviewOption) initialized,
+    required TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)
+        initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
     required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
   }) {
-    return initialized(initialReviewOption);
+    return initialized(
+        initialReviewOption, userId, accessToken, userName, drugId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Review? initialReviewOption)? initialized,
+    TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)?
+        initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
     TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
     required TResult orElse(),
   }) {
     if (initialized != null) {
-      return initialized(initialReviewOption);
+      return initialized(
+          initialReviewOption, userId, accessToken, userName, drugId);
     }
     return orElse();
   }
@@ -228,9 +291,14 @@ class _$_Initialized implements _Initialized {
 }
 
 abstract class _Initialized implements ReviewFormEvent {
-  const factory _Initialized(Review? initialReviewOption) = _$_Initialized;
+  const factory _Initialized(Review? initialReviewOption, String userId,
+      String accessToken, String userName, String drugId) = _$_Initialized;
 
   Review? get initialReviewOption => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
+  String get accessToken => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError;
+  String get drugId => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$InitializedCopyWith<_Initialized> get copyWith =>
       throw _privateConstructorUsedError;
@@ -302,7 +370,9 @@ class _$_ReviewBodyChanged implements _ReviewBodyChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Review? initialReviewOption) initialized,
+    required TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)
+        initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
     required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
@@ -313,7 +383,9 @@ class _$_ReviewBodyChanged implements _ReviewBodyChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Review? initialReviewOption)? initialized,
+    TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)?
+        initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
     TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
@@ -427,7 +499,9 @@ class _$_ReviewStarChanged implements _ReviewStarChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Review? initialReviewOption) initialized,
+    required TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)
+        initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
     required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
@@ -438,7 +512,9 @@ class _$_ReviewStarChanged implements _ReviewStarChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Review? initialReviewOption)? initialized,
+    TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)?
+        initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
     TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
@@ -526,7 +602,9 @@ class _$_ReviewBtnPressed implements _ReviewBtnPressed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Review? initialReviewOption) initialized,
+    required TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)
+        initialized,
     required TResult Function(String reviewBodyStr) reviewBodyChanged,
     required TResult Function(double reviewStarInt) reviewStarChanged,
     required TResult Function() reviewBtnPressed,
@@ -537,7 +615,9 @@ class _$_ReviewBtnPressed implements _ReviewBtnPressed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Review? initialReviewOption)? initialized,
+    TResult Function(Review? initialReviewOption, String userId,
+            String accessToken, String userName, String drugId)?
+        initialized,
     TResult Function(String reviewBodyStr)? reviewBodyChanged,
     TResult Function(double reviewStarInt)? reviewStarChanged,
     TResult Function()? reviewBtnPressed,
@@ -591,7 +671,8 @@ class _$ReviewFormStateTearOff {
       required bool isSubmitting,
       required Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
       required String accessToken,
-      required String userId}) {
+      required String userId,
+      required String userName}) {
     return _ReviewFormState(
       review: review,
       showErrorMessages: showErrorMessages,
@@ -600,6 +681,7 @@ class _$ReviewFormStateTearOff {
       reviewFailureOrSuccess: reviewFailureOrSuccess,
       accessToken: accessToken,
       userId: userId,
+      userName: userName,
     );
   }
 }
@@ -617,6 +699,7 @@ mixin _$ReviewFormState {
       throw _privateConstructorUsedError;
   String get accessToken => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReviewFormStateCopyWith<ReviewFormState> get copyWith =>
@@ -635,7 +718,8 @@ abstract class $ReviewFormStateCopyWith<$Res> {
       bool isSubmitting,
       Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
       String accessToken,
-      String userId});
+      String userId,
+      String userName});
 
   $ReviewCopyWith<$Res> get review;
 }
@@ -658,6 +742,7 @@ class _$ReviewFormStateCopyWithImpl<$Res>
     Object? reviewFailureOrSuccess = freezed,
     Object? accessToken = freezed,
     Object? userId = freezed,
+    Object? userName = freezed,
   }) {
     return _then(_value.copyWith(
       review: review == freezed
@@ -688,6 +773,10 @@ class _$ReviewFormStateCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      userName: userName == freezed
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
@@ -713,7 +802,8 @@ abstract class _$ReviewFormStateCopyWith<$Res>
       bool isSubmitting,
       Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
       String accessToken,
-      String userId});
+      String userId,
+      String userName});
 
   @override
   $ReviewCopyWith<$Res> get review;
@@ -739,6 +829,7 @@ class __$ReviewFormStateCopyWithImpl<$Res>
     Object? reviewFailureOrSuccess = freezed,
     Object? accessToken = freezed,
     Object? userId = freezed,
+    Object? userName = freezed,
   }) {
     return _then(_ReviewFormState(
       review: review == freezed
@@ -769,6 +860,10 @@ class __$ReviewFormStateCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      userName: userName == freezed
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -783,7 +878,8 @@ class _$_ReviewFormState implements _ReviewFormState {
       required this.isSubmitting,
       required this.reviewFailureOrSuccess,
       required this.accessToken,
-      required this.userId});
+      required this.userId,
+      required this.userName});
 
   @override
   final Review review;
@@ -799,10 +895,12 @@ class _$_ReviewFormState implements _ReviewFormState {
   final String accessToken;
   @override
   final String userId;
+  @override
+  final String userName;
 
   @override
   String toString() {
-    return 'ReviewFormState(review: $review, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSubmitting: $isSubmitting, reviewFailureOrSuccess: $reviewFailureOrSuccess, accessToken: $accessToken, userId: $userId)';
+    return 'ReviewFormState(review: $review, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSubmitting: $isSubmitting, reviewFailureOrSuccess: $reviewFailureOrSuccess, accessToken: $accessToken, userId: $userId, userName: $userName)';
   }
 
   @override
@@ -827,7 +925,10 @@ class _$_ReviewFormState implements _ReviewFormState {
                 const DeepCollectionEquality()
                     .equals(other.accessToken, accessToken)) &&
             (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)));
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.userName, userName) ||
+                const DeepCollectionEquality()
+                    .equals(other.userName, userName)));
   }
 
   @override
@@ -839,7 +940,8 @@ class _$_ReviewFormState implements _ReviewFormState {
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(reviewFailureOrSuccess) ^
       const DeepCollectionEquality().hash(accessToken) ^
-      const DeepCollectionEquality().hash(userId);
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(userName);
 
   @JsonKey(ignore: true)
   @override
@@ -855,7 +957,8 @@ abstract class _ReviewFormState implements ReviewFormState {
       required bool isSubmitting,
       required Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
       required String accessToken,
-      required String userId}) = _$_ReviewFormState;
+      required String userId,
+      required String userName}) = _$_ReviewFormState;
 
   @override
   Review get review => throw _privateConstructorUsedError;
@@ -872,6 +975,8 @@ abstract class _ReviewFormState implements ReviewFormState {
   String get accessToken => throw _privateConstructorUsedError;
   @override
   String get userId => throw _privateConstructorUsedError;
+  @override
+  String get userName => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$ReviewFormStateCopyWith<_ReviewFormState> get copyWith =>

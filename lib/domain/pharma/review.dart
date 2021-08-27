@@ -24,7 +24,7 @@ abstract class Review implements _$Review {
         userId: '',
         reviewBody: ReviewBody(''),
         userName: '',
-        reviewStar: ReviewStar(0),
+        reviewStar: ReviewStar(3.5),
         drugId: '',
         pharmacyId: '',
         creationDate: '',

@@ -76,7 +76,7 @@ class DrugRepository implements IDrugRepository {
             drugOrigin: 'e[countryOfOrigin]',
             drugPrice: e['price'].toDouble(),
             stock: e['amountInStock'],
-            rating: e['rating'],
+            rating: e['rating'].toDouble(),
             createdDate: e['creationDate'],
             imageUrls: [],
             location: [
@@ -103,6 +103,7 @@ class DrugRepository implements IDrugRepository {
     required Review review,
     required String accessToken,
     required String userId,
+    required String userName,
   }) async {
     Response response;
     try {
@@ -112,6 +113,7 @@ class DrugRepository implements IDrugRepository {
           'rating': review.reviewStar.getOrCrash(),
           'drugId': review.drugId,
           'description': review.reviewBody.getOrCrash(),
+          'name': userName,
         },
         options: Options(
           headers: {
@@ -148,7 +150,10 @@ class DrugRepository implements IDrugRepository {
       );
       return Success(unit);
     } on DioError catch (e) {
-      return Error(ReviewFailure.unexpected());
+      if (e.response?.data['status'] == 'Invalid Owner')
+        return Error(ReviewFailure.unauthorizedAccess());
+      else
+        return Error(ReviewFailure.unexpected());
     }
   }
 

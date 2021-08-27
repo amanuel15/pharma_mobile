@@ -24,7 +24,7 @@ class _$DrugTearOff {
       required String drugOrigin,
       required double drugPrice,
       required int stock,
-      required int rating,
+      required double rating,
       required String createdDate,
       required List<String> imageUrls,
       required List<Map<String, dynamic>> location,
@@ -66,7 +66,7 @@ mixin _$Drug {
   String get drugOrigin => throw _privateConstructorUsedError;
   double get drugPrice => throw _privateConstructorUsedError;
   int get stock => throw _privateConstructorUsedError;
-  int get rating => throw _privateConstructorUsedError;
+  double get rating => throw _privateConstructorUsedError;
   String get createdDate => throw _privateConstructorUsedError;
   List<String> get imageUrls => throw _privateConstructorUsedError;
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
@@ -92,7 +92,7 @@ abstract class $DrugCopyWith<$Res> {
       String drugOrigin,
       double drugPrice,
       int stock,
-      int rating,
+      double rating,
       String createdDate,
       List<String> imageUrls,
       List<Map<String, dynamic>> location,
@@ -162,7 +162,7 @@ class _$DrugCopyWithImpl<$Res> implements $DrugCopyWith<$Res> {
       rating: rating == freezed
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       createdDate: createdDate == freezed
           ? _value.createdDate
           : createdDate // ignore: cast_nullable_to_non_nullable
@@ -212,7 +212,7 @@ abstract class _$DrugCopyWith<$Res> implements $DrugCopyWith<$Res> {
       String drugOrigin,
       double drugPrice,
       int stock,
-      int rating,
+      double rating,
       String createdDate,
       List<String> imageUrls,
       List<Map<String, dynamic>> location,
@@ -283,7 +283,7 @@ class __$DrugCopyWithImpl<$Res> extends _$DrugCopyWithImpl<$Res>
       rating: rating == freezed
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       createdDate: createdDate == freezed
           ? _value.createdDate
           : createdDate // ignore: cast_nullable_to_non_nullable
@@ -357,7 +357,7 @@ class _$_Drug extends _Drug {
   @override
   final int stock;
   @override
-  final int rating;
+  final double rating;
   @override
   final String createdDate;
   @override
@@ -464,7 +464,7 @@ abstract class _Drug extends Drug {
       required String drugOrigin,
       required double drugPrice,
       required int stock,
-      required int rating,
+      required double rating,
       required String createdDate,
       required List<String> imageUrls,
       required List<Map<String, dynamic>> location,
@@ -490,7 +490,7 @@ abstract class _Drug extends Drug {
   @override
   int get stock => throw _privateConstructorUsedError;
   @override
-  int get rating => throw _privateConstructorUsedError;
+  double get rating => throw _privateConstructorUsedError;
   @override
   String get createdDate => throw _privateConstructorUsedError;
   @override

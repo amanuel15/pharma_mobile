@@ -27,11 +27,20 @@ class ReviewFormBloc extends Bloc<ReviewFormEvent, ReviewFormState> {
     yield* event.map(
       initialized: (e) async* {
         if (e.initialReviewOption == null)
-          yield state;
+          yield state.copyWith(
+            review: state.review.copyWith(drugId: e.drugId),
+            userId: e.userId,
+            accessToken: e.accessToken,
+            userName: e.userName,
+            isEditing: true,
+          );
         else
           yield state.copyWith(
             // TODO: check if this outputs the right thing
             review: e.initialReviewOption ?? state.review,
+            userId: e.userId,
+            accessToken: e.accessToken,
+            userName: e.userName,
             isEditing: true,
           );
         //e.initialReviewOption;
@@ -63,6 +72,7 @@ class ReviewFormBloc extends Bloc<ReviewFormEvent, ReviewFormState> {
             review: state.review,
             userId: state.userId,
             accessToken: state.accessToken,
+            userName: state.userName,
           );
         }
 

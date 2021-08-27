@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:pharma_flutter/application/drugs/review/review_form/review_form_bloc.dart';
 import 'package:pharma_flutter/domain/pharma/value_objects.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ReviewReviewBodyField extends HookWidget {
-  const ReviewReviewBodyField({
+class ReviewBodyField extends HookWidget {
+  const ReviewBodyField({
     Key? key,
   }) : super(key: key);
 
@@ -22,13 +23,20 @@ class ReviewReviewBodyField extends HookWidget {
         padding: const EdgeInsets.all(10),
         child: TextFormField(
           controller: textEditingController,
-          decoration: const InputDecoration(
-            labelText: 'Note',
+          decoration: InputDecoration(
+            labelText: 'Write a review!',
+            hintText: 'Write a review!',
             counterText: '',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: const BorderSide(
+                color: Colors.red,
+              ),
+            ),
           ),
           maxLength: ReviewBody.maxLength,
-          maxLines: null,
-          minLines: 5,
+          maxLines: 5,
+          minLines: 3,
           onChanged: (value) => context
               .read<ReviewFormBloc>()
               .add(ReviewFormEvent.reviewBodyChanged(value)),

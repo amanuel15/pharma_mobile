@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:pharma_flutter/presentation/routes/router.gr.dart';
@@ -94,13 +95,16 @@ class DrugCard extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Container(
-                              padding: EdgeInsets.symmetric(vertical: 3.h),
-                              child: Text(
-                                '⭐' * drug.rating,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
+                              //padding: EdgeInsets.symmetric(vertical: 3.h),
+                              child: RatingBarIndicator(
+                                rating: drug.rating,
+                                itemBuilder: (context, index) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
                                 ),
+                                itemCount: 5,
+                                itemSize: 24.r,
+                                unratedColor: Colors.amber.withAlpha(50),
                               ),
                             ),
                           ),

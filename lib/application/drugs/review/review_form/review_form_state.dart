@@ -10,6 +10,7 @@ class ReviewFormState with _$ReviewFormState {
     required Result<ReviewFailure, Unit>? reviewFailureOrSuccess,
     required String accessToken,
     required String userId,
+    required String userName,
   }) = _ReviewFormState;
 
   factory ReviewFormState.initial() => ReviewFormState(
@@ -20,5 +21,6 @@ class ReviewFormState with _$ReviewFormState {
         reviewFailureOrSuccess: null,
         accessToken: '',
         userId: '',
+        userName: '',
       );
 }

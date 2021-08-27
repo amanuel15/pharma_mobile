@@ -23,6 +23,7 @@ abstract class IDrugRepository {
     required Review review,
     required String accessToken,
     required String userId,
+    required String userName,
   });
   Future<Result<ReviewFailure, Unit>> deleteReview({
     required Review review,
