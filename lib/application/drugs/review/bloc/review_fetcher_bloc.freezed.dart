@@ -27,6 +27,15 @@ class _$ReviewFetcherEventTearOff {
     );
   }
 
+  _FetchMyReviews fetchMyReviews(
+      String accessToken, int pageNumber, String userId) {
+    return _FetchMyReviews(
+      accessToken,
+      pageNumber,
+      userId,
+    );
+  }
+
   _ReviewsReceived reviewsReceived(
       Result<ReviewFailure, List<Review>> failureOrReviews) {
     return _ReviewsReceived(
@@ -45,6 +54,8 @@ mixin _$ReviewFetcherEvent {
     required TResult Function(String drugId, String accessToken, int pageNumber,
             String userId, String filterBy)
         fetchReviews,
+    required TResult Function(String accessToken, int pageNumber, String userId)
+        fetchMyReviews,
     required TResult Function(
             Result<ReviewFailure, List<Review>> failureOrReviews)
         reviewsReceived,
@@ -55,6 +66,8 @@ mixin _$ReviewFetcherEvent {
     TResult Function(String drugId, String accessToken, int pageNumber,
             String userId, String filterBy)?
         fetchReviews,
+    TResult Function(String accessToken, int pageNumber, String userId)?
+        fetchMyReviews,
     TResult Function(Result<ReviewFailure, List<Review>> failureOrReviews)?
         reviewsReceived,
     required TResult orElse(),
@@ -63,12 +76,14 @@ mixin _$ReviewFetcherEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchReviews value) fetchReviews,
+    required TResult Function(_FetchMyReviews value) fetchMyReviews,
     required TResult Function(_ReviewsReceived value) reviewsReceived,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchReviews value)? fetchReviews,
+    TResult Function(_FetchMyReviews value)? fetchMyReviews,
     TResult Function(_ReviewsReceived value)? reviewsReceived,
     required TResult orElse(),
   }) =>
@@ -210,6 +225,8 @@ class _$_FetchReviews implements _FetchReviews {
     required TResult Function(String drugId, String accessToken, int pageNumber,
             String userId, String filterBy)
         fetchReviews,
+    required TResult Function(String accessToken, int pageNumber, String userId)
+        fetchMyReviews,
     required TResult Function(
             Result<ReviewFailure, List<Review>> failureOrReviews)
         reviewsReceived,
@@ -223,6 +240,8 @@ class _$_FetchReviews implements _FetchReviews {
     TResult Function(String drugId, String accessToken, int pageNumber,
             String userId, String filterBy)?
         fetchReviews,
+    TResult Function(String accessToken, int pageNumber, String userId)?
+        fetchMyReviews,
     TResult Function(Result<ReviewFailure, List<Review>> failureOrReviews)?
         reviewsReceived,
     required TResult orElse(),
@@ -237,6 +256,7 @@ class _$_FetchReviews implements _FetchReviews {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchReviews value) fetchReviews,
+    required TResult Function(_FetchMyReviews value) fetchMyReviews,
     required TResult Function(_ReviewsReceived value) reviewsReceived,
   }) {
     return fetchReviews(this);
@@ -246,6 +266,7 @@ class _$_FetchReviews implements _FetchReviews {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchReviews value)? fetchReviews,
+    TResult Function(_FetchMyReviews value)? fetchMyReviews,
     TResult Function(_ReviewsReceived value)? reviewsReceived,
     required TResult orElse(),
   }) {
@@ -267,6 +288,161 @@ abstract class _FetchReviews implements ReviewFetcherEvent {
   String get filterBy => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$FetchReviewsCopyWith<_FetchReviews> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$FetchMyReviewsCopyWith<$Res> {
+  factory _$FetchMyReviewsCopyWith(
+          _FetchMyReviews value, $Res Function(_FetchMyReviews) then) =
+      __$FetchMyReviewsCopyWithImpl<$Res>;
+  $Res call({String accessToken, int pageNumber, String userId});
+}
+
+/// @nodoc
+class __$FetchMyReviewsCopyWithImpl<$Res>
+    extends _$ReviewFetcherEventCopyWithImpl<$Res>
+    implements _$FetchMyReviewsCopyWith<$Res> {
+  __$FetchMyReviewsCopyWithImpl(
+      _FetchMyReviews _value, $Res Function(_FetchMyReviews) _then)
+      : super(_value, (v) => _then(v as _FetchMyReviews));
+
+  @override
+  _FetchMyReviews get _value => super._value as _FetchMyReviews;
+
+  @override
+  $Res call({
+    Object? accessToken = freezed,
+    Object? pageNumber = freezed,
+    Object? userId = freezed,
+  }) {
+    return _then(_FetchMyReviews(
+      accessToken == freezed
+          ? _value.accessToken
+          : accessToken // ignore: cast_nullable_to_non_nullable
+              as String,
+      pageNumber == freezed
+          ? _value.pageNumber
+          : pageNumber // ignore: cast_nullable_to_non_nullable
+              as int,
+      userId == freezed
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_FetchMyReviews implements _FetchMyReviews {
+  const _$_FetchMyReviews(this.accessToken, this.pageNumber, this.userId);
+
+  @override
+  final String accessToken;
+  @override
+  final int pageNumber;
+  @override
+  final String userId;
+
+  @override
+  String toString() {
+    return 'ReviewFetcherEvent.fetchMyReviews(accessToken: $accessToken, pageNumber: $pageNumber, userId: $userId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _FetchMyReviews &&
+            (identical(other.accessToken, accessToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.accessToken, accessToken)) &&
+            (identical(other.pageNumber, pageNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.pageNumber, pageNumber)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(accessToken) ^
+      const DeepCollectionEquality().hash(pageNumber) ^
+      const DeepCollectionEquality().hash(userId);
+
+  @JsonKey(ignore: true)
+  @override
+  _$FetchMyReviewsCopyWith<_FetchMyReviews> get copyWith =>
+      __$FetchMyReviewsCopyWithImpl<_FetchMyReviews>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String drugId, String accessToken, int pageNumber,
+            String userId, String filterBy)
+        fetchReviews,
+    required TResult Function(String accessToken, int pageNumber, String userId)
+        fetchMyReviews,
+    required TResult Function(
+            Result<ReviewFailure, List<Review>> failureOrReviews)
+        reviewsReceived,
+  }) {
+    return fetchMyReviews(accessToken, pageNumber, userId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String drugId, String accessToken, int pageNumber,
+            String userId, String filterBy)?
+        fetchReviews,
+    TResult Function(String accessToken, int pageNumber, String userId)?
+        fetchMyReviews,
+    TResult Function(Result<ReviewFailure, List<Review>> failureOrReviews)?
+        reviewsReceived,
+    required TResult orElse(),
+  }) {
+    if (fetchMyReviews != null) {
+      return fetchMyReviews(accessToken, pageNumber, userId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchReviews value) fetchReviews,
+    required TResult Function(_FetchMyReviews value) fetchMyReviews,
+    required TResult Function(_ReviewsReceived value) reviewsReceived,
+  }) {
+    return fetchMyReviews(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchReviews value)? fetchReviews,
+    TResult Function(_FetchMyReviews value)? fetchMyReviews,
+    TResult Function(_ReviewsReceived value)? reviewsReceived,
+    required TResult orElse(),
+  }) {
+    if (fetchMyReviews != null) {
+      return fetchMyReviews(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchMyReviews implements ReviewFetcherEvent {
+  const factory _FetchMyReviews(
+      String accessToken, int pageNumber, String userId) = _$_FetchMyReviews;
+
+  String get accessToken => throw _privateConstructorUsedError;
+  int get pageNumber => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  _$FetchMyReviewsCopyWith<_FetchMyReviews> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -340,6 +516,8 @@ class _$_ReviewsReceived implements _ReviewsReceived {
     required TResult Function(String drugId, String accessToken, int pageNumber,
             String userId, String filterBy)
         fetchReviews,
+    required TResult Function(String accessToken, int pageNumber, String userId)
+        fetchMyReviews,
     required TResult Function(
             Result<ReviewFailure, List<Review>> failureOrReviews)
         reviewsReceived,
@@ -353,6 +531,8 @@ class _$_ReviewsReceived implements _ReviewsReceived {
     TResult Function(String drugId, String accessToken, int pageNumber,
             String userId, String filterBy)?
         fetchReviews,
+    TResult Function(String accessToken, int pageNumber, String userId)?
+        fetchMyReviews,
     TResult Function(Result<ReviewFailure, List<Review>> failureOrReviews)?
         reviewsReceived,
     required TResult orElse(),
@@ -367,6 +547,7 @@ class _$_ReviewsReceived implements _ReviewsReceived {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchReviews value) fetchReviews,
+    required TResult Function(_FetchMyReviews value) fetchMyReviews,
     required TResult Function(_ReviewsReceived value) reviewsReceived,
   }) {
     return reviewsReceived(this);
@@ -376,6 +557,7 @@ class _$_ReviewsReceived implements _ReviewsReceived {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchReviews value)? fetchReviews,
+    TResult Function(_FetchMyReviews value)? fetchMyReviews,
     TResult Function(_ReviewsReceived value)? reviewsReceived,
     required TResult orElse(),
   }) {

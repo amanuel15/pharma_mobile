@@ -9,6 +9,11 @@ class ReviewFetcherEvent with _$ReviewFetcherEvent {
     String userId,
     String filterBy,
   ) = _FetchReviews;
+  const factory ReviewFetcherEvent.fetchMyReviews(
+    String accessToken,
+    int pageNumber,
+    String userId,
+  ) = _FetchMyReviews;
   const factory ReviewFetcherEvent.reviewsReceived(
     Result<ReviewFailure, List<Review>> failureOrReviews,
   ) = _ReviewsReceived;

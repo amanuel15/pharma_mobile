@@ -34,6 +34,15 @@ class ReviewFetcherBloc extends Bloc<ReviewFetcherEvent, ReviewFetcherState> {
         );
         add(ReviewFetcherEvent.reviewsReceived(result));
       },
+      fetchMyReviews: (e) async* {
+        Result<ReviewFailure, List<Review>> result =
+            await _drugRepository.getReviewsForUser(
+          pageNumber: e.pageNumber,
+          accessToken: e.accessToken,
+          userId: e.userId,
+        );
+        add(ReviewFetcherEvent.reviewsReceived(result));
+      },
       reviewsReceived: (e) async* {
         yield e.failureOrReviews.when(
           (error) => ReviewFetcherState.loadFailure(error),

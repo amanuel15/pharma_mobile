@@ -209,7 +209,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/review/getDrugReviews/',
+        'http://10.0.2.2:3000/client/review/getMyDrugReviews/',
         queryParameters: {
           'pageNumber': pageNumber,
         },
