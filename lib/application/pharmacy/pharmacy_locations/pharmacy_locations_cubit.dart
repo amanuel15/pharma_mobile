@@ -7,32 +7,44 @@ import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:multiple_result/multiple_result.dart';
+import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
 
 part 'pharmacy_locations_state.dart';
 part 'pharmacy_locations_cubit.freezed.dart';
 
 @injectable
 class PharmacyLocationsCubit extends Cubit<PharmacyLocationsState> {
-  PharmacyLocationsCubit() : super(PharmacyLocationsState.initial());
+  final IDrugRepository _drugRepository;
+  PharmacyLocationsCubit(this._drugRepository)
+      : super(PharmacyLocationsState.initial());
 
   Set<Marker> _markers = {};
 
   //BitmapDescriptor mapMarker;
 
   // TODO: make this function a [Future] that gets places from the database
-  Future<void> getPlaces() async {
-    BitmapDescriptor mapMarker =
-        await setCustomMarker(); //* Add a condition to make sure it is not created already
-    _markers.add(
-      Marker(
-        markerId: MarkerId('id-1'),
-        position: LatLng(9.0179, 38.7768),
-        icon: mapMarker,
-      ),
+  Future<void> getPlaces(LatLng currentLocation) async {
+    Result<MarkersFailure, Set<Marker>> possiblePharmacies =
+        await _drugRepository.fetchNearestPharmacies(
+            radius: 100, location: currentLocation);
+    possiblePharmacies.when(
+      (error) => null,
+      (success) => success.forEach((element) {
+        _markers.add(element);
+      }),
     );
-    //print('The marker: ***$_markers');
+    // BitmapDescriptor mapMarker =
+    //     await setCustomMarker(); //* Add a condition to make sure it is not created already
+    // _markers.add(
+    //   Marker(
+    //     markerId: MarkerId('id-1'),
+    //     position: LatLng(9.0179, 38.7768),
+    //     icon: mapMarker,
+    //   ),
+    // );
     emit(state.copyWith(markers: _markers));
-    //print('The state marker: ***${state.markers}');
   }
 
   Future<BitmapDescriptor> setCustomMarker() async {

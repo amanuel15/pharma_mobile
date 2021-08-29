@@ -6,6 +6,7 @@ import 'package:pharma_flutter/application/auth/auth_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/bloc/review_fetcher_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_actor/review_actor_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_form/review_form_bloc.dart';
+import 'package:pharma_flutter/application/pharmacy/bloc/fetch_drug_pharmacy_bloc.dart';
 import 'package:pharma_flutter/domain/auth/user.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,6 +28,9 @@ class DrugDetailPage extends StatelessWidget {
         ),
         BlocProvider<ReviewFetcherBloc>(
             create: (context) => getIt<ReviewFetcherBloc>()),
+        BlocProvider<FetchDrugPharmacyBloc>(
+            create: (context) => getIt<FetchDrugPharmacyBloc>()
+              ..add(FetchDrugPharmacyEvent.fetchPharmacy(drug.pharmacyId))),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -119,6 +123,55 @@ class DrugDetailPage extends StatelessWidget {
                     ),
                     Text(
                       drug.drugDetail,
+                    ),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                    BlocBuilder<FetchDrugPharmacyBloc, FetchDrugPharmacyState>(
+                      builder: (context, state) {
+                        return state.map(
+                          initial: (state) => SizedBox.shrink(),
+                          loadSuccess: (state) {
+                            return ListTile(
+                              leading: SizedBox(
+                                height: 50.r,
+                                width: 50.r,
+                                child: Stack(
+                                  fit: StackFit.expand,
+                                  overflow: Overflow.visible,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Color(0xFFE1E2E5),
+                                      child: Text(
+                                        state.pharmacy.pharmacyName[0],
+                                        style: TextStyle(
+                                          fontSize: 35.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              title: Text(
+                                state.pharmacy.pharmacyName,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Text(
+                                state.pharmacy.pharmacyEmail,
+                              ),
+                            );
+                          },
+                          loadFailure: (state) {
+                            return Text(
+                              'It seems we weren\'t able to get the pharmacy info',
+                            );
+                          },
+                        );
+                      },
                     ),
                     SizedBox(
                       height: 5.h,

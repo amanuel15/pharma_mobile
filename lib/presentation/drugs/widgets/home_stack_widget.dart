@@ -62,7 +62,7 @@ class HomeStackWidget extends StatelessWidget {
                         return GoogleMap(
                           onMapCreated: (controller) => context
                               .read<PharmacyLocationsCubit>()
-                              .getPlaces(),
+                              .getPlaces(state.coords),
                           markers: stateB.markers,
                           initialCameraPosition: CameraPosition(
                             target: state.coords,

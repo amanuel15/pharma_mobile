@@ -1,10 +1,13 @@
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
+import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
+import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
 import 'package:pharma_flutter/domain/pharma/recommendation.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 import 'package:pharma_flutter/domain/pharma/search/search_failure.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class IDrugRepository {
   //--Drug Related--
@@ -41,5 +44,14 @@ abstract class IDrugRepository {
     required String accessToken,
     required String userId,
     required int expiresInDays,
+  });
+
+  Future<Result<MarkersFailure, Set<Marker>>> fetchNearestPharmacies({
+    required int radius,
+    required LatLng location,
+  });
+
+  Future<Result<ReviewFailure, Pharmacy>> fetchPharmacy({
+    required String pharmacyId,
   });
 }

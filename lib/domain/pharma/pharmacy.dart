@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pharma_flutter/domain/pharma/review.dart';
 
 part 'pharmacy.freezed.dart';
 
@@ -9,18 +10,26 @@ abstract class Pharmacy implements _$Pharmacy {
   const factory Pharmacy({
     required String id,
     required String pharmacyName,
-    required String pharmacyDetail,
+    required String pharmacyEmail,
     required double rating,
+    required bool acceptsRequests,
+    required List<String> drugNames,
     required List<String> imageUrls,
     required List<Map<String, dynamic>> location,
+    required String locationDescription,
+    List<Review>? reviews,
+    List<String>? requests,
   }) = _Pharmacy;
 
   factory Pharmacy.empty() => Pharmacy(
         id: '',
         pharmacyName: '',
-        pharmacyDetail: '',
+        pharmacyEmail: '',
         rating: 0,
         imageUrls: [],
         location: [],
+        acceptsRequests: false,
+        drugNames: [],
+        locationDescription: '',
       );
 }

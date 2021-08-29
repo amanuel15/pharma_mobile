@@ -1,9 +1,17 @@
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter_platform_interface/src/types/marker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
+import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
+import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/search/search_failure.dart';
@@ -73,7 +81,7 @@ class DrugRepository implements IDrugRepository {
             pharmacyId: e['pharmacy'],
             drugName: e['name'],
             drugDetail: e['description'],
-            drugOrigin: 'e[countryOfOrigin]',
+            drugOrigin: e['countryOfOrigin'] ?? 'Origin Unknown',
             drugPrice: e['price'].toDouble(),
             stock: e['amountInStock'],
             rating: e['rating'].toDouble(),
@@ -268,5 +276,86 @@ class DrugRepository implements IDrugRepository {
     } on DioError catch (e) {
       return Error(ReviewFailure.unexpected());
     }
+  }
+
+  @override
+  Future<Result<MarkersFailure, Set<Marker>>> fetchNearestPharmacies({
+    required int radius,
+    required LatLng location,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/search/getNearByPharmacies/',
+        queryParameters: {
+          'radius': radius,
+          'location': [location.latitude, location.longitude],
+        },
+      );
+      List revs = response.data['data'];
+      BitmapDescriptor mapMarker = await setCustomMarker();
+      return Success(
+        revs
+            .map((e) => Marker(
+                  markerId: MarkerId(
+                    '${e['location']['coordinates'][0]}, ${e['location']['coordinates'][1]}',
+                  ),
+                  position: LatLng(e['location']['coordinates'][0],
+                      e['location']['coordinates'][1]),
+                  icon: mapMarker,
+                ))
+            .toSet(),
+      );
+    } on DioError catch (e) {
+      return Error(MarkersFailure.unexpected());
+    }
+  }
+
+  Future<BitmapDescriptor> setCustomMarker() async {
+    Uint8List uint8list =
+        await getBytesFromAsset('assets/pharmacy_marker.png', 96);
+    return BitmapDescriptor.fromBytes(uint8list);
+  }
+
+  static Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
+  }
+
+  @override
+  Future<Result<ReviewFailure, Pharmacy>> fetchPharmacy(
+      {required String pharmacyId}) async {
+    Response response;
+    try {
+      // response = await _dio.get(
+      //   'http://10.0.2.2:3000/client/search/getNearByPharmacies/',
+      //   queryParameters: {
+      //     'radius': radius,
+      //     'location': [location.latitude, location.longitude],
+      //   },
+      // );
+      // List revs = response.data['data'];
+      // BitmapDescriptor mapMarker = await setCustomMarker();
+      // return Success(
+      //   revs
+      //       .map((e) => Marker(
+      //             markerId: MarkerId(
+      //               '${e['location']['coordinates'][0]}, ${e['location']['coordinates'][1]}',
+      //             ),
+      //             position: LatLng(e['location']['coordinates'][0],
+      //                 e['location']['coordinates'][1]),
+      //             icon: mapMarker,
+      //           ))
+      //       .toSet(),
+      // );
+    } on DioError catch (e) {
+      return Error(ReviewFailure.unexpected());
+    }
+    throw UnimplementedError();
   }
 }

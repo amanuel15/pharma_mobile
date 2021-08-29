@@ -14,55 +14,54 @@ class DrugCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 5.h,
-        ),
-        GestureDetector(
-          onTap: () {
-            context.router.push(DrugDetailRoute(drug: drug));
-          },
-          child: Container(
-            height: 193.h,
-            width: 90.sw,
-            child: Card(
-              color: Colors.grey[100],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              margin: EdgeInsets.zero,
-              elevation: 1,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(8.r),
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 5.h,
+          ),
+          GestureDetector(
+            onTap: () {
+              context.router.push(DrugDetailRoute(drug: drug));
+            },
+            child: Container(
+              height: 193.h,
+              child: Card(
+                color: Colors.grey[100],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                margin: EdgeInsets.zero,
+                elevation: 1,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      constraints: BoxConstraints(
+                        maxWidth: 30.sw,
                       ),
-                      child: Image(
-                        image: AssetImage('assets/d.jpg'),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(8.r),
+                        ),
+                        child: Image(
+                          image: AssetImage('assets/d.jpg'),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        right: 2.w,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Container(
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          right: 2.w,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
                               padding: EdgeInsets.symmetric(vertical: 3.h),
                               child: Text(
                                 drug.drugName,
@@ -70,16 +69,24 @@ class DrugCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Text(
+                              drug.brandName,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Container(
                               padding: EdgeInsets.symmetric(vertical: 3.h),
                               child: Text(
                                 drug.drugOrigin,
@@ -91,29 +98,34 @@ class DrugCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              //padding: EdgeInsets.symmetric(vertical: 3.h),
-                              child: RatingBarIndicator(
-                                rating: drug.rating,
-                                itemBuilder: (context, index) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
+                            Row(
+                              children: [
+                                RatingBarIndicator(
+                                  rating: drug.rating,
+                                  itemBuilder: (context, index) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  itemCount: 5,
+                                  itemSize: 24.r,
+                                  unratedColor: Colors.amber.withAlpha(50),
                                 ),
-                                itemCount: 5,
-                                itemSize: 24.r,
-                                unratedColor: Colors.amber.withAlpha(50),
-                              ),
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                                Text(
+                                  '(${drug.reviews.length})',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Container(
                               padding: EdgeInsets.symmetric(vertical: 3.h),
                               child: Text(
                                 '${drug.drugPrice} birr',
@@ -123,13 +135,10 @@ class DrugCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 3.h,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Container(
                               padding: EdgeInsets.symmetric(vertical: 3.h),
                               child: Text(
                                 drug.createdDate,
@@ -140,34 +149,33 @@ class DrugCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
+                            Container(
                               padding: EdgeInsets.symmetric(vertical: 3.h),
                               child: Text(
-                                'Availability: In Stock - ${drug.stock}',
+                                'Availability: ${drug.stock > 0 ? 'In Stock  - ${drug.stock}' : 'Out Of Stock'}',
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 12.sp,
-                                  color: Colors.black87,
+                                  color: drug.stock > 0
+                                      ? Colors.green[400]
+                                      : Colors.red[400],
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        SizedBox(
-          height: 5.h,
-        ),
-      ],
+          SizedBox(
+            height: 5.h,
+          ),
+        ],
+      ),
     );
   }
 }

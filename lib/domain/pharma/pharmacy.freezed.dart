@@ -19,17 +19,27 @@ class _$PharmacyTearOff {
   _Pharmacy call(
       {required String id,
       required String pharmacyName,
-      required String pharmacyDetail,
+      required String pharmacyEmail,
       required double rating,
+      required bool acceptsRequests,
+      required List<String> drugNames,
       required List<String> imageUrls,
-      required List<Map<String, dynamic>> location}) {
+      required List<Map<String, dynamic>> location,
+      required String locationDescription,
+      List<Review>? reviews,
+      List<String>? requests}) {
     return _Pharmacy(
       id: id,
       pharmacyName: pharmacyName,
-      pharmacyDetail: pharmacyDetail,
+      pharmacyEmail: pharmacyEmail,
       rating: rating,
+      acceptsRequests: acceptsRequests,
+      drugNames: drugNames,
       imageUrls: imageUrls,
       location: location,
+      locationDescription: locationDescription,
+      reviews: reviews,
+      requests: requests,
     );
   }
 }
@@ -41,10 +51,15 @@ const $Pharmacy = _$PharmacyTearOff();
 mixin _$Pharmacy {
   String get id => throw _privateConstructorUsedError;
   String get pharmacyName => throw _privateConstructorUsedError;
-  String get pharmacyDetail => throw _privateConstructorUsedError;
+  String get pharmacyEmail => throw _privateConstructorUsedError;
   double get rating => throw _privateConstructorUsedError;
+  bool get acceptsRequests => throw _privateConstructorUsedError;
+  List<String> get drugNames => throw _privateConstructorUsedError;
   List<String> get imageUrls => throw _privateConstructorUsedError;
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
+  String get locationDescription => throw _privateConstructorUsedError;
+  List<Review>? get reviews => throw _privateConstructorUsedError;
+  List<String>? get requests => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PharmacyCopyWith<Pharmacy> get copyWith =>
@@ -58,10 +73,15 @@ abstract class $PharmacyCopyWith<$Res> {
   $Res call(
       {String id,
       String pharmacyName,
-      String pharmacyDetail,
+      String pharmacyEmail,
       double rating,
+      bool acceptsRequests,
+      List<String> drugNames,
       List<String> imageUrls,
-      List<Map<String, dynamic>> location});
+      List<Map<String, dynamic>> location,
+      String locationDescription,
+      List<Review>? reviews,
+      List<String>? requests});
 }
 
 /// @nodoc
@@ -76,10 +96,15 @@ class _$PharmacyCopyWithImpl<$Res> implements $PharmacyCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? pharmacyName = freezed,
-    Object? pharmacyDetail = freezed,
+    Object? pharmacyEmail = freezed,
     Object? rating = freezed,
+    Object? acceptsRequests = freezed,
+    Object? drugNames = freezed,
     Object? imageUrls = freezed,
     Object? location = freezed,
+    Object? locationDescription = freezed,
+    Object? reviews = freezed,
+    Object? requests = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -90,14 +115,22 @@ class _$PharmacyCopyWithImpl<$Res> implements $PharmacyCopyWith<$Res> {
           ? _value.pharmacyName
           : pharmacyName // ignore: cast_nullable_to_non_nullable
               as String,
-      pharmacyDetail: pharmacyDetail == freezed
-          ? _value.pharmacyDetail
-          : pharmacyDetail // ignore: cast_nullable_to_non_nullable
+      pharmacyEmail: pharmacyEmail == freezed
+          ? _value.pharmacyEmail
+          : pharmacyEmail // ignore: cast_nullable_to_non_nullable
               as String,
       rating: rating == freezed
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as double,
+      acceptsRequests: acceptsRequests == freezed
+          ? _value.acceptsRequests
+          : acceptsRequests // ignore: cast_nullable_to_non_nullable
+              as bool,
+      drugNames: drugNames == freezed
+          ? _value.drugNames
+          : drugNames // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       imageUrls: imageUrls == freezed
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
@@ -106,6 +139,18 @@ class _$PharmacyCopyWithImpl<$Res> implements $PharmacyCopyWith<$Res> {
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
+      locationDescription: locationDescription == freezed
+          ? _value.locationDescription
+          : locationDescription // ignore: cast_nullable_to_non_nullable
+              as String,
+      reviews: reviews == freezed
+          ? _value.reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<Review>?,
+      requests: requests == freezed
+          ? _value.requests
+          : requests // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -118,10 +163,15 @@ abstract class _$PharmacyCopyWith<$Res> implements $PharmacyCopyWith<$Res> {
   $Res call(
       {String id,
       String pharmacyName,
-      String pharmacyDetail,
+      String pharmacyEmail,
       double rating,
+      bool acceptsRequests,
+      List<String> drugNames,
       List<String> imageUrls,
-      List<Map<String, dynamic>> location});
+      List<Map<String, dynamic>> location,
+      String locationDescription,
+      List<Review>? reviews,
+      List<String>? requests});
 }
 
 /// @nodoc
@@ -137,10 +187,15 @@ class __$PharmacyCopyWithImpl<$Res> extends _$PharmacyCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? pharmacyName = freezed,
-    Object? pharmacyDetail = freezed,
+    Object? pharmacyEmail = freezed,
     Object? rating = freezed,
+    Object? acceptsRequests = freezed,
+    Object? drugNames = freezed,
     Object? imageUrls = freezed,
     Object? location = freezed,
+    Object? locationDescription = freezed,
+    Object? reviews = freezed,
+    Object? requests = freezed,
   }) {
     return _then(_Pharmacy(
       id: id == freezed
@@ -151,14 +206,22 @@ class __$PharmacyCopyWithImpl<$Res> extends _$PharmacyCopyWithImpl<$Res>
           ? _value.pharmacyName
           : pharmacyName // ignore: cast_nullable_to_non_nullable
               as String,
-      pharmacyDetail: pharmacyDetail == freezed
-          ? _value.pharmacyDetail
-          : pharmacyDetail // ignore: cast_nullable_to_non_nullable
+      pharmacyEmail: pharmacyEmail == freezed
+          ? _value.pharmacyEmail
+          : pharmacyEmail // ignore: cast_nullable_to_non_nullable
               as String,
       rating: rating == freezed
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as double,
+      acceptsRequests: acceptsRequests == freezed
+          ? _value.acceptsRequests
+          : acceptsRequests // ignore: cast_nullable_to_non_nullable
+              as bool,
+      drugNames: drugNames == freezed
+          ? _value.drugNames
+          : drugNames // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       imageUrls: imageUrls == freezed
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
@@ -167,6 +230,18 @@ class __$PharmacyCopyWithImpl<$Res> extends _$PharmacyCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
+      locationDescription: locationDescription == freezed
+          ? _value.locationDescription
+          : locationDescription // ignore: cast_nullable_to_non_nullable
+              as String,
+      reviews: reviews == freezed
+          ? _value.reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<Review>?,
+      requests: requests == freezed
+          ? _value.requests
+          : requests // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -177,10 +252,15 @@ class _$_Pharmacy extends _Pharmacy {
   const _$_Pharmacy(
       {required this.id,
       required this.pharmacyName,
-      required this.pharmacyDetail,
+      required this.pharmacyEmail,
       required this.rating,
+      required this.acceptsRequests,
+      required this.drugNames,
       required this.imageUrls,
-      required this.location})
+      required this.location,
+      required this.locationDescription,
+      this.reviews,
+      this.requests})
       : super._();
 
   @override
@@ -188,17 +268,27 @@ class _$_Pharmacy extends _Pharmacy {
   @override
   final String pharmacyName;
   @override
-  final String pharmacyDetail;
+  final String pharmacyEmail;
   @override
   final double rating;
+  @override
+  final bool acceptsRequests;
+  @override
+  final List<String> drugNames;
   @override
   final List<String> imageUrls;
   @override
   final List<Map<String, dynamic>> location;
+  @override
+  final String locationDescription;
+  @override
+  final List<Review>? reviews;
+  @override
+  final List<String>? requests;
 
   @override
   String toString() {
-    return 'Pharmacy(id: $id, pharmacyName: $pharmacyName, pharmacyDetail: $pharmacyDetail, rating: $rating, imageUrls: $imageUrls, location: $location)';
+    return 'Pharmacy(id: $id, pharmacyName: $pharmacyName, pharmacyEmail: $pharmacyEmail, rating: $rating, acceptsRequests: $acceptsRequests, drugNames: $drugNames, imageUrls: $imageUrls, location: $location, locationDescription: $locationDescription, reviews: $reviews, requests: $requests)';
   }
 
   @override
@@ -210,17 +300,32 @@ class _$_Pharmacy extends _Pharmacy {
             (identical(other.pharmacyName, pharmacyName) ||
                 const DeepCollectionEquality()
                     .equals(other.pharmacyName, pharmacyName)) &&
-            (identical(other.pharmacyDetail, pharmacyDetail) ||
+            (identical(other.pharmacyEmail, pharmacyEmail) ||
                 const DeepCollectionEquality()
-                    .equals(other.pharmacyDetail, pharmacyDetail)) &&
+                    .equals(other.pharmacyEmail, pharmacyEmail)) &&
             (identical(other.rating, rating) ||
                 const DeepCollectionEquality().equals(other.rating, rating)) &&
+            (identical(other.acceptsRequests, acceptsRequests) ||
+                const DeepCollectionEquality()
+                    .equals(other.acceptsRequests, acceptsRequests)) &&
+            (identical(other.drugNames, drugNames) ||
+                const DeepCollectionEquality()
+                    .equals(other.drugNames, drugNames)) &&
             (identical(other.imageUrls, imageUrls) ||
                 const DeepCollectionEquality()
                     .equals(other.imageUrls, imageUrls)) &&
             (identical(other.location, location) ||
                 const DeepCollectionEquality()
-                    .equals(other.location, location)));
+                    .equals(other.location, location)) &&
+            (identical(other.locationDescription, locationDescription) ||
+                const DeepCollectionEquality()
+                    .equals(other.locationDescription, locationDescription)) &&
+            (identical(other.reviews, reviews) ||
+                const DeepCollectionEquality()
+                    .equals(other.reviews, reviews)) &&
+            (identical(other.requests, requests) ||
+                const DeepCollectionEquality()
+                    .equals(other.requests, requests)));
   }
 
   @override
@@ -228,10 +333,15 @@ class _$_Pharmacy extends _Pharmacy {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(pharmacyName) ^
-      const DeepCollectionEquality().hash(pharmacyDetail) ^
+      const DeepCollectionEquality().hash(pharmacyEmail) ^
       const DeepCollectionEquality().hash(rating) ^
+      const DeepCollectionEquality().hash(acceptsRequests) ^
+      const DeepCollectionEquality().hash(drugNames) ^
       const DeepCollectionEquality().hash(imageUrls) ^
-      const DeepCollectionEquality().hash(location);
+      const DeepCollectionEquality().hash(location) ^
+      const DeepCollectionEquality().hash(locationDescription) ^
+      const DeepCollectionEquality().hash(reviews) ^
+      const DeepCollectionEquality().hash(requests);
 
   @JsonKey(ignore: true)
   @override
@@ -243,10 +353,15 @@ abstract class _Pharmacy extends Pharmacy {
   const factory _Pharmacy(
       {required String id,
       required String pharmacyName,
-      required String pharmacyDetail,
+      required String pharmacyEmail,
       required double rating,
+      required bool acceptsRequests,
+      required List<String> drugNames,
       required List<String> imageUrls,
-      required List<Map<String, dynamic>> location}) = _$_Pharmacy;
+      required List<Map<String, dynamic>> location,
+      required String locationDescription,
+      List<Review>? reviews,
+      List<String>? requests}) = _$_Pharmacy;
   const _Pharmacy._() : super._();
 
   @override
@@ -254,13 +369,23 @@ abstract class _Pharmacy extends Pharmacy {
   @override
   String get pharmacyName => throw _privateConstructorUsedError;
   @override
-  String get pharmacyDetail => throw _privateConstructorUsedError;
+  String get pharmacyEmail => throw _privateConstructorUsedError;
   @override
   double get rating => throw _privateConstructorUsedError;
+  @override
+  bool get acceptsRequests => throw _privateConstructorUsedError;
+  @override
+  List<String> get drugNames => throw _privateConstructorUsedError;
   @override
   List<String> get imageUrls => throw _privateConstructorUsedError;
   @override
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
+  @override
+  String get locationDescription => throw _privateConstructorUsedError;
+  @override
+  List<Review>? get reviews => throw _privateConstructorUsedError;
+  @override
+  List<String>? get requests => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PharmacyCopyWith<_Pharmacy> get copyWith =>
