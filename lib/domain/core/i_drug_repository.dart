@@ -3,6 +3,7 @@ import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
+import 'package:pharma_flutter/domain/pharma/pharmacy_review.dart';
 import 'package:pharma_flutter/domain/pharma/recommendation.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
@@ -34,12 +35,25 @@ abstract class IDrugRepository {
     required String accessToken,
     required String userId,
   });
+  Future<Result<ReviewFailure, Unit>> deletePharmacyReview({
+    required PharmacyReview review,
+    required String accessToken,
+    required String userId,
+  });
 
   Future<Result<ReviewFailure, List<Review>>> getReviewsForUser({
     required int pageNumber,
     required String accessToken,
     required String userId,
   });
+  Future<Result<ReviewFailure, List<PharmacyReview>>> getReviewsForPharmacy({
+    required String filterBy,
+    required int pageNumber,
+    required String pharmacyId,
+    required String accessToken,
+    required String userId,
+  });
+
   Future<Result<ReviewFailure, Unit>> subscribeToDrug({
     required Drug drug,
     required String accessToken,

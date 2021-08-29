@@ -12,6 +12,7 @@ import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
+import 'package:pharma_flutter/domain/pharma/pharmacy_review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/search/search_failure.dart';
@@ -167,6 +168,35 @@ class DrugRepository implements IDrugRepository {
   }
 
   @override
+  Future<Result<ReviewFailure, Unit>> deletePharmacyReview({
+    required PharmacyReview review,
+    required String accessToken,
+    required String userId,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.post(
+        'http://10.0.2.2:3000/client/review/deletePharmacyReview/',
+        data: {
+          'reviewId': review.id,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      return Success(unit);
+    } on DioError catch (e) {
+      if (e.response?.data['status'] == 'Invalid Owner')
+        return Error(ReviewFailure.unauthorizedAccess());
+      else
+        return Error(ReviewFailure.unexpected());
+    }
+  }
+
+  @override
   Future<Result<ReviewFailure, List<Review>>> getReviewsForDrug({
     required String drugId,
     required String filterBy,
@@ -246,6 +276,51 @@ class DrugRepository implements IDrugRepository {
     } on DioError catch (e) {
       return Error(ReviewFailure.unexpected());
     }
+  }
+
+  @override
+  Future<Result<ReviewFailure, List<PharmacyReview>>> getReviewsForPharmacy({
+    required String filterBy,
+    required int pageNumber,
+    required String pharmacyId,
+    required String accessToken,
+    required String userId,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/review/getPharmacyReviews/',
+        queryParameters: {
+          'pharmacyId': pharmacyId,
+          'filterBy': filterBy,
+          'pageNumber': pageNumber,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      List revs = response.data['data'];
+      return Success(revs
+          .map(
+            (e) => PharmacyReview(
+              id: e['_id'],
+              userId: e['userId'],
+              reviewBody: ReviewBody(e['description']),
+              userName: e['name'],
+              reviewStar: ReviewStar(e['rating'].toDouble()),
+              creationDate: e['creationDate'],
+              pharmacyId: e['pharmacyId'],
+              pharmacyName: e['pharmacyName'],
+            ),
+          )
+          .toList());
+    } on DioError catch (e) {
+      return Error(ReviewFailure.unexpected());
+    }
+    throw UnimplementedError();
   }
 
   @override

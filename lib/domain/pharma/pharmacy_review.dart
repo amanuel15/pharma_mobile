@@ -2,35 +2,33 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pharma_flutter/domain/core/failures.dart';
 import 'package:pharma_flutter/domain/pharma/value_objects.dart';
 
-part 'review.freezed.dart';
+part 'pharmacy_review.freezed.dart';
 
 @freezed
-abstract class Review implements _$Review {
-  const Review._();
+abstract class PharmacyReview implements _$PharmacyReview {
+  const PharmacyReview._();
 
-  const factory Review({
-    required String id,
+  const factory PharmacyReview({
+    String? id,
     required String userId,
     required ReviewBody reviewBody,
     required String userName,
+    required String pharmacyName,
     required ReviewStar reviewStar,
-    required String drugId,
     required String pharmacyId,
     required String creationDate,
-  }) = _Review;
+  }) = _PharmacyReview;
 
-  factory Review.empty() => Review(
-        id: '',
+  factory PharmacyReview.empty() => PharmacyReview(
         userId: '',
         reviewBody: ReviewBody(''),
         userName: '',
+        pharmacyName: '',
         reviewStar: ReviewStar(3.5),
-        drugId: '',
         pharmacyId: '',
         creationDate: '',
       );
 
-  // TODO: check if this is the reason that error occures in DrugDtailPage
   ValueFailure<dynamic>? get failureOption {
     if (reviewBody.failureOrUnit.isError()) {
       return reviewBody.failureOrUnit.getError();

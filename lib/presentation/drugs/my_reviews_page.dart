@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pharma_flutter/application/drugs/review/bloc/review_fetcher_bloc.dart';
+import 'package:pharma_flutter/application/drugs/review/review_fetcher/review_fetcher_bloc.dart';
 import 'package:pharma_flutter/domain/auth/user.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/injection.dart';

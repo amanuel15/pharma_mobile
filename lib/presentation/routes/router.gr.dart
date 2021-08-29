@@ -54,7 +54,8 @@ class AppRouter extends _i1.RootStackRouter {
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<PharmacyRouteArgs>();
-          return _i8.PharmacyPage(key: args.key, pharmacy: args.pharmacy);
+          return _i8.PharmacyPage(
+              key: args.key, pharmacy: args.pharmacy, user: args.user);
         })
   };
 
@@ -122,18 +123,22 @@ class MyReviewsRouteArgs {
 }
 
 class PharmacyRoute extends _i1.PageRouteInfo<PharmacyRouteArgs> {
-  PharmacyRoute({_i2.Key? key, required _i11.Pharmacy pharmacy})
+  PharmacyRoute(
+      {_i2.Key? key, required _i11.Pharmacy pharmacy, required _i10.User user})
       : super(name,
             path: '/pharmacy-page',
-            args: PharmacyRouteArgs(key: key, pharmacy: pharmacy));
+            args: PharmacyRouteArgs(key: key, pharmacy: pharmacy, user: user));
 
   static const String name = 'PharmacyRoute';
 }
 
 class PharmacyRouteArgs {
-  const PharmacyRouteArgs({this.key, required this.pharmacy});
+  const PharmacyRouteArgs(
+      {this.key, required this.pharmacy, required this.user});
 
   final _i2.Key? key;
 
   final _i11.Pharmacy pharmacy;
+
+  final _i10.User user;
 }
