@@ -14,6 +14,7 @@ abstract class Subscription implements _$Subscription {
     required String pharmacyId,
     required String creationDate,
     String? editDate,
+    required bool isAvailable,
   }) = _Subscription;
 
   factory Subscription.empty() => Subscription(
@@ -23,5 +24,6 @@ abstract class Subscription implements _$Subscription {
         drugId: '',
         pharmacyId: '',
         creationDate: '',
+        isAvailable: false,
       );
 }

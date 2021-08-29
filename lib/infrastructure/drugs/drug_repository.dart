@@ -16,6 +16,7 @@ import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/search/search_failure.dart';
 import 'package:pharma_flutter/domain/pharma/recommendation.dart';
+import 'package:pharma_flutter/domain/pharma/subscription.dart';
 import 'package:pharma_flutter/domain/pharma/value_objects.dart';
 
 @LazySingleton(as: IDrugRepository)
@@ -357,5 +358,42 @@ class DrugRepository implements IDrugRepository {
       return Error(ReviewFailure.unexpected());
     }
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<ReviewFailure, List<Subscription>>> fetchUserSubscriptions(
+      {required String userId, required String accessToken}) async {
+    Response response;
+    try {
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/subscribe/getUserSubscriptions',
+        queryParameters: {},
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      List revs = response.data['data'];
+      return Success(
+        revs
+            .map(
+              (e) => Subscription(
+                id: e['_id'],
+                drugName: e['name'],
+                userId: e['userId'],
+                drugId: e['drugId'],
+                pharmacyId: e['pharmacyId'],
+                creationDate: e['creationDate'],
+                isAvailable: e['isAvailable'],
+                editDate: e['editDate'],
+              ),
+            )
+            .toList(),
+      );
+    } on DioError catch (e) {
+      return Error(ReviewFailure.unexpected());
+    }
   }
 }

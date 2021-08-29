@@ -8,6 +8,7 @@ import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 import 'package:pharma_flutter/domain/pharma/search/search_failure.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pharma_flutter/domain/pharma/subscription.dart';
 
 abstract class IDrugRepository {
   //--Drug Related--
@@ -53,5 +54,10 @@ abstract class IDrugRepository {
 
   Future<Result<ReviewFailure, Pharmacy>> fetchPharmacy({
     required String pharmacyId,
+  });
+
+  Future<Result<ReviewFailure, List<Subscription>>> fetchUserSubscriptions({
+    required String userId,
+    required String accessToken,
   });
 }

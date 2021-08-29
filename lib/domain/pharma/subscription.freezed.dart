@@ -23,7 +23,8 @@ class _$SubscriptionTearOff {
       required String drugId,
       required String pharmacyId,
       required String creationDate,
-      String? editDate}) {
+      String? editDate,
+      required bool isAvailable}) {
     return _Subscription(
       drugName: drugName,
       id: id,
@@ -32,6 +33,7 @@ class _$SubscriptionTearOff {
       pharmacyId: pharmacyId,
       creationDate: creationDate,
       editDate: editDate,
+      isAvailable: isAvailable,
     );
   }
 }
@@ -48,6 +50,7 @@ mixin _$Subscription {
   String get pharmacyId => throw _privateConstructorUsedError;
   String get creationDate => throw _privateConstructorUsedError;
   String? get editDate => throw _privateConstructorUsedError;
+  bool get isAvailable => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SubscriptionCopyWith<Subscription> get copyWith =>
@@ -66,7 +69,8 @@ abstract class $SubscriptionCopyWith<$Res> {
       String drugId,
       String pharmacyId,
       String creationDate,
-      String? editDate});
+      String? editDate,
+      bool isAvailable});
 }
 
 /// @nodoc
@@ -86,6 +90,7 @@ class _$SubscriptionCopyWithImpl<$Res> implements $SubscriptionCopyWith<$Res> {
     Object? pharmacyId = freezed,
     Object? creationDate = freezed,
     Object? editDate = freezed,
+    Object? isAvailable = freezed,
   }) {
     return _then(_value.copyWith(
       drugName: drugName == freezed
@@ -116,6 +121,10 @@ class _$SubscriptionCopyWithImpl<$Res> implements $SubscriptionCopyWith<$Res> {
           ? _value.editDate
           : editDate // ignore: cast_nullable_to_non_nullable
               as String?,
+      isAvailable: isAvailable == freezed
+          ? _value.isAvailable
+          : isAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -134,7 +143,8 @@ abstract class _$SubscriptionCopyWith<$Res>
       String drugId,
       String pharmacyId,
       String creationDate,
-      String? editDate});
+      String? editDate,
+      bool isAvailable});
 }
 
 /// @nodoc
@@ -156,6 +166,7 @@ class __$SubscriptionCopyWithImpl<$Res> extends _$SubscriptionCopyWithImpl<$Res>
     Object? pharmacyId = freezed,
     Object? creationDate = freezed,
     Object? editDate = freezed,
+    Object? isAvailable = freezed,
   }) {
     return _then(_Subscription(
       drugName: drugName == freezed
@@ -186,6 +197,10 @@ class __$SubscriptionCopyWithImpl<$Res> extends _$SubscriptionCopyWithImpl<$Res>
           ? _value.editDate
           : editDate // ignore: cast_nullable_to_non_nullable
               as String?,
+      isAvailable: isAvailable == freezed
+          ? _value.isAvailable
+          : isAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -200,7 +215,8 @@ class _$_Subscription extends _Subscription {
       required this.drugId,
       required this.pharmacyId,
       required this.creationDate,
-      this.editDate})
+      this.editDate,
+      required this.isAvailable})
       : super._();
 
   @override
@@ -217,10 +233,12 @@ class _$_Subscription extends _Subscription {
   final String creationDate;
   @override
   final String? editDate;
+  @override
+  final bool isAvailable;
 
   @override
   String toString() {
-    return 'Subscription(drugName: $drugName, id: $id, userId: $userId, drugId: $drugId, pharmacyId: $pharmacyId, creationDate: $creationDate, editDate: $editDate)';
+    return 'Subscription(drugName: $drugName, id: $id, userId: $userId, drugId: $drugId, pharmacyId: $pharmacyId, creationDate: $creationDate, editDate: $editDate, isAvailable: $isAvailable)';
   }
 
   @override
@@ -244,7 +262,10 @@ class _$_Subscription extends _Subscription {
                     .equals(other.creationDate, creationDate)) &&
             (identical(other.editDate, editDate) ||
                 const DeepCollectionEquality()
-                    .equals(other.editDate, editDate)));
+                    .equals(other.editDate, editDate)) &&
+            (identical(other.isAvailable, isAvailable) ||
+                const DeepCollectionEquality()
+                    .equals(other.isAvailable, isAvailable)));
   }
 
   @override
@@ -256,7 +277,8 @@ class _$_Subscription extends _Subscription {
       const DeepCollectionEquality().hash(drugId) ^
       const DeepCollectionEquality().hash(pharmacyId) ^
       const DeepCollectionEquality().hash(creationDate) ^
-      const DeepCollectionEquality().hash(editDate);
+      const DeepCollectionEquality().hash(editDate) ^
+      const DeepCollectionEquality().hash(isAvailable);
 
   @JsonKey(ignore: true)
   @override
@@ -272,7 +294,8 @@ abstract class _Subscription extends Subscription {
       required String drugId,
       required String pharmacyId,
       required String creationDate,
-      String? editDate}) = _$_Subscription;
+      String? editDate,
+      required bool isAvailable}) = _$_Subscription;
   const _Subscription._() : super._();
 
   @override
@@ -289,6 +312,8 @@ abstract class _Subscription extends Subscription {
   String get creationDate => throw _privateConstructorUsedError;
   @override
   String? get editDate => throw _privateConstructorUsedError;
+  @override
+  bool get isAvailable => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SubscriptionCopyWith<_Subscription> get copyWith =>
