@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,18 +7,24 @@ import 'package:pharma_flutter/application/auth/auth_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_actor/review_actor_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_fetcher/review_fetcher_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_form/review_form_bloc.dart';
+import 'package:pharma_flutter/application/drugs/subscription/subscription_fetcher/subscription_fetcher_bloc.dart';
 import 'package:pharma_flutter/application/pharmacy/bloc/fetch_drug_pharmacy_bloc.dart';
 import 'package:pharma_flutter/domain/auth/user.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
+import 'package:pharma_flutter/domain/pharma/subscription.dart';
 import 'package:pharma_flutter/injection.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/review_body_widget.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/review_star_widget.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:pharma_flutter/presentation/routes/router.gr.dart';
 
 class DrugDetailPage extends StatelessWidget {
   final Drug drug;
-  const DrugDetailPage({Key? key, required this.drug}) : super(key: key);
+  final List<Subscription>? subscriptions;
+  const DrugDetailPage({Key? key, required this.drug, this.subscriptions})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -121,8 +128,64 @@ class DrugDetailPage extends StatelessWidget {
                     SizedBox(
                       height: 5.h,
                     ),
-                    Text(
-                      drug.drugDetail,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          drug.drugDetail,
+                        ),
+                        BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                            return state.maybeMap(
+                              authenticated: (authState) {
+                                bool isSubbed = false;
+                                subscriptions!.forEach((e) {
+                                  if (e.drugId == drug.id) isSubbed = true;
+                                });
+                                if (isSubbed)
+                                  return ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 2,
+                                      primary: Colors.grey[400],
+                                      padding: EdgeInsets.all(15),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Unsubscribe',
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  );
+                                else
+                                  return ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 2,
+                                      primary: Colors.green[400],
+                                      padding: EdgeInsets.all(15),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Subscribe',
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  );
+                              },
+                              orElse: () => SizedBox.shrink(),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 5.h,
@@ -132,37 +195,87 @@ class DrugDetailPage extends StatelessWidget {
                         return state.map(
                           initial: (state) => SizedBox.shrink(),
                           loadSuccess: (state) {
-                            return ListTile(
-                              leading: SizedBox(
-                                height: 50.r,
-                                width: 50.r,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  overflow: Overflow.visible,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor: Color(0xFFE1E2E5),
-                                      child: Text(
-                                        state.pharmacy.pharmacyName[0],
-                                        style: TextStyle(
-                                          fontSize: 35.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+                            return BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, stateA) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w,
+                                  ),
+                                  child: FlatButton(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 0.w,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    color: Color(0xFFF1FFF5),
+                                    onPressed: () {
+                                      context.router.push(
+                                        PharmacyRoute(
+                                          pharmacy: state.pharmacy,
+                                          user: stateA.maybeWhen(
+                                            authenticated: (state) => state,
+                                            orElse: () => null,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: ListTile(
+                                      leading: SizedBox(
+                                        height: 50.r,
+                                        width: 50.r,
+                                        child: Stack(
+                                          fit: StackFit.expand,
+                                          overflow: Overflow.visible,
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xFFE1E2E5),
+                                              child: Text(
+                                                state.pharmacy.pharmacyName[0],
+                                                style: TextStyle(
+                                                  fontSize: 35.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                      title: Text(
+                                        state.pharmacy.pharmacyName,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      subtitle: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            state.pharmacy.pharmacyEmail,
+                                          ),
+                                          RatingBarIndicator(
+                                            rating: drug.rating,
+                                            itemBuilder: (context, index) =>
+                                                Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            itemCount: 5,
+                                            itemSize: 18.r,
+                                            unratedColor:
+                                                Colors.amber.withAlpha(50),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              title: Text(
-                                state.pharmacy.pharmacyName,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Text(
-                                state.pharmacy.pharmacyEmail,
-                              ),
+                                  ),
+                                );
+                              },
                             );
                           },
                           loadFailure: (state) {
@@ -268,6 +381,21 @@ class DrugDetailPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Uri _buildUrl(List<Map<String, dynamic>> location) {
+    return Uri(
+        scheme: 'https',
+        host: 'maps.googleapis.com',
+        port: 443,
+        path: '/maps/api/staticmap',
+        queryParameters: {
+          'size': '600x400',
+          'center': '${location[0]['lat']},${location[0]['lng']}',
+          'zoom': '4',
+          'AIzaSyAyeGr8Z1BUkr-0AetzUU5Q18FvjJz4hNU': '',
+          'markers': '${location[0]['lat']},${location[0]['lng']}',
+        });
   }
 }
 

@@ -9,7 +9,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/pharma_failure.dart';
 import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
+import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
 
 part 'pharmacy_locations_state.dart';
 part 'pharmacy_locations_cubit.freezed.dart';
@@ -26,14 +28,41 @@ class PharmacyLocationsCubit extends Cubit<PharmacyLocationsState> {
 
   // TODO: make this function a [Future] that gets places from the database
   Future<void> getPlaces(LatLng currentLocation) async {
-    Result<MarkersFailure, Set<Marker>> possiblePharmacies =
+    // Result<MarkersFailure, Set<Marker>> possiblePharmacies =
+    //     await _drugRepository.fetchNearestPharmacies(
+    //         radius: 100, location: currentLocation);
+    Result<PharmaFailure, List<Pharmacy>> possiblePharmacies =
         await _drugRepository.fetchNearestPharmacies(
-            radius: 100, location: currentLocation);
+      radius: 100,
+      location: currentLocation,
+    );
+    BitmapDescriptor mapMarker = await setCustomMarker();
     possiblePharmacies.when(
       (error) => null,
-      (success) => success.forEach((element) {
-        _markers.add(element);
-      }),
+      (success) {
+        success.forEach(
+          (pharmacy) {
+            _markers.add(
+              Marker(
+                markerId: MarkerId(pharmacy.id),
+                position: LatLng(
+                    pharmacy.location[0]['lat'], pharmacy.location[0]['lng']),
+                icon: mapMarker,
+                infoWindow: InfoWindow(
+                  title: pharmacy.pharmacyName,
+                  snippet: pharmacy.pharmacyEmail,
+                ),
+              ),
+            );
+          },
+        );
+        emit(
+          state.copyWith(
+            markers: _markers,
+            nearestPharmacies: success,
+          ),
+        );
+      },
     );
     // BitmapDescriptor mapMarker =
     //     await setCustomMarker(); //* Add a condition to make sure it is not created already
@@ -44,7 +73,7 @@ class PharmacyLocationsCubit extends Cubit<PharmacyLocationsState> {
     //     icon: mapMarker,
     //   ),
     // );
-    emit(state.copyWith(markers: _markers));
+    // emit(state.copyWith(markers: _markers, nearestPharmacies: ));
   }
 
   Future<BitmapDescriptor> setCustomMarker() async {

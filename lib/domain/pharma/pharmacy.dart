@@ -13,12 +13,11 @@ abstract class Pharmacy implements _$Pharmacy {
     required String pharmacyEmail,
     required double rating,
     required bool acceptsRequests,
-    required List<String> drugNames,
     required List<String> imageUrls,
     required List<Map<String, dynamic>> location,
     required String locationDescription,
-    List<Review>? reviews,
-    List<String>? requests,
+    List? reviews,
+    List? requests,
   }) = _Pharmacy;
 
   factory Pharmacy.empty() => Pharmacy(
@@ -29,7 +28,6 @@ abstract class Pharmacy implements _$Pharmacy {
         imageUrls: [],
         location: [],
         acceptsRequests: false,
-        drugNames: [],
         locationDescription: '',
       );
 }

@@ -1,4 +1,5 @@
 import 'package:multiple_result/multiple_result.dart';
+import 'package:pharma_flutter/domain/core/pharma_failure.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
@@ -61,7 +62,7 @@ abstract class IDrugRepository {
     required int expiresInDays,
   });
 
-  Future<Result<MarkersFailure, Set<Marker>>> fetchNearestPharmacies({
+  Future<Result<PharmaFailure, List<Pharmacy>>> fetchNearestPharmacies({
     required int radius,
     required LatLng location,
   });

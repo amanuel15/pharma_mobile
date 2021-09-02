@@ -16,9 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$PharmacyLocationsStateTearOff {
   const _$PharmacyLocationsStateTearOff();
 
-  _PharmacyLocationsState call({required Set<Marker> markers}) {
+  _PharmacyLocationsState call(
+      {required Set<Marker> markers,
+      required List<Pharmacy> nearestPharmacies}) {
     return _PharmacyLocationsState(
       markers: markers,
+      nearestPharmacies: nearestPharmacies,
     );
   }
 }
@@ -29,6 +32,7 @@ const $PharmacyLocationsState = _$PharmacyLocationsStateTearOff();
 /// @nodoc
 mixin _$PharmacyLocationsState {
   Set<Marker> get markers => throw _privateConstructorUsedError;
+  List<Pharmacy> get nearestPharmacies => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PharmacyLocationsStateCopyWith<PharmacyLocationsState> get copyWith =>
@@ -40,7 +44,7 @@ abstract class $PharmacyLocationsStateCopyWith<$Res> {
   factory $PharmacyLocationsStateCopyWith(PharmacyLocationsState value,
           $Res Function(PharmacyLocationsState) then) =
       _$PharmacyLocationsStateCopyWithImpl<$Res>;
-  $Res call({Set<Marker> markers});
+  $Res call({Set<Marker> markers, List<Pharmacy> nearestPharmacies});
 }
 
 /// @nodoc
@@ -55,12 +59,17 @@ class _$PharmacyLocationsStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? markers = freezed,
+    Object? nearestPharmacies = freezed,
   }) {
     return _then(_value.copyWith(
       markers: markers == freezed
           ? _value.markers
           : markers // ignore: cast_nullable_to_non_nullable
               as Set<Marker>,
+      nearestPharmacies: nearestPharmacies == freezed
+          ? _value.nearestPharmacies
+          : nearestPharmacies // ignore: cast_nullable_to_non_nullable
+              as List<Pharmacy>,
     ));
   }
 }
@@ -72,7 +81,7 @@ abstract class _$PharmacyLocationsStateCopyWith<$Res>
           $Res Function(_PharmacyLocationsState) then) =
       __$PharmacyLocationsStateCopyWithImpl<$Res>;
   @override
-  $Res call({Set<Marker> markers});
+  $Res call({Set<Marker> markers, List<Pharmacy> nearestPharmacies});
 }
 
 /// @nodoc
@@ -89,12 +98,17 @@ class __$PharmacyLocationsStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? markers = freezed,
+    Object? nearestPharmacies = freezed,
   }) {
     return _then(_PharmacyLocationsState(
       markers: markers == freezed
           ? _value.markers
           : markers // ignore: cast_nullable_to_non_nullable
               as Set<Marker>,
+      nearestPharmacies: nearestPharmacies == freezed
+          ? _value.nearestPharmacies
+          : nearestPharmacies // ignore: cast_nullable_to_non_nullable
+              as List<Pharmacy>,
     ));
   }
 }
@@ -102,14 +116,17 @@ class __$PharmacyLocationsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_PharmacyLocationsState implements _PharmacyLocationsState {
-  const _$_PharmacyLocationsState({required this.markers});
+  const _$_PharmacyLocationsState(
+      {required this.markers, required this.nearestPharmacies});
 
   @override
   final Set<Marker> markers;
+  @override
+  final List<Pharmacy> nearestPharmacies;
 
   @override
   String toString() {
-    return 'PharmacyLocationsState(markers: $markers)';
+    return 'PharmacyLocationsState(markers: $markers, nearestPharmacies: $nearestPharmacies)';
   }
 
   @override
@@ -117,12 +134,18 @@ class _$_PharmacyLocationsState implements _PharmacyLocationsState {
     return identical(this, other) ||
         (other is _PharmacyLocationsState &&
             (identical(other.markers, markers) ||
-                const DeepCollectionEquality().equals(other.markers, markers)));
+                const DeepCollectionEquality()
+                    .equals(other.markers, markers)) &&
+            (identical(other.nearestPharmacies, nearestPharmacies) ||
+                const DeepCollectionEquality()
+                    .equals(other.nearestPharmacies, nearestPharmacies)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(markers);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(markers) ^
+      const DeepCollectionEquality().hash(nearestPharmacies);
 
   @JsonKey(ignore: true)
   @override
@@ -132,11 +155,14 @@ class _$_PharmacyLocationsState implements _PharmacyLocationsState {
 }
 
 abstract class _PharmacyLocationsState implements PharmacyLocationsState {
-  const factory _PharmacyLocationsState({required Set<Marker> markers}) =
-      _$_PharmacyLocationsState;
+  const factory _PharmacyLocationsState(
+      {required Set<Marker> markers,
+      required List<Pharmacy> nearestPharmacies}) = _$_PharmacyLocationsState;
 
   @override
   Set<Marker> get markers => throw _privateConstructorUsedError;
+  @override
+  List<Pharmacy> get nearestPharmacies => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PharmacyLocationsStateCopyWith<_PharmacyLocationsState> get copyWith =>

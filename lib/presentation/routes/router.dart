@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:pharma_flutter/presentation/drugs/drug_detail_page.dart';
 import 'package:pharma_flutter/presentation/drugs/drugs_overview_page.dart';
 import 'package:pharma_flutter/presentation/drugs/my_reviews_page.dart';
+import 'package:pharma_flutter/presentation/drugs/my_subscriptions_page.dart';
 import 'package:pharma_flutter/presentation/drugs/pharmacy_page.dart';
 import 'package:pharma_flutter/presentation/sign_in/sign_in_page.dart';
 import 'package:pharma_flutter/presentation/sign_in/sign_up_page.dart';
@@ -15,6 +16,7 @@ import 'package:pharma_flutter/presentation/sign_in/sign_up_page.dart';
     AutoRoute(page: DrugDetailPage),
     AutoRoute(page: MyReviewsPage),
     AutoRoute(page: PharmacyPage),
+    AutoRoute(page: MySubscriptionsPage),
   ],
 )
 class $AppRouter {}

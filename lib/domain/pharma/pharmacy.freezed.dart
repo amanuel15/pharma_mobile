@@ -22,19 +22,17 @@ class _$PharmacyTearOff {
       required String pharmacyEmail,
       required double rating,
       required bool acceptsRequests,
-      required List<String> drugNames,
       required List<String> imageUrls,
       required List<Map<String, dynamic>> location,
       required String locationDescription,
-      List<Review>? reviews,
-      List<String>? requests}) {
+      List<dynamic>? reviews,
+      List<dynamic>? requests}) {
     return _Pharmacy(
       id: id,
       pharmacyName: pharmacyName,
       pharmacyEmail: pharmacyEmail,
       rating: rating,
       acceptsRequests: acceptsRequests,
-      drugNames: drugNames,
       imageUrls: imageUrls,
       location: location,
       locationDescription: locationDescription,
@@ -54,12 +52,11 @@ mixin _$Pharmacy {
   String get pharmacyEmail => throw _privateConstructorUsedError;
   double get rating => throw _privateConstructorUsedError;
   bool get acceptsRequests => throw _privateConstructorUsedError;
-  List<String> get drugNames => throw _privateConstructorUsedError;
   List<String> get imageUrls => throw _privateConstructorUsedError;
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
   String get locationDescription => throw _privateConstructorUsedError;
-  List<Review>? get reviews => throw _privateConstructorUsedError;
-  List<String>? get requests => throw _privateConstructorUsedError;
+  List<dynamic>? get reviews => throw _privateConstructorUsedError;
+  List<dynamic>? get requests => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PharmacyCopyWith<Pharmacy> get copyWith =>
@@ -76,12 +73,11 @@ abstract class $PharmacyCopyWith<$Res> {
       String pharmacyEmail,
       double rating,
       bool acceptsRequests,
-      List<String> drugNames,
       List<String> imageUrls,
       List<Map<String, dynamic>> location,
       String locationDescription,
-      List<Review>? reviews,
-      List<String>? requests});
+      List<dynamic>? reviews,
+      List<dynamic>? requests});
 }
 
 /// @nodoc
@@ -99,7 +95,6 @@ class _$PharmacyCopyWithImpl<$Res> implements $PharmacyCopyWith<$Res> {
     Object? pharmacyEmail = freezed,
     Object? rating = freezed,
     Object? acceptsRequests = freezed,
-    Object? drugNames = freezed,
     Object? imageUrls = freezed,
     Object? location = freezed,
     Object? locationDescription = freezed,
@@ -127,10 +122,6 @@ class _$PharmacyCopyWithImpl<$Res> implements $PharmacyCopyWith<$Res> {
           ? _value.acceptsRequests
           : acceptsRequests // ignore: cast_nullable_to_non_nullable
               as bool,
-      drugNames: drugNames == freezed
-          ? _value.drugNames
-          : drugNames // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       imageUrls: imageUrls == freezed
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
@@ -146,11 +137,11 @@ class _$PharmacyCopyWithImpl<$Res> implements $PharmacyCopyWith<$Res> {
       reviews: reviews == freezed
           ? _value.reviews
           : reviews // ignore: cast_nullable_to_non_nullable
-              as List<Review>?,
+              as List<dynamic>?,
       requests: requests == freezed
           ? _value.requests
           : requests // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<dynamic>?,
     ));
   }
 }
@@ -166,12 +157,11 @@ abstract class _$PharmacyCopyWith<$Res> implements $PharmacyCopyWith<$Res> {
       String pharmacyEmail,
       double rating,
       bool acceptsRequests,
-      List<String> drugNames,
       List<String> imageUrls,
       List<Map<String, dynamic>> location,
       String locationDescription,
-      List<Review>? reviews,
-      List<String>? requests});
+      List<dynamic>? reviews,
+      List<dynamic>? requests});
 }
 
 /// @nodoc
@@ -190,7 +180,6 @@ class __$PharmacyCopyWithImpl<$Res> extends _$PharmacyCopyWithImpl<$Res>
     Object? pharmacyEmail = freezed,
     Object? rating = freezed,
     Object? acceptsRequests = freezed,
-    Object? drugNames = freezed,
     Object? imageUrls = freezed,
     Object? location = freezed,
     Object? locationDescription = freezed,
@@ -218,10 +207,6 @@ class __$PharmacyCopyWithImpl<$Res> extends _$PharmacyCopyWithImpl<$Res>
           ? _value.acceptsRequests
           : acceptsRequests // ignore: cast_nullable_to_non_nullable
               as bool,
-      drugNames: drugNames == freezed
-          ? _value.drugNames
-          : drugNames // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       imageUrls: imageUrls == freezed
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
@@ -237,11 +222,11 @@ class __$PharmacyCopyWithImpl<$Res> extends _$PharmacyCopyWithImpl<$Res>
       reviews: reviews == freezed
           ? _value.reviews
           : reviews // ignore: cast_nullable_to_non_nullable
-              as List<Review>?,
+              as List<dynamic>?,
       requests: requests == freezed
           ? _value.requests
           : requests // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<dynamic>?,
     ));
   }
 }
@@ -255,7 +240,6 @@ class _$_Pharmacy extends _Pharmacy {
       required this.pharmacyEmail,
       required this.rating,
       required this.acceptsRequests,
-      required this.drugNames,
       required this.imageUrls,
       required this.location,
       required this.locationDescription,
@@ -274,21 +258,19 @@ class _$_Pharmacy extends _Pharmacy {
   @override
   final bool acceptsRequests;
   @override
-  final List<String> drugNames;
-  @override
   final List<String> imageUrls;
   @override
   final List<Map<String, dynamic>> location;
   @override
   final String locationDescription;
   @override
-  final List<Review>? reviews;
+  final List<dynamic>? reviews;
   @override
-  final List<String>? requests;
+  final List<dynamic>? requests;
 
   @override
   String toString() {
-    return 'Pharmacy(id: $id, pharmacyName: $pharmacyName, pharmacyEmail: $pharmacyEmail, rating: $rating, acceptsRequests: $acceptsRequests, drugNames: $drugNames, imageUrls: $imageUrls, location: $location, locationDescription: $locationDescription, reviews: $reviews, requests: $requests)';
+    return 'Pharmacy(id: $id, pharmacyName: $pharmacyName, pharmacyEmail: $pharmacyEmail, rating: $rating, acceptsRequests: $acceptsRequests, imageUrls: $imageUrls, location: $location, locationDescription: $locationDescription, reviews: $reviews, requests: $requests)';
   }
 
   @override
@@ -308,9 +290,6 @@ class _$_Pharmacy extends _Pharmacy {
             (identical(other.acceptsRequests, acceptsRequests) ||
                 const DeepCollectionEquality()
                     .equals(other.acceptsRequests, acceptsRequests)) &&
-            (identical(other.drugNames, drugNames) ||
-                const DeepCollectionEquality()
-                    .equals(other.drugNames, drugNames)) &&
             (identical(other.imageUrls, imageUrls) ||
                 const DeepCollectionEquality()
                     .equals(other.imageUrls, imageUrls)) &&
@@ -336,7 +315,6 @@ class _$_Pharmacy extends _Pharmacy {
       const DeepCollectionEquality().hash(pharmacyEmail) ^
       const DeepCollectionEquality().hash(rating) ^
       const DeepCollectionEquality().hash(acceptsRequests) ^
-      const DeepCollectionEquality().hash(drugNames) ^
       const DeepCollectionEquality().hash(imageUrls) ^
       const DeepCollectionEquality().hash(location) ^
       const DeepCollectionEquality().hash(locationDescription) ^
@@ -356,12 +334,11 @@ abstract class _Pharmacy extends Pharmacy {
       required String pharmacyEmail,
       required double rating,
       required bool acceptsRequests,
-      required List<String> drugNames,
       required List<String> imageUrls,
       required List<Map<String, dynamic>> location,
       required String locationDescription,
-      List<Review>? reviews,
-      List<String>? requests}) = _$_Pharmacy;
+      List<dynamic>? reviews,
+      List<dynamic>? requests}) = _$_Pharmacy;
   const _Pharmacy._() : super._();
 
   @override
@@ -375,17 +352,15 @@ abstract class _Pharmacy extends Pharmacy {
   @override
   bool get acceptsRequests => throw _privateConstructorUsedError;
   @override
-  List<String> get drugNames => throw _privateConstructorUsedError;
-  @override
   List<String> get imageUrls => throw _privateConstructorUsedError;
   @override
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
   @override
   String get locationDescription => throw _privateConstructorUsedError;
   @override
-  List<Review>? get reviews => throw _privateConstructorUsedError;
+  List<dynamic>? get reviews => throw _privateConstructorUsedError;
   @override
-  List<String>? get requests => throw _privateConstructorUsedError;
+  List<dynamic>? get requests => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$PharmacyCopyWith<_Pharmacy> get copyWith =>

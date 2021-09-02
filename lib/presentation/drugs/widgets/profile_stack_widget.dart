@@ -33,9 +33,10 @@ class ProfileStackWidget extends StatelessWidget {
                       press: () => {},
                     ),
                     ProfileMenu(
-                      text: "Notifications",
-                      icon: Icons.notifications,
-                      press: () {},
+                      text: "My Subscriptions",
+                      icon: Icons.stacked_bar_chart,
+                      press: () => context.router
+                          .push(MySubscriptionsRoute(user: state.user)),
                     ),
                     ProfileMenu(
                       text: "My Reviews",

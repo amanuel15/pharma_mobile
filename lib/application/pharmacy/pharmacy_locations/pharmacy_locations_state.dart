@@ -7,9 +7,11 @@ abstract class PharmacyLocationsState with _$PharmacyLocationsState {
   //     _PharmaciesLoaded;
   const factory PharmacyLocationsState({
     required Set<Marker> markers,
+    required List<Pharmacy> nearestPharmacies,
   }) = _PharmacyLocationsState;
 
   factory PharmacyLocationsState.initial() => PharmacyLocationsState(
         markers: {},
+        nearestPharmacies: [],
       );
 }

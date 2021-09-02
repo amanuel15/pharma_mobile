@@ -8,6 +8,7 @@ import 'package:google_maps_flutter_platform_interface/src/types/marker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/pharma_failure.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
@@ -320,7 +321,6 @@ class DrugRepository implements IDrugRepository {
     } on DioError catch (e) {
       return Error(ReviewFailure.unexpected());
     }
-    throw UnimplementedError();
   }
 
   @override
@@ -355,7 +355,7 @@ class DrugRepository implements IDrugRepository {
   }
 
   @override
-  Future<Result<MarkersFailure, Set<Marker>>> fetchNearestPharmacies({
+  Future<Result<PharmaFailure, List<Pharmacy>>> fetchNearestPharmacies({
     required int radius,
     required LatLng location,
   }) async {
@@ -369,21 +369,33 @@ class DrugRepository implements IDrugRepository {
         },
       );
       List revs = response.data['data'];
+      List images = revs[0]['pharmacyPhotos'];
       BitmapDescriptor mapMarker = await setCustomMarker();
       return Success(
         revs
-            .map((e) => Marker(
-                  markerId: MarkerId(
-                    '${e['location']['coordinates'][0]}, ${e['location']['coordinates'][1]}',
-                  ),
-                  position: LatLng(e['location']['coordinates'][0],
-                      e['location']['coordinates'][1]),
-                  icon: mapMarker,
-                ))
-            .toSet(),
+            .map(
+              (e) => Pharmacy(
+                id: e['_id'],
+                pharmacyName: e['name'],
+                pharmacyEmail: e['email'],
+                rating: e['rating'].toDouble(),
+                acceptsRequests: e['acceptsRequests'],
+                imageUrls: images.map((e) => e.toString()).toList(),
+                location: [
+                  {
+                    'lat': e['location']['coordinates'][0],
+                    'lng': e['location']['coordinates'][1]
+                  },
+                ],
+                locationDescription: e['locationDescription'],
+                reviews: e['reviews'],
+                requests: e['requests'],
+              ),
+            )
+            .toList(),
       );
     } on DioError catch (e) {
-      return Error(MarkersFailure.unexpected());
+      return Error(PharmaFailure.unexpected());
     }
   }
 
@@ -408,31 +420,34 @@ class DrugRepository implements IDrugRepository {
       {required String pharmacyId}) async {
     Response response;
     try {
-      // response = await _dio.get(
-      //   'http://10.0.2.2:3000/client/search/getNearByPharmacies/',
-      //   queryParameters: {
-      //     'radius': radius,
-      //     'location': [location.latitude, location.longitude],
-      //   },
-      // );
-      // List revs = response.data['data'];
-      // BitmapDescriptor mapMarker = await setCustomMarker();
-      // return Success(
-      //   revs
-      //       .map((e) => Marker(
-      //             markerId: MarkerId(
-      //               '${e['location']['coordinates'][0]}, ${e['location']['coordinates'][1]}',
-      //             ),
-      //             position: LatLng(e['location']['coordinates'][0],
-      //                 e['location']['coordinates'][1]),
-      //             icon: mapMarker,
-      //           ))
-      //       .toSet(),
-      // );
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/search/getPharmacy/',
+        queryParameters: {
+          'id': pharmacyId,
+        },
+      );
+      List revs = response.data['data'];
+      List images = revs[0]['pharmacyPhotos'];
+      return Success(
+        Pharmacy(
+          id: revs[0]['_id'],
+          pharmacyName: revs[0]['name'],
+          pharmacyEmail: revs[0]['email'],
+          rating: revs[0]['rating'].toDouble(),
+          acceptsRequests: revs[0]['acceptsRequests'],
+          imageUrls: images.map((e) => e.toString()).toList(),
+          location: [
+            {
+              'lat': revs[0]['location']['coordinates'][0],
+              'lng': revs[0]['location']['coordinates'][1],
+            },
+          ],
+          locationDescription: revs[0]['locationDescription'],
+        ),
+      );
     } on DioError catch (e) {
       return Error(ReviewFailure.unexpected());
     }
-    throw UnimplementedError();
   }
 
   @override
@@ -441,7 +456,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/subscribe/getUserSubscriptions',
+        'http://10.0.2.2:3000/client/subscribe/getMySubscriptions/',
         queryParameters: {},
         options: Options(
           headers: {

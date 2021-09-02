@@ -14,7 +14,7 @@ import 'package:pharma_flutter/injection.dart';
 
 class PharmacyPage extends StatelessWidget {
   final Pharmacy pharmacy;
-  final User user;
+  final User? user;
   const PharmacyPage({Key? key, required this.pharmacy, required this.user})
       : super(key: key);
 
@@ -25,8 +25,11 @@ class PharmacyPage extends StatelessWidget {
         BlocProvider<PharmacyReviewActorBloc>(
           create: (context) => getIt<PharmacyReviewActorBloc>(),
         ),
-        BlocProvider<PharmacyReviewFetcherBloc>(
-            create: (context) => getIt<PharmacyReviewFetcherBloc>()),
+        if (user != null) // TODO: Make sure to make reviews not ask user token
+          BlocProvider<PharmacyReviewFetcherBloc>(
+              create: (context) => getIt<PharmacyReviewFetcherBloc>()
+                ..add(PharmacyReviewFetcherEvent.fetchPharmacyReviews(
+                    pharmacy.id, user!.token, 0, user!.id, 'Default'))),
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -52,8 +55,8 @@ class PharmacyPage extends StatelessWidget {
             CarouselSlider(
               options: CarouselOptions(
                 initialPage: 0,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
+                // autoPlay: true,
+                // autoPlayInterval: Duration(seconds: 3),
               ),
               items: pharmacy.imageUrls
                   .map(
@@ -89,45 +92,48 @@ class PharmacyPage extends StatelessWidget {
               itemSize: 35.r,
               unratedColor: Colors.amber.withAlpha(50),
             ),
-            BlocBuilder<PharmacyReviewFetcherBloc, PharmacyReviewFetcherState>(
-              builder: (context, state) {
-                return state.map(
-                  initial: (_) => Center(
-                    child: Text('Initializing...'),
-                  ),
-                  loadInProgress: (state) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                  loadSuccess: (state) {
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                        return PharmacyReviewCard(
-                          review: state.reviews[index],
-                          user: user,
-                        );
-                      },
-                      itemCount: state.reviews.length,
-                    );
-                  },
-                  loadFailure: (state) {
-                    return Container(
-                      color: Colors.amber,
-                      child: Center(
-                        child: Text(
-                          'We were unable to fetch reiews!!!',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.sp,
+            if (user != null)
+              BlocBuilder<PharmacyReviewFetcherBloc,
+                  PharmacyReviewFetcherState>(
+                builder: (context, state) {
+                  return state.map(
+                    initial: (_) => Center(
+                      child: Text('Initializing...'),
+                    ),
+                    loadInProgress: (state) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    loadSuccess: (state) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return PharmacyReviewCard(
+                            review: state.reviews[index],
+                            user: user!,
+                          );
+                        },
+                        itemCount: state.reviews.length,
+                      );
+                    },
+                    loadFailure: (state) {
+                      return Container(
+                        color: Colors.amber,
+                        child: Center(
+                          child: Text(
+                            'We were unable to fetch reiews!!!',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24.sp,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+                      );
+                    },
+                  );
+                },
+              ),
           ],
         ),
       ),
