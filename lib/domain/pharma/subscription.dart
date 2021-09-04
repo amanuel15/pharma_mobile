@@ -8,8 +8,7 @@ abstract class Subscription implements _$Subscription {
 
   const factory Subscription({
     required String drugName,
-    String? id,
-    required String userId,
+    required String id,
     required String drugId,
     required String pharmacyId,
     required String creationDate,
@@ -20,7 +19,6 @@ abstract class Subscription implements _$Subscription {
   factory Subscription.empty() => Subscription(
         drugName: '',
         id: '',
-        userId: '',
         drugId: '',
         pharmacyId: '',
         creationDate: '',

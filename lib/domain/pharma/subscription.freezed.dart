@@ -18,8 +18,7 @@ class _$SubscriptionTearOff {
 
   _Subscription call(
       {required String drugName,
-      String? id,
-      required String userId,
+      required String id,
       required String drugId,
       required String pharmacyId,
       required String creationDate,
@@ -28,7 +27,6 @@ class _$SubscriptionTearOff {
     return _Subscription(
       drugName: drugName,
       id: id,
-      userId: userId,
       drugId: drugId,
       pharmacyId: pharmacyId,
       creationDate: creationDate,
@@ -44,8 +42,7 @@ const $Subscription = _$SubscriptionTearOff();
 /// @nodoc
 mixin _$Subscription {
   String get drugName => throw _privateConstructorUsedError;
-  String? get id => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get drugId => throw _privateConstructorUsedError;
   String get pharmacyId => throw _privateConstructorUsedError;
   String get creationDate => throw _privateConstructorUsedError;
@@ -64,8 +61,7 @@ abstract class $SubscriptionCopyWith<$Res> {
       _$SubscriptionCopyWithImpl<$Res>;
   $Res call(
       {String drugName,
-      String? id,
-      String userId,
+      String id,
       String drugId,
       String pharmacyId,
       String creationDate,
@@ -85,7 +81,6 @@ class _$SubscriptionCopyWithImpl<$Res> implements $SubscriptionCopyWith<$Res> {
   $Res call({
     Object? drugName = freezed,
     Object? id = freezed,
-    Object? userId = freezed,
     Object? drugId = freezed,
     Object? pharmacyId = freezed,
     Object? creationDate = freezed,
@@ -100,10 +95,6 @@ class _$SubscriptionCopyWithImpl<$Res> implements $SubscriptionCopyWith<$Res> {
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userId: userId == freezed
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       drugId: drugId == freezed
           ? _value.drugId
@@ -138,8 +129,7 @@ abstract class _$SubscriptionCopyWith<$Res>
   @override
   $Res call(
       {String drugName,
-      String? id,
-      String userId,
+      String id,
       String drugId,
       String pharmacyId,
       String creationDate,
@@ -161,7 +151,6 @@ class __$SubscriptionCopyWithImpl<$Res> extends _$SubscriptionCopyWithImpl<$Res>
   $Res call({
     Object? drugName = freezed,
     Object? id = freezed,
-    Object? userId = freezed,
     Object? drugId = freezed,
     Object? pharmacyId = freezed,
     Object? creationDate = freezed,
@@ -176,10 +165,6 @@ class __$SubscriptionCopyWithImpl<$Res> extends _$SubscriptionCopyWithImpl<$Res>
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userId: userId == freezed
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       drugId: drugId == freezed
           ? _value.drugId
@@ -210,8 +195,7 @@ class __$SubscriptionCopyWithImpl<$Res> extends _$SubscriptionCopyWithImpl<$Res>
 class _$_Subscription extends _Subscription {
   const _$_Subscription(
       {required this.drugName,
-      this.id,
-      required this.userId,
+      required this.id,
       required this.drugId,
       required this.pharmacyId,
       required this.creationDate,
@@ -222,9 +206,7 @@ class _$_Subscription extends _Subscription {
   @override
   final String drugName;
   @override
-  final String? id;
-  @override
-  final String userId;
+  final String id;
   @override
   final String drugId;
   @override
@@ -238,7 +220,7 @@ class _$_Subscription extends _Subscription {
 
   @override
   String toString() {
-    return 'Subscription(drugName: $drugName, id: $id, userId: $userId, drugId: $drugId, pharmacyId: $pharmacyId, creationDate: $creationDate, editDate: $editDate, isAvailable: $isAvailable)';
+    return 'Subscription(drugName: $drugName, id: $id, drugId: $drugId, pharmacyId: $pharmacyId, creationDate: $creationDate, editDate: $editDate, isAvailable: $isAvailable)';
   }
 
   @override
@@ -250,8 +232,6 @@ class _$_Subscription extends _Subscription {
                     .equals(other.drugName, drugName)) &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
             (identical(other.drugId, drugId) ||
                 const DeepCollectionEquality().equals(other.drugId, drugId)) &&
             (identical(other.pharmacyId, pharmacyId) ||
@@ -273,7 +253,6 @@ class _$_Subscription extends _Subscription {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(drugName) ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(drugId) ^
       const DeepCollectionEquality().hash(pharmacyId) ^
       const DeepCollectionEquality().hash(creationDate) ^
@@ -289,8 +268,7 @@ class _$_Subscription extends _Subscription {
 abstract class _Subscription extends Subscription {
   const factory _Subscription(
       {required String drugName,
-      String? id,
-      required String userId,
+      required String id,
       required String drugId,
       required String pharmacyId,
       required String creationDate,
@@ -301,9 +279,7 @@ abstract class _Subscription extends Subscription {
   @override
   String get drugName => throw _privateConstructorUsedError;
   @override
-  String? get id => throw _privateConstructorUsedError;
-  @override
-  String get userId => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   @override
   String get drugId => throw _privateConstructorUsedError;
   @override

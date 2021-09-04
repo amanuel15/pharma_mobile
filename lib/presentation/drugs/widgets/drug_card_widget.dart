@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pharma_flutter/application/drugs/subscription/subscription_fetcher/subscription_fetcher_bloc.dart';
 import 'package:pharma_flutter/domain/pharma/drug.dart';
-import 'package:pharma_flutter/domain/pharma/subscription.dart';
 import 'package:pharma_flutter/presentation/routes/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -23,167 +20,158 @@ class DrugCard extends StatelessWidget {
           SizedBox(
             height: 5.h,
           ),
-          BlocBuilder<SubscriptionFetcherBloc, SubscriptionFetcherState>(
-            builder: (context, state) {
-              return GestureDetector(
-                onTap: () {
-                  List<Subscription> subs = state.maybeWhen(
-                    loadSuccess: (subs) => subs,
-                    orElse: () => [],
-                  );
-                  context.router.push(DrugDetailRoute(
-                    drug: drug,
-                    subscriptions: subs,
-                  ));
-                },
-                child: Container(
-                  height: 193.h,
-                  child: Card(
-                    color: Colors.grey[100],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.r),
+          GestureDetector(
+            onTap: () {
+              context.router.push(DrugDetailRoute(
+                drug: drug,
+              ));
+            },
+            child: Container(
+              height: 193.h,
+              child: Card(
+                color: Colors.grey[100],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                margin: EdgeInsets.zero,
+                elevation: 1,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      constraints: BoxConstraints(
+                        maxWidth: 30.sw,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.horizontal(
+                          left: Radius.circular(8.r),
+                        ),
+                        child: Image(
+                          image: AssetImage('assets/d.jpg'),
+                        ),
+                      ),
                     ),
-                    margin: EdgeInsets.zero,
-                    elevation: 1,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          constraints: BoxConstraints(
-                            maxWidth: 30.sw,
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.horizontal(
-                              left: Radius.circular(8.r),
-                            ),
-                            child: Image(
-                              image: AssetImage('assets/d.jpg'),
-                            ),
-                          ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          right: 2.w,
                         ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              right: 2.w,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 3.h),
+                              child: Text(
+                                drug.drugName,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Text(
+                              drug.brandName,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 3.h),
+                              child: Text(
+                                drug.drugOrigin,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Row(
                               children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: 3.h),
-                                  child: Text(
-                                    drug.drugName,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                RatingBarIndicator(
+                                  rating: drug.rating,
+                                  itemBuilder: (context, index) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
                                   ),
+                                  itemCount: 5,
+                                  itemSize: 24.r,
+                                  unratedColor: Colors.amber.withAlpha(50),
                                 ),
                                 SizedBox(
-                                  height: 3.h,
+                                  width: 5.w,
                                 ),
                                 Text(
-                                  drug.brandName,
-                                  overflow: TextOverflow.ellipsis,
+                                  '(${drug.reviews.length})',
                                   style: TextStyle(
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 3.h,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: 3.h),
-                                  child: Text(
-                                    drug.drugOrigin,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    RatingBarIndicator(
-                                      rating: drug.rating,
-                                      itemBuilder: (context, index) => Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      itemCount: 5,
-                                      itemSize: 24.r,
-                                      unratedColor: Colors.amber.withAlpha(50),
-                                    ),
-                                    SizedBox(
-                                      width: 5.w,
-                                    ),
-                                    Text(
-                                      '(${drug.reviews.length})',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 12.sp,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 3.h,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: 3.h),
-                                  child: Text(
-                                    '${drug.drugPrice} birr',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 3.h,
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: 3.h),
-                                  child: Text(
-                                    drug.createdDate,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(vertical: 3.h),
-                                  child: Text(
-                                    'Availability: ${drug.stock > 0 ? 'In Stock  - ${drug.stock}' : 'Out Of Stock'}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: drug.stock > 0
-                                          ? Colors.green[400]
-                                          : Colors.red[400],
-                                    ),
+                                    color: Colors.blue,
+                                    fontSize: 12.sp,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 3.h),
+                              child: Text(
+                                '${drug.drugPrice} birr',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 3.h,
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 3.h),
+                              child: Text(
+                                drug.createdDate,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 3.h),
+                              child: Text(
+                                'Availability: ${drug.stock > 0 ? 'In Stock  - ${drug.stock}' : 'Out Of Stock'}',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: drug.stock > 0
+                                      ? Colors.green[400]
+                                      : Colors.red[400],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              );
-            },
+              ),
+            ),
           ),
           SizedBox(
             height: 5.h,

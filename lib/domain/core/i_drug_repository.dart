@@ -17,6 +17,11 @@ abstract class IDrugRepository {
   Future<Result<SearchFailure, List<Recommendation>>> searchRecommendations(
       String searchTerm);
   Future<Result<SearchFailure, List<Drug>>> searchDrugs(String searchTerm);
+  Future<Result<PharmaFailure, Drug>> getDrug({
+    required String drugId,
+    required String userId,
+    required String accessToken,
+  });
   //--Review Related--
   Future<Result<ReviewFailure, List<Review>>> getReviewsForDrug({
     required String drugId,
@@ -56,10 +61,16 @@ abstract class IDrugRepository {
   });
 
   Future<Result<ReviewFailure, Unit>> subscribeToDrug({
-    required Drug drug,
+    required String drugId,
     required String accessToken,
     required String userId,
     required int expiresInDays,
+  });
+
+  Future<Result<ReviewFailure, Unit>> unsubscribeFromDrug({
+    required String subscriptionId,
+    required String accessToken,
+    required String userId,
   });
 
   Future<Result<PharmaFailure, List<Pharmacy>>> fetchNearestPharmacies({

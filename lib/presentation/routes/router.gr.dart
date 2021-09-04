@@ -7,10 +7,9 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
-import '../../domain/auth/user.dart' as _i12;
+import '../../domain/auth/user.dart' as _i11;
 import '../../domain/pharma/drug.dart' as _i10;
-import '../../domain/pharma/pharmacy.dart' as _i13;
-import '../../domain/pharma/subscription.dart' as _i11;
+import '../../domain/pharma/pharmacy.dart' as _i12;
 import '../drugs/drug_detail_page.dart' as _i6;
 import '../drugs/drugs_overview_page.dart' as _i3;
 import '../drugs/my_reviews_page.dart' as _i7;
@@ -44,10 +43,7 @@ class AppRouter extends _i1.RootStackRouter {
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<DrugDetailRouteArgs>();
-          return _i6.DrugDetailPage(
-              key: args.key,
-              drug: args.drug,
-              subscriptions: args.subscriptions);
+          return _i6.DrugDetailPage(key: args.key, drug: args.drug);
         }),
     MyReviewsRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -102,30 +98,24 @@ class SignUpRoute extends _i1.PageRouteInfo {
 }
 
 class DrugDetailRoute extends _i1.PageRouteInfo<DrugDetailRouteArgs> {
-  DrugDetailRoute(
-      {_i2.Key? key,
-      required _i10.Drug drug,
-      List<_i11.Subscription>? subscriptions})
+  DrugDetailRoute({_i2.Key? key, required _i10.Drug drug})
       : super(name,
             path: '/drug-detail-page',
-            args: DrugDetailRouteArgs(
-                key: key, drug: drug, subscriptions: subscriptions));
+            args: DrugDetailRouteArgs(key: key, drug: drug));
 
   static const String name = 'DrugDetailRoute';
 }
 
 class DrugDetailRouteArgs {
-  const DrugDetailRouteArgs({this.key, required this.drug, this.subscriptions});
+  const DrugDetailRouteArgs({this.key, required this.drug});
 
   final _i2.Key? key;
 
   final _i10.Drug drug;
-
-  final List<_i11.Subscription>? subscriptions;
 }
 
 class MyReviewsRoute extends _i1.PageRouteInfo<MyReviewsRouteArgs> {
-  MyReviewsRoute({_i2.Key? key, required _i12.User user})
+  MyReviewsRoute({_i2.Key? key, required _i11.User user})
       : super(name,
             path: '/my-reviews-page',
             args: MyReviewsRouteArgs(key: key, user: user));
@@ -138,12 +128,12 @@ class MyReviewsRouteArgs {
 
   final _i2.Key? key;
 
-  final _i12.User user;
+  final _i11.User user;
 }
 
 class PharmacyRoute extends _i1.PageRouteInfo<PharmacyRouteArgs> {
   PharmacyRoute(
-      {_i2.Key? key, required _i13.Pharmacy pharmacy, required _i12.User? user})
+      {_i2.Key? key, required _i12.Pharmacy pharmacy, required _i11.User? user})
       : super(name,
             path: '/pharmacy-page',
             args: PharmacyRouteArgs(key: key, pharmacy: pharmacy, user: user));
@@ -157,13 +147,13 @@ class PharmacyRouteArgs {
 
   final _i2.Key? key;
 
-  final _i13.Pharmacy pharmacy;
+  final _i12.Pharmacy pharmacy;
 
-  final _i12.User? user;
+  final _i11.User? user;
 }
 
 class MySubscriptionsRoute extends _i1.PageRouteInfo<MySubscriptionsRouteArgs> {
-  MySubscriptionsRoute({_i2.Key? key, required _i12.User user})
+  MySubscriptionsRoute({_i2.Key? key, required _i11.User user})
       : super(name,
             path: '/my-subscriptions-page',
             args: MySubscriptionsRouteArgs(key: key, user: user));
@@ -176,5 +166,5 @@ class MySubscriptionsRouteArgs {
 
   final _i2.Key? key;
 
-  final _i12.User user;
+  final _i11.User user;
 }

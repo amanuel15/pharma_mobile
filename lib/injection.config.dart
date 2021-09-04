@@ -8,8 +8,9 @@ import 'package:dio/dio.dart' as _i3;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import 'application/auth/auth_bloc.dart' as _i23;
-import 'application/auth/sign_in_form/sign_in_form_bloc.dart' as _i22;
+import 'application/auth/auth_bloc.dart' as _i25;
+import 'application/auth/sign_in_form/sign_in_form_bloc.dart' as _i24;
+import 'application/drugs/fetch_drug/fetch_drug_bloc.dart' as _i20;
 import 'application/drugs/review/pharmacy_review_actor/pharmacy_review_actor_bloc.dart'
     as _i10;
 import 'application/drugs/review/pharmacy_review_fetcher/pharmacy_review_fetcher_bloc.dart'
@@ -20,19 +21,21 @@ import 'application/drugs/review/review_fetcher/review_fetcher_bloc.dart'
 import 'application/drugs/review/review_form/review_form_bloc.dart' as _i14;
 import 'application/drugs/search/search_bloc.dart' as _i15;
 import 'application/drugs/search/search_result/search_result_bloc.dart' as _i17;
-import 'application/drugs/subscription/subscription_fetcher/subscription_fetcher_bloc.dart'
+import 'application/drugs/subscription/subscription_actor/subscription_actor_bloc.dart'
     as _i18;
-import 'application/pharmacy/bloc/fetch_drug_pharmacy_bloc.dart' as _i19;
+import 'application/drugs/subscription/subscription_fetcher/subscription_fetcher_bloc.dart'
+    as _i19;
+import 'application/pharmacy/bloc/fetch_drug_pharmacy_bloc.dart' as _i21;
 import 'application/pharmacy/pharmacy_locations/pharmacy_locations_cubit.dart'
     as _i9;
 import 'application/util/location/location_cubit.dart' as _i8;
 import 'application/util/search_history/search_history_cubit.dart' as _i16;
-import 'domain/auth/i_auth_facade.dart' as _i20;
+import 'domain/auth/i_auth_facade.dart' as _i22;
 import 'domain/core/i_database_facade.dart' as _i4;
 import 'domain/core/i_drug_repository.dart' as _i6;
-import 'infrastructure/auth/auth_facade.dart' as _i21;
+import 'infrastructure/auth/auth_facade.dart' as _i23;
 import 'infrastructure/core/database/moor_database.dart' as _i5;
-import 'infrastructure/core/injectable_module.dart' as _i24;
+import 'infrastructure/core/injectable_module.dart' as _i26;
 import 'infrastructure/drugs/drug_repository.dart'
     as _i7; // ignore_for_file: unnecessary_lambdas
 
@@ -65,16 +68,20 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => _i16.SearchHistoryCubit(get<_i4.IDatabaseFacade>()));
   gh.factory<_i17.SearchResultBloc>(
       () => _i17.SearchResultBloc(get<_i6.IDrugRepository>()));
-  gh.factory<_i18.SubscriptionFetcherBloc>(
-      () => _i18.SubscriptionFetcherBloc(get<_i6.IDrugRepository>()));
-  gh.factory<_i19.FetchDrugPharmacyBloc>(
-      () => _i19.FetchDrugPharmacyBloc(get<_i6.IDrugRepository>()));
-  gh.lazySingleton<_i20.IAuthFacade>(
-      () => _i21.AuthFacade(get<_i3.Dio>(), get<_i4.IDatabaseFacade>()));
-  gh.factory<_i22.SignInFormBloc>(
-      () => _i22.SignInFormBloc(get<_i20.IAuthFacade>()));
-  gh.factory<_i23.AuthBloc>(() => _i23.AuthBloc(get<_i20.IAuthFacade>()));
+  gh.factory<_i18.SubscriptionActorBloc>(
+      () => _i18.SubscriptionActorBloc(get<_i6.IDrugRepository>()));
+  gh.factory<_i19.SubscriptionFetcherBloc>(
+      () => _i19.SubscriptionFetcherBloc(get<_i6.IDrugRepository>()));
+  gh.factory<_i20.FetchDrugBloc>(
+      () => _i20.FetchDrugBloc(get<_i6.IDrugRepository>()));
+  gh.factory<_i21.FetchDrugPharmacyBloc>(
+      () => _i21.FetchDrugPharmacyBloc(get<_i6.IDrugRepository>()));
+  gh.lazySingleton<_i22.IAuthFacade>(
+      () => _i23.AuthFacade(get<_i3.Dio>(), get<_i4.IDatabaseFacade>()));
+  gh.factory<_i24.SignInFormBloc>(
+      () => _i24.SignInFormBloc(get<_i22.IAuthFacade>()));
+  gh.factory<_i25.AuthBloc>(() => _i25.AuthBloc(get<_i22.IAuthFacade>()));
   return get;
 }
 
-class _$InjectableModule extends _i24.InjectableModule {}
+class _$InjectableModule extends _i26.InjectableModule {}

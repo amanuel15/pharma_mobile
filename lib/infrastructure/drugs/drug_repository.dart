@@ -48,7 +48,7 @@ class DrugRepository implements IDrugRepository {
               (e) => Recommendation(
                 id: e['id'],
                 name: e['name'],
-                brandName: e['brandName'],
+                brandName: e['brandName'] ?? '',
               ),
             )
             .toList(),
@@ -325,21 +325,47 @@ class DrugRepository implements IDrugRepository {
 
   @override
   Future<Result<ReviewFailure, Unit>> subscribeToDrug({
-    required Drug drug,
+    required String drugId,
     required String accessToken,
     required String userId,
     required int expiresInDays,
   }) async {
     Response response;
     try {
-      response = await _dio.get(
-        'http://10.0.2.2:3000/client/review/getDrugReviews/',
-        queryParameters: {
-          'drugId': drug.id,
-          'brandName': drug.brandName,
-          "name": drug.drugName,
-          "pharmacyId": drug.pharmacyId,
-          "expiresInDays": expiresInDays,
+      response = await _dio.post(
+        'http://10.0.2.2:3000/client/subscribe/subscribeToDrugOrExtend',
+        data: {
+          'drugId': drugId,
+          'expiresInDays': expiresInDays,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      return Success(unit);
+    } on DioError catch (e) {
+      if (e.response?.data['status'] == 'Drug Is In Stock')
+        return Error(ReviewFailure.unableToUpdate());
+      else
+        return Error(ReviewFailure.unexpected());
+    }
+  }
+
+  @override
+  Future<Result<ReviewFailure, Unit>> unsubscribeFromDrug({
+    required String subscriptionId,
+    required String accessToken,
+    required String userId,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.post(
+        'http://10.0.2.2:3000/client/subscribe/removeSubscription',
+        data: {
+          'subscriptionId': subscriptionId,
         },
         options: Options(
           headers: {
@@ -370,7 +396,6 @@ class DrugRepository implements IDrugRepository {
       );
       List revs = response.data['data'];
       List images = revs[0]['pharmacyPhotos'];
-      BitmapDescriptor mapMarker = await setCustomMarker();
       return Success(
         revs
             .map(
@@ -397,22 +422,6 @@ class DrugRepository implements IDrugRepository {
     } on DioError catch (e) {
       return Error(PharmaFailure.unexpected());
     }
-  }
-
-  Future<BitmapDescriptor> setCustomMarker() async {
-    Uint8List uint8list =
-        await getBytesFromAsset('assets/pharmacy_marker.png', 96);
-    return BitmapDescriptor.fromBytes(uint8list);
-  }
-
-  static Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
   }
 
   @override
@@ -472,7 +481,6 @@ class DrugRepository implements IDrugRepository {
               (e) => Subscription(
                 id: e['_id'],
                 drugName: e['name'],
-                userId: e['userId'],
                 drugId: e['drugId'],
                 pharmacyId: e['pharmacyId'],
                 creationDate: e['creationDate'],
@@ -484,6 +492,54 @@ class DrugRepository implements IDrugRepository {
       );
     } on DioError catch (e) {
       return Error(ReviewFailure.unexpected());
+    }
+  }
+
+  @override
+  Future<Result<PharmaFailure, Drug>> getDrug(
+      {required String drugId,
+      required String userId,
+      required String accessToken}) async {
+    Response response;
+    try {
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/drug/getDtrug', // TODO: change url
+        queryParameters: {'drugId': drugId},
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      List revs = response.data['data'];
+      return Success(
+        Drug(
+          id: revs[0]['_id'],
+          pharmacyId: revs[0]['pharmacy'],
+          drugName: revs[0]['name'],
+          drugDetail: revs[0]['description'],
+          drugOrigin: revs[0]['countryOfOrigin'] ?? 'Origin Unknown',
+          drugPrice: revs[0]['price'].toDouble(),
+          stock: revs[0]['amountInStock'],
+          rating: revs[0]['rating'].toDouble(),
+          createdDate: revs[0]['creationDate'],
+          imageUrls: [],
+          location: [
+            {
+              'lat': revs[0]['location']['coordinates'][0],
+              'lng': revs[0]['location']['coordinates'][1]
+            },
+          ],
+          brandName: revs[0]['brandName'],
+          pharmacyRating: revs[0]['pharmacyRating'],
+          requiresPrescription: revs[0]['requiresPrescription'],
+          reviews: revs[0]['reviews'],
+          score: revs[0]['score'].toDouble(),
+        ),
+      );
+    } on DioError catch (e) {
+      return Error(PharmaFailure.unexpected());
     }
   }
 }

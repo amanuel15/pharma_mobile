@@ -7,6 +7,7 @@ import 'package:pharma_flutter/application/auth/auth_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_actor/review_actor_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_fetcher/review_fetcher_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/review_form/review_form_bloc.dart';
+import 'package:pharma_flutter/application/drugs/subscription/subscription_actor/subscription_actor_bloc.dart';
 import 'package:pharma_flutter/application/drugs/subscription/subscription_fetcher/subscription_fetcher_bloc.dart';
 import 'package:pharma_flutter/application/pharmacy/bloc/fetch_drug_pharmacy_bloc.dart';
 import 'package:pharma_flutter/domain/auth/user.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/subscription.dart';
 import 'package:pharma_flutter/injection.dart';
+import 'package:pharma_flutter/presentation/drugs/widgets/flashbar_widget.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/review_body_widget.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/review_star_widget.dart';
 import 'package:auto_route/auto_route.dart';
@@ -22,9 +24,10 @@ import 'package:pharma_flutter/presentation/routes/router.gr.dart';
 
 class DrugDetailPage extends StatelessWidget {
   final Drug drug;
-  final List<Subscription>? subscriptions;
-  const DrugDetailPage({Key? key, required this.drug, this.subscriptions})
-      : super(key: key);
+  const DrugDetailPage({
+    Key? key,
+    required this.drug,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +37,17 @@ class DrugDetailPage extends StatelessWidget {
           create: (context) => getIt<ReviewActorBloc>(),
         ),
         BlocProvider<ReviewFetcherBloc>(
-            create: (context) => getIt<ReviewFetcherBloc>()),
+          create: (context) => getIt<ReviewFetcherBloc>(),
+        ),
         BlocProvider<FetchDrugPharmacyBloc>(
-            create: (context) => getIt<FetchDrugPharmacyBloc>()
-              ..add(FetchDrugPharmacyEvent.fetchPharmacy(drug.pharmacyId))),
+          create: (context) => getIt<FetchDrugPharmacyBloc>()
+            ..add(
+              FetchDrugPharmacyEvent.fetchPharmacy(drug.pharmacyId),
+            ),
+        ),
+        BlocProvider<SubscriptionActorBloc>(
+          create: (context) => getIt<SubscriptionActorBloc>(),
+        ),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -45,48 +55,7 @@ class DrugDetailPage extends StatelessWidget {
             listener: (context, state) {
               state.maybeMap(
                 deleteFailure: (state) {
-                  showFlash(
-                    context: context,
-                    duration: const Duration(
-                      seconds: 3,
-                    ),
-                    builder: (context, controller) {
-                      return Flash.bar(
-                        controller: controller,
-                        position: FlashPosition.bottom,
-                        horizontalDismissDirection:
-                            HorizontalDismissDirection.startToEnd,
-                        margin: EdgeInsets.all(8.r),
-                        borderRadius: BorderRadius.all(Radius.circular(8.r)),
-                        forwardAnimationCurve: Curves.easeOutBack,
-                        reverseAnimationCurve: Curves.slowMiddle,
-                        backgroundColor: Colors.amber,
-                        child: FlashBar(
-                          title: Text(
-                            'SignIn Failure!',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          content: state.reviewFailure.map(
-                            unableToUpdate: (_) => Text('Impossible error'),
-                            serverError: (_) => Text('Server Error'),
-                            unauthorizedAccess: (_) =>
-                                Text('Insufficient permissions ❌'),
-                            unexpected: (_) => Text(
-                                'Unexpected error occured while deleting, please contact support.'),
-                          ),
-                          icon: Icon(
-                            Icons.warning,
-                            // This color is also pulled from the theme. Let's change it to black.
-                            color: Colors.black,
-                          ),
-                          shouldIconPulse: false,
-                        ),
-                      );
-                    },
-                  );
+                  flashBarWidget(context, state);
                 },
                 orElse: () {},
               );
@@ -131,60 +100,147 @@ class DrugDetailPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          drug.drugDetail,
+                        Expanded(
+                          child: Text(
+                            drug.drugDetail,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 4,
+                          ),
                         ),
-                        BlocBuilder<AuthBloc, AuthState>(
-                          builder: (context, state) {
-                            return state.maybeMap(
-                              authenticated: (authState) {
-                                bool isSubbed = false;
-                                subscriptions!.forEach((e) {
-                                  if (e.drugId == drug.id) isSubbed = true;
-                                });
-                                if (isSubbed)
-                                  return ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 2,
-                                      primary: Colors.grey[400],
-                                      padding: EdgeInsets.all(15),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                    ),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Unsubscribe',
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  );
-                                else
-                                  return ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 2,
-                                      primary: Colors.green[400],
-                                      padding: EdgeInsets.all(15),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                    ),
-                                    onPressed: () {},
-                                    child: Text(
-                                      'Subscribe',
-                                      style: TextStyle(
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  );
+                        if (drug.stock == 0)
+                          Container(
+                            child: BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                return state.maybeMap(
+                                  authenticated: (authState) {
+                                    return BlocBuilder<SubscriptionFetcherBloc,
+                                        SubscriptionFetcherState>(
+                                      builder: (context, featcherState) {
+                                        return BlocConsumer<
+                                            SubscriptionActorBloc,
+                                            SubscriptionActorState>(
+                                          listener: (context, state) {
+                                            state.maybeMap(
+                                              actionFailure: (state) {
+                                                flashBarWidget(context, state);
+                                              },
+                                              actionSuccess: (state) => context
+                                                  .read<
+                                                      SubscriptionFetcherBloc>()
+                                                  .add(
+                                                    SubscriptionFetcherEvent
+                                                        .fetchSubscriptions(
+                                                            authState
+                                                                .user.token,
+                                                            authState.user.id),
+                                                  ),
+                                              orElse: () {},
+                                            );
+                                          },
+                                          builder: (context, state) {
+                                            bool disableButton = state.maybeMap(
+                                              actionInProgress: (_) => true,
+                                              orElse: () => false,
+                                            );
+                                            bool isSubbed = false;
+                                            String subscriptionId = '';
+                                            List<Subscription> subs =
+                                                featcherState.maybeWhen(
+                                              loadSuccess: (subs) => subs,
+                                              orElse: () => [],
+                                            );
+                                            subs.forEach(
+                                              (e) {
+                                                if (e.drugId == drug.id)
+                                                  isSubbed = true;
+                                                subscriptionId = e.id;
+                                              },
+                                            );
+                                            if (isSubbed)
+                                              return ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  elevation: 2,
+                                                  primary: Colors.grey[400],
+                                                  padding: EdgeInsets.all(15),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                ),
+                                                onPressed: disableButton
+                                                    ? null
+                                                    : () {
+                                                        context
+                                                            .read<
+                                                                SubscriptionActorBloc>()
+                                                            .add(
+                                                              SubscriptionActorEvent
+                                                                  .unsubscribed(
+                                                                subscriptionId,
+                                                                authState
+                                                                    .user.token,
+                                                                authState
+                                                                    .user.id,
+                                                              ),
+                                                            );
+                                                      },
+                                                child: Text(
+                                                  'Unsubscribe',
+                                                  style: TextStyle(
+                                                    fontSize: 18.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              );
+                                            else
+                                              return ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  elevation: 2,
+                                                  primary: Colors.green[400],
+                                                  padding: EdgeInsets.all(15),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                  ),
+                                                ),
+                                                onPressed: disableButton
+                                                    ? null
+                                                    : () {
+                                                        context
+                                                            .read<
+                                                                SubscriptionActorBloc>()
+                                                            .add(
+                                                              SubscriptionActorEvent
+                                                                  .subscribed(
+                                                                drug.id,
+                                                                21,
+                                                                authState
+                                                                    .user.token,
+                                                                authState
+                                                                    .user.id,
+                                                              ),
+                                                            );
+                                                      },
+                                                child: Text(
+                                                  'Subscribe',
+                                                  style: TextStyle(
+                                                    fontSize: 18.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              );
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                  orElse: () => SizedBox.shrink(),
+                                );
                               },
-                              orElse: () => SizedBox.shrink(),
-                            );
-                          },
-                        ),
+                            ),
+                          ),
                       ],
                     ),
                     SizedBox(
@@ -454,9 +510,13 @@ class ReviewCard extends StatelessWidget {
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
-                                        context.read<ReviewActorBloc>().add(
-                                            ReviewActorEvent.deleted(
-                                                review, user.token, user.id));
+                                        context
+                                            .read<ReviewActorBloc>()
+                                            .add(ReviewActorEvent.deleted(
+                                              review,
+                                              user.token,
+                                              user.id,
+                                            ));
                                       },
                                       child: Text('YES'),
                                     ),
