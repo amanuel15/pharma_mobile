@@ -22,59 +22,48 @@ class HomeStackWidget extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        MultiBlocProvider(
-          providers: [
-            BlocProvider<LocationCubit>(
-              create: (BuildContext context) =>
-                  getIt<LocationCubit>()..getLocation(),
-            ),
-            BlocProvider<PharmacyLocationsCubit>(
-              create: (BuildContext context) => getIt<PharmacyLocationsCubit>(),
-            ),
-          ],
-          child: Container(
-            constraints: BoxConstraints(
-              maxHeight: 0.8.sh,
-            ),
-            child: BlocBuilder<LocationCubit, LocationState>(
-              builder: (context, state) {
-                return state.map(
-                  initial: (_) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(),
-                          SizedBox(
-                            height: 20.h,
-                          ),
-                          Text(
-                            'Loading the map...',
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                  locationLoaded: (state) {
-                    return BlocBuilder<PharmacyLocationsCubit,
-                        PharmacyLocationsState>(
-                      builder: (context, stateB) {
-                        return GoogleMap(
-                          onMapCreated: (controller) => context
-                              .read<PharmacyLocationsCubit>()
-                              .getPlaces(state.coords),
-                          markers: stateB.markers,
-                          initialCameraPosition: CameraPosition(
-                            target: state.coords,
-                            zoom: 15.0,
-                          ),
-                        );
-                      },
-                    );
-                  },
-                );
-              },
-            ),
+        Container(
+          constraints: BoxConstraints(
+            maxHeight: 0.8.sh,
+          ),
+          child: BlocBuilder<LocationCubit, LocationState>(
+            builder: (context, state) {
+              return state.map(
+                initial: (_) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Text(
+                          'Loading the map...',
+                        )
+                      ],
+                    ),
+                  );
+                },
+                locationLoaded: (state) {
+                  return BlocBuilder<PharmacyLocationsCubit,
+                      PharmacyLocationsState>(
+                    builder: (context, stateB) {
+                      return GoogleMap(
+                        onMapCreated: (controller) => context
+                            .read<PharmacyLocationsCubit>()
+                            .getPlaces(state.coords),
+                        markers: stateB.markers,
+                        initialCameraPosition: CameraPosition(
+                          target: state.coords,
+                          zoom: 15.0,
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
           ),
         ),
         FloatingSearchBarWidget(),
@@ -95,128 +84,103 @@ class FloatingSearchBarWidget extends StatelessWidget {
       child: BlocBuilder<SearchHistoryCubit, SearchHistoryState>(
         //buildWhen: (p, c) => !ListEquality().equals(p.filteredSearchHistory, c.filteredSearchHistory),
         builder: (context, state) {
-          return FloatingSearchBar(
-            height: 50.h,
-            controller: state.floatingSearchBarController,
-            hint: 'Search...',
-            scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionCurve: Curves.easeInOut,
-            physics: const BouncingScrollPhysics(),
-            axisAlignment: 0.0,
-            openAxisAlignment: 0.0,
-            width: 600,
-            debounceDelay: const Duration(
-              seconds: 2,
-            ), //! This is the debounce delay set it higher
-            onQueryChanged: (query) {
-              if (state.searches.isEmpty)
-                context.read<SearchHistoryCubit>().setTypedTerm(query);
-              else
-                BlocProvider.of<SearchHistoryCubit>(context)
-                    .filterSearchTerms(filter: query);
-              if (query.length > 2)
-                context.read<SearchBloc>().add(SearchEvent.search(query));
-            },
-            onSubmitted: (query) {
-              state.floatingSearchBarController.hide();
-              FocusScope.of(context).unfocus();
-              context.read<MainNavigationCubit>().setIndex(1);
-              context
-                  .read<SearchResultBloc>()
-                  .add(SearchResultEvent.searchDrugs(query));
-              if (query.isNotEmpty)
-                BlocProvider.of<SearchHistoryCubit>(context)
-                    .addSearchTerm(query);
-              // context.read<SearchBloc>().add(SearchEvent.search(query));
-            },
-            transition: CircularFloatingSearchBarTransition(),
-            actions: [
-              FloatingSearchBarAction(
-                showIfOpened: false,
-                child: CircularButton(
-                  icon: const Icon(Icons.place),
-                  onPressed: () {
-                    //context.router.pushNamed('/sign-in-page');
-                    // AutoRouter.of(context).push(SignInRoute());
-                    context.read<AuthBloc>().add(const AuthEvent.signedOut());
-                  },
-                ),
-              ),
-              FloatingSearchBarAction.searchToClear(),
-            ],
-            onFocusChanged: (isFocused) {
-              if (!isFocused)
-                context.read<SearchBloc>().add(const SearchEvent.clearSearch());
-            },
-            builder: (context, transition) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Material(
-                  color: Colors.white,
-                  elevation: 4.0,
-                  child: Column(
-                    children: [
-                      Builder(
-                        builder: (context) {
-                          if (state.filteredSearchHistory.isEmpty &&
-                              state.floatingSearchBarController.query.isEmpty) {
-                            return Container(
-                              height: 56.h,
-                              width: double.infinity,
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Start searching...',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                            );
-                          } else if (state.filteredSearchHistory.isEmpty) {
-                            return ListTile(
-                              title: Text(
-                                state.typedTerm,
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              leading: const Icon(Icons.search),
-                              onTap: () {
-                                state.floatingSearchBarController.close();
-                                FocusScope.of(context).unfocus();
-                                context.read<MainNavigationCubit>().setIndex(1);
-                                context.read<SearchResultBloc>().add(
-                                    SearchResultEvent.searchDrugs(
-                                        state.typedTerm));
-                                context
-                                    .read<SearchHistoryCubit>()
-                                    .addSearchTerm(state
-                                        .floatingSearchBarController.query);
-                                // context
-                                //     .read<SearchBloc>()
-                                //     .add(SearchEvent.search(state.typedTerm));
-                              },
-                            );
-                          } else {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: state.filteredSearchHistory.reversed
-                                  .map(
-                                    (search) => ListTile(
-                                      title: Text(
-                                        search.searchTerm,
+          return BlocBuilder<LocationCubit, LocationState>(
+            builder: (context, locationState) {
+              return locationState.maybeWhen(
+                locationLoaded: (location) {
+                  return FloatingSearchBar(
+                    height: 50.h,
+                    controller: state.floatingSearchBarController,
+                    hint: 'Search...',
+                    scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+                    transitionDuration: const Duration(milliseconds: 800),
+                    transitionCurve: Curves.easeInOut,
+                    physics: const BouncingScrollPhysics(),
+                    axisAlignment: 0.0,
+                    openAxisAlignment: 0.0,
+                    width: 600,
+                    debounceDelay: const Duration(
+                      seconds: 2,
+                    ), //! This is the debounce delay set it higher
+                    onQueryChanged: (query) {
+                      if (state.searches.isEmpty)
+                        context.read<SearchHistoryCubit>().setTypedTerm(query);
+                      else
+                        BlocProvider.of<SearchHistoryCubit>(context)
+                            .filterSearchTerms(filter: query);
+                      if (query.length > 2)
+                        context
+                            .read<SearchBloc>()
+                            .add(SearchEvent.search(query, location));
+                    },
+                    onSubmitted: (query) {
+                      state.floatingSearchBarController.hide();
+                      FocusScope.of(context).unfocus();
+                      context.read<MainNavigationCubit>().setIndex(1);
+                      context
+                          .read<SearchResultBloc>()
+                          .add(SearchResultEvent.searchDrugs(query, location));
+                      if (query.isNotEmpty)
+                        BlocProvider.of<SearchHistoryCubit>(context)
+                            .addSearchTerm(query);
+                      // context.read<SearchBloc>().add(SearchEvent.search(query));
+                    },
+                    transition: CircularFloatingSearchBarTransition(),
+                    actions: [
+                      FloatingSearchBarAction(
+                        showIfOpened: false,
+                        child: CircularButton(
+                          icon: const Icon(Icons.place),
+                          onPressed: () {
+                            //context.router.pushNamed('/sign-in-page');
+                            // AutoRouter.of(context).push(SignInRoute());
+                            context
+                                .read<AuthBloc>()
+                                .add(const AuthEvent.signedOut());
+                          },
+                        ),
+                      ),
+                      FloatingSearchBarAction.searchToClear(),
+                    ],
+                    onFocusChanged: (isFocused) {
+                      if (!isFocused)
+                        context
+                            .read<SearchBloc>()
+                            .add(const SearchEvent.clearSearch());
+                    },
+                    builder: (context, transition) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Material(
+                          color: Colors.white,
+                          elevation: 4.0,
+                          child: Column(
+                            children: [
+                              Builder(
+                                builder: (context) {
+                                  if (state.filteredSearchHistory.isEmpty &&
+                                      state.floatingSearchBarController.query
+                                          .isEmpty) {
+                                    return Container(
+                                      height: 56.h,
+                                      width: double.infinity,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'Start searching...',
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style:
+                                            Theme.of(context).textTheme.caption,
+                                      ),
+                                    );
+                                  } else if (state
+                                      .filteredSearchHistory.isEmpty) {
+                                    return ListTile(
+                                      title: Text(
+                                        state.typedTerm,
                                         style: TextStyle(color: Colors.black),
                                       ),
-                                      leading: const Icon(Icons.history),
-                                      trailing: IconButton(
-                                        icon: const Icon(Icons.clear),
-                                        onPressed: () {
-                                          context
-                                              .read<SearchHistoryCubit>()
-                                              .deleteSearchTerm(
-                                                  search.searchTerm);
-                                        },
-                                      ),
+                                      leading: const Icon(Icons.search),
                                       onTap: () {
                                         state.floatingSearchBarController
                                             .close();
@@ -226,77 +190,148 @@ class FloatingSearchBarWidget extends StatelessWidget {
                                             .setIndex(1);
                                         context.read<SearchResultBloc>().add(
                                             SearchResultEvent.searchDrugs(
-                                                search.searchTerm));
+                                                state.typedTerm, location));
                                         context
                                             .read<SearchHistoryCubit>()
-                                            .addSearchTerm(search.searchTerm);
-                                        state.floatingSearchBarController
-                                            .close();
+                                            .addSearchTerm(state
+                                                .floatingSearchBarController
+                                                .query);
+                                        // context
+                                        //     .read<SearchBloc>()
+                                        //     .add(SearchEvent.search(state.typedTerm));
                                       },
-                                    ),
-                                  )
-                                  .toList(),
-                            );
-                          }
-                        },
-                      ),
-                      BlocBuilder<SearchBloc, SearchState>(
-                        builder: (context, stateS) {
-                          return stateS.map(
-                            initial: (_) => SizedBox.shrink(),
-                            loadInProgress: (stateS) {
-                              return CircularProgressIndicator();
-                            },
-                            loadSuccess: (stateS) {
-                              return Column(
-                                children: stateS.recommendations
-                                    .map(
-                                      (recommendation) => ListTile(
-                                        title: Text(
-                                          recommendation.name,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                        subtitle: Text(
-                                          recommendation.brandName,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Colors.grey[600]),
-                                        ),
-                                        leading: const Icon(Icons.search),
-                                        onTap: () {
-                                          state.floatingSearchBarController
-                                              .close();
-                                          FocusScope.of(context).unfocus();
-                                          context
-                                              .read<MainNavigationCubit>()
-                                              .setIndex(1);
-                                          context.read<SearchResultBloc>().add(
-                                              SearchResultEvent.searchDrugs(
-                                                  recommendation.name));
-                                          context
-                                              .read<SearchHistoryCubit>()
-                                              .addSearchTerm(
-                                                  recommendation.name);
-                                          state.floatingSearchBarController
-                                              .close();
-                                        },
-                                      ),
-                                    )
-                                    .toList(),
-                              );
-                            },
-                            loadFailure: (stateS) {
-                              return Text('Error');
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+                                    );
+                                  } else {
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: state
+                                          .filteredSearchHistory.reversed
+                                          .map(
+                                            (search) => ListTile(
+                                              title: Text(
+                                                search.searchTerm,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                              leading:
+                                                  const Icon(Icons.history),
+                                              trailing: IconButton(
+                                                icon: const Icon(Icons.clear),
+                                                onPressed: () {
+                                                  context
+                                                      .read<
+                                                          SearchHistoryCubit>()
+                                                      .deleteSearchTerm(
+                                                          search.searchTerm);
+                                                },
+                                              ),
+                                              onTap: () {
+                                                state
+                                                    .floatingSearchBarController
+                                                    .close();
+                                                FocusScope.of(context)
+                                                    .unfocus();
+                                                context
+                                                    .read<MainNavigationCubit>()
+                                                    .setIndex(1);
+                                                context
+                                                    .read<SearchResultBloc>()
+                                                    .add(SearchResultEvent
+                                                        .searchDrugs(
+                                                            search.searchTerm,
+                                                            location));
+                                                context
+                                                    .read<SearchHistoryCubit>()
+                                                    .addSearchTerm(
+                                                        search.searchTerm);
+                                                state
+                                                    .floatingSearchBarController
+                                                    .close();
+                                              },
+                                            ),
+                                          )
+                                          .toList(),
+                                    );
+                                  }
+                                },
+                              ),
+                              BlocBuilder<SearchBloc, SearchState>(
+                                builder: (context, stateS) {
+                                  return stateS.map(
+                                    initial: (_) => SizedBox.shrink(),
+                                    loadInProgress: (stateS) {
+                                      return CircularProgressIndicator();
+                                    },
+                                    loadSuccess: (stateS) {
+                                      return Column(
+                                        children: stateS.recommendations
+                                            .map(
+                                              (recommendation) => ListTile(
+                                                title: Text(
+                                                  recommendation.name,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                                subtitle: Text(
+                                                  recommendation.brandName,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      color: Colors.grey[600]),
+                                                ),
+                                                leading:
+                                                    const Icon(Icons.search),
+                                                onTap: () {
+                                                  state
+                                                      .floatingSearchBarController
+                                                      .close();
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                  context
+                                                      .read<
+                                                          MainNavigationCubit>()
+                                                      .setIndex(1);
+                                                  context
+                                                      .read<SearchResultBloc>()
+                                                      .add(SearchResultEvent
+                                                          .searchDrugs(
+                                                              recommendation
+                                                                  .name,
+                                                              location));
+                                                  context
+                                                      .read<
+                                                          SearchHistoryCubit>()
+                                                      .addSearchTerm(
+                                                          recommendation.name);
+                                                  state
+                                                      .floatingSearchBarController
+                                                      .close();
+                                                },
+                                              ),
+                                            )
+                                            .toList(),
+                                      );
+                                    },
+                                    loadFailure: (stateS) {
+                                      return Text('Error');
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                orElse: () => SizedBox.shrink(),
               );
             },
           );

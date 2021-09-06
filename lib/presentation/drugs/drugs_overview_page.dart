@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/application/auth/auth_bloc.dart';
 import 'package:pharma_flutter/application/drugs/main_navigation/main_navigation_cubit.dart';
+import 'package:pharma_flutter/application/drugs/search/pharmacy_search/pharmacy_search_bloc.dart';
 import 'package:pharma_flutter/application/drugs/search/search_bloc.dart';
 import 'package:pharma_flutter/application/drugs/search/search_result/search_result_bloc.dart';
 import 'package:pharma_flutter/application/drugs/subscription/subscription_fetcher/subscription_fetcher_bloc.dart';
+import 'package:pharma_flutter/application/pharmacy/pharmacy_locations/pharmacy_locations_cubit.dart';
 import 'package:pharma_flutter/application/util/search_history/search_history_cubit.dart';
 import 'package:pharma_flutter/domain/auth/user.dart';
 import 'package:pharma_flutter/injection.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/custom_tab_bar.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/home_stack_widget.dart';
+import 'package:pharma_flutter/presentation/drugs/widgets/pharmacy_stack_widget.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/profile_stack_widget.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/search_stack_widget.dart';
 
@@ -36,6 +39,12 @@ class PharmaOverviewPage extends StatelessWidget {
             BlocProvider<SearchResultBloc>(
               create: (BuildContext context) => getIt<SearchResultBloc>(),
             ),
+            BlocProvider<PharmacySearchBloc>(
+              create: (BuildContext context) => getIt<PharmacySearchBloc>(),
+            ),
+            BlocProvider<PharmacyLocationsCubit>(
+              create: (BuildContext context) => getIt<PharmacyLocationsCubit>(),
+            ),
             if (state.maybeWhen(
                 authenticated: (state) => true, orElse: () => false))
               BlocProvider<SubscriptionFetcherBloc>(
@@ -56,7 +65,7 @@ class PharmaOverviewPage extends StatelessWidget {
           child: BlocBuilder<MainNavigationCubit, MainNavigationState>(
             builder: (context, state) {
               return DefaultTabController(
-                length: 3,
+                length: 4,
                 child: Scaffold(
                   resizeToAvoidBottomInset: false,
                   body: IndexedStack(
@@ -64,11 +73,17 @@ class PharmaOverviewPage extends StatelessWidget {
                     children: [
                       HomeStackWidget(),
                       SearchStackWidget(),
+                      PharmacyStackWidget(),
                       ProfileStackWidget(),
                     ],
                   ),
                   bottomNavigationBar: CustomTabBar(
-                    icons: [Icons.home, Icons.search, Icons.person],
+                    icons: [
+                      Icons.home,
+                      Icons.search,
+                      Icons.local_pharmacy,
+                      Icons.person
+                    ],
                     selectedIndex: state.index,
                     onTap: (index) =>
                         context.read<MainNavigationCubit>().setIndex(index),

@@ -14,6 +14,7 @@ import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy_review.dart';
+import 'package:pharma_flutter/domain/pharma/request.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/search/search_failure.dart';
@@ -29,7 +30,7 @@ class DrugRepository implements IDrugRepository {
 
   @override
   Future<Result<SearchFailure, List<Recommendation>>> searchRecommendations(
-      String searchTerm) async {
+      String searchTerm, LatLng location) async {
     Response response;
     try {
       response = await _dio.get(
@@ -37,7 +38,7 @@ class DrugRepository implements IDrugRepository {
         queryParameters: {
           'searchQuery': searchTerm,
           'radius': 5,
-          'location': [9.001820, 38.683257],
+          'location': [location.latitude, location.longitude],
         },
       );
       print(response.data);
@@ -61,7 +62,7 @@ class DrugRepository implements IDrugRepository {
 
   @override
   Future<Result<SearchFailure, List<Drug>>> searchDrugs(
-      String searchTerm) async {
+      String searchTerm, LatLng location) async {
     Response response;
     try {
       response = await _dio.get(
@@ -69,7 +70,10 @@ class DrugRepository implements IDrugRepository {
         queryParameters: {
           'searchQuery': searchTerm,
           'radius': 5,
-          'location': [9.001820, 38.683257],
+          'location': [
+            location.latitude,
+            location.longitude
+          ], //TODO: get location from user
           'filterBy': 'location',
           'pageNumber': 0,
         },
@@ -101,6 +105,50 @@ class DrugRepository implements IDrugRepository {
             requiresPrescription: e['requiresPrescription'],
             reviews: a,
             score: e['score'].toDouble(),
+          );
+        }).toList(),
+      );
+    } on DioError catch (e) {
+      return Error(SearchFailure.unexpected());
+    }
+  }
+
+  @override
+  Future<Result<SearchFailure, List<Pharmacy>>> searchPharmacies(
+      String searchTerm, LatLng location) async {
+    Response response;
+    try {
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/search/getPharmacySearchRecomendations/',
+        queryParameters: {
+          'searchQuery': searchTerm,
+          'radius': 100,
+          'location': [location.latitude, location.longitude],
+          'pageNumber': 0,
+        },
+      );
+      List recs = response.data['data'];
+      List images = recs.isNotEmpty ? recs[0]['pharmacyPhotos'] : [];
+      return Success(
+        recs.map((e) {
+          List a = e['reviews'];
+          print(a);
+          return Pharmacy(
+            id: e['_id'],
+            pharmacyName: e['name'],
+            pharmacyEmail: e['email'],
+            rating: e['rating'].toDouble(),
+            acceptsRequests: e['acceptsRequests'],
+            imageUrls: images.map((e) => e.toString()).toList(),
+            location: [
+              {
+                'lat': e['location']['coordinates'][0],
+                'lng': e['location']['coordinates'][1]
+              },
+            ],
+            locationDescription: e['locationDescription'],
+            reviews: e['reviews'],
+            requests: e['requests'],
           );
         }).toList(),
       );
@@ -540,6 +588,124 @@ class DrugRepository implements IDrugRepository {
       );
     } on DioError catch (e) {
       return Error(PharmaFailure.unexpected());
+    }
+  }
+
+  @override
+  Future<Result<ReviewFailure, Unit>> createRequest({
+    required Request request,
+    required String userName,
+    required String userId,
+    required String accessToken,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.post(
+        'http://10.0.2.2:3000/client/request/createRequest',
+        data: {
+          'name': request.drugName.getOrCrash(),
+          'expiresInDays': request.expiresInDays,
+          'pharmacyId': request.pharmacyId,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      return Success(unit);
+    } on DioError catch (e) {
+      return Error(ReviewFailure.unexpected());
+    }
+  }
+
+  @override
+  Future<Result<ReviewFailure, List<Request>>> fetchMyRequests({
+    required String userId,
+    required String accessToken,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/request/getMyRequests',
+        queryParameters: {},
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      List revs = response.data['data']['requests'];
+      return Success(
+        revs
+            .map(
+              (e) => Request(
+                id: e['_id'],
+                userId: e['userId'],
+                drugName: e['name'],
+                expiresInDays: e['expiresInDays'],
+                userName: e['userName'],
+                drugId: e['drugId'],
+                pharmacyId: e['pharmacyId'],
+                creationDate: e['creationDate'],
+                subscriberCount: e['subscriberCount'],
+                isAvailable: e['isAvailable'],
+                declined: e['decline'],
+              ),
+            )
+            .toList(),
+      );
+    } on DioError catch (e) {
+      return Error(ReviewFailure.unexpected());
+    }
+  }
+
+  @override
+  Future<Result<ReviewFailure, List<Request>>> fetchRequests({
+    required String userId,
+    required String accessToken,
+    required int pageNumber,
+    required String filterBy,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.get(
+        'http://10.0.2.2:3000/client/request/getRequests',
+        queryParameters: {
+          'pageNumber': pageNumber,
+          'filterBy': filterBy,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      List revs = response.data['data'];
+      return Success(
+        revs
+            .map(
+              (e) => Request(
+                id: e['_id'],
+                userId: e['userId'],
+                drugName: e['name'],
+                expiresInDays: e['expiresInDays'],
+                userName: e['userName'],
+                drugId: e['drugId'],
+                pharmacyId: e['pharmacyId'],
+                creationDate: e['creationDate'],
+                subscriberCount: e['subscriberCount'],
+                isAvailable: e['isAvailable'],
+                declined: e['decline'],
+              ),
+            )
+            .toList(),
+      );
+    } on DioError catch (e) {
+      return Error(ReviewFailure.unexpected());
     }
   }
 }

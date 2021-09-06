@@ -2,7 +2,8 @@ part of 'search_bloc.dart';
 
 @freezed
 class SearchEvent with _$SearchEvent {
-  const factory SearchEvent.search(String searchTerm) = _Search;
+  const factory SearchEvent.search(String searchTerm, LatLng location) =
+      _Search;
   const factory SearchEvent.recommendationsReceived(
     Result<SearchFailure, List<Recommendation>> failureOrRecommendation,
   ) = _RecommendationsReceived;

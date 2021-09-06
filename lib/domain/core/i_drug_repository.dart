@@ -6,6 +6,7 @@ import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy_review.dart';
 import 'package:pharma_flutter/domain/pharma/recommendation.dart';
+import 'package:pharma_flutter/domain/pharma/request.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 import 'package:pharma_flutter/domain/pharma/search/search_failure.dart';
@@ -15,8 +16,11 @@ import 'package:pharma_flutter/domain/pharma/subscription.dart';
 abstract class IDrugRepository {
   //--Drug Related--
   Future<Result<SearchFailure, List<Recommendation>>> searchRecommendations(
-      String searchTerm);
-  Future<Result<SearchFailure, List<Drug>>> searchDrugs(String searchTerm);
+      String searchTerm, LatLng location);
+  Future<Result<SearchFailure, List<Drug>>> searchDrugs(
+      String searchTerm, LatLng location);
+  Future<Result<SearchFailure, List<Pharmacy>>> searchPharmacies(
+      String searchTerm, LatLng location);
   Future<Result<PharmaFailure, Drug>> getDrug({
     required String drugId,
     required String userId,
@@ -85,5 +89,25 @@ abstract class IDrugRepository {
   Future<Result<ReviewFailure, List<Subscription>>> fetchUserSubscriptions({
     required String userId,
     required String accessToken,
+  });
+
+  // --- Request related ---
+  Future<Result<ReviewFailure, Unit>> createRequest({
+    required Request request,
+    required String userName,
+    required String userId,
+    required String accessToken,
+  });
+
+  Future<Result<ReviewFailure, List<Request>>> fetchMyRequests({
+    required String userId,
+    required String accessToken,
+  });
+
+  Future<Result<ReviewFailure, List<Request>>> fetchRequests({
+    required String userId,
+    required String accessToken,
+    required int pageNumber,
+    required String filterBy,
   });
 }

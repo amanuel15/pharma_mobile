@@ -16,9 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SearchEventTearOff {
   const _$SearchEventTearOff();
 
-  _Search search(String searchTerm) {
+  _Search search(String searchTerm, LatLng location) {
     return _Search(
       searchTerm,
+      location,
     );
   }
 
@@ -41,7 +42,7 @@ const $SearchEvent = _$SearchEventTearOff();
 mixin _$SearchEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm) search,
+    required TResult Function(String searchTerm, LatLng location) search,
     required TResult Function(
             Result<SearchFailure, List<Recommendation>> failureOrRecommendation)
         recommendationsReceived,
@@ -50,7 +51,7 @@ mixin _$SearchEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm)? search,
+    TResult Function(String searchTerm, LatLng location)? search,
     TResult Function(
             Result<SearchFailure, List<Recommendation>>
                 failureOrRecommendation)?
@@ -97,7 +98,7 @@ class _$SearchEventCopyWithImpl<$Res> implements $SearchEventCopyWith<$Res> {
 abstract class _$SearchCopyWith<$Res> {
   factory _$SearchCopyWith(_Search value, $Res Function(_Search) then) =
       __$SearchCopyWithImpl<$Res>;
-  $Res call({String searchTerm});
+  $Res call({String searchTerm, LatLng location});
 }
 
 /// @nodoc
@@ -112,12 +113,17 @@ class __$SearchCopyWithImpl<$Res> extends _$SearchEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object? searchTerm = freezed,
+    Object? location = freezed,
   }) {
     return _then(_Search(
       searchTerm == freezed
           ? _value.searchTerm
           : searchTerm // ignore: cast_nullable_to_non_nullable
               as String,
+      location == freezed
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as LatLng,
     ));
   }
 }
@@ -125,14 +131,16 @@ class __$SearchCopyWithImpl<$Res> extends _$SearchEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Search implements _Search {
-  const _$_Search(this.searchTerm);
+  const _$_Search(this.searchTerm, this.location);
 
   @override
   final String searchTerm;
+  @override
+  final LatLng location;
 
   @override
   String toString() {
-    return 'SearchEvent.search(searchTerm: $searchTerm)';
+    return 'SearchEvent.search(searchTerm: $searchTerm, location: $location)';
   }
 
   @override
@@ -141,12 +149,17 @@ class _$_Search implements _Search {
         (other is _Search &&
             (identical(other.searchTerm, searchTerm) ||
                 const DeepCollectionEquality()
-                    .equals(other.searchTerm, searchTerm)));
+                    .equals(other.searchTerm, searchTerm)) &&
+            (identical(other.location, location) ||
+                const DeepCollectionEquality()
+                    .equals(other.location, location)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(searchTerm);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(searchTerm) ^
+      const DeepCollectionEquality().hash(location);
 
   @JsonKey(ignore: true)
   @override
@@ -156,19 +169,19 @@ class _$_Search implements _Search {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm) search,
+    required TResult Function(String searchTerm, LatLng location) search,
     required TResult Function(
             Result<SearchFailure, List<Recommendation>> failureOrRecommendation)
         recommendationsReceived,
     required TResult Function() clearSearch,
   }) {
-    return search(searchTerm);
+    return search(searchTerm, location);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm)? search,
+    TResult Function(String searchTerm, LatLng location)? search,
     TResult Function(
             Result<SearchFailure, List<Recommendation>>
                 failureOrRecommendation)?
@@ -177,7 +190,7 @@ class _$_Search implements _Search {
     required TResult orElse(),
   }) {
     if (search != null) {
-      return search(searchTerm);
+      return search(searchTerm, location);
     }
     return orElse();
   }
@@ -209,9 +222,10 @@ class _$_Search implements _Search {
 }
 
 abstract class _Search implements SearchEvent {
-  const factory _Search(String searchTerm) = _$_Search;
+  const factory _Search(String searchTerm, LatLng location) = _$_Search;
 
   String get searchTerm => throw _privateConstructorUsedError;
+  LatLng get location => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$SearchCopyWith<_Search> get copyWith => throw _privateConstructorUsedError;
 }
@@ -287,7 +301,7 @@ class _$_RecommendationsReceived implements _RecommendationsReceived {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm) search,
+    required TResult Function(String searchTerm, LatLng location) search,
     required TResult Function(
             Result<SearchFailure, List<Recommendation>> failureOrRecommendation)
         recommendationsReceived,
@@ -299,7 +313,7 @@ class _$_RecommendationsReceived implements _RecommendationsReceived {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm)? search,
+    TResult Function(String searchTerm, LatLng location)? search,
     TResult Function(
             Result<SearchFailure, List<Recommendation>>
                 failureOrRecommendation)?
@@ -390,7 +404,7 @@ class _$_ClearSearch implements _ClearSearch {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm) search,
+    required TResult Function(String searchTerm, LatLng location) search,
     required TResult Function(
             Result<SearchFailure, List<Recommendation>> failureOrRecommendation)
         recommendationsReceived,
@@ -402,7 +416,7 @@ class _$_ClearSearch implements _ClearSearch {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm)? search,
+    TResult Function(String searchTerm, LatLng location)? search,
     TResult Function(
             Result<SearchFailure, List<Recommendation>>
                 failureOrRecommendation)?

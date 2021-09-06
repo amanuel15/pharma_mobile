@@ -5,15 +5,23 @@ import 'package:pharma_flutter/application/auth/auth_bloc.dart';
 import 'package:pharma_flutter/application/drugs/subscription/subscription_fetcher/subscription_fetcher_bloc.dart';
 import 'package:pharma_flutter/injection.dart';
 import 'package:pharma_flutter/presentation/routes/router.gr.dart';
+import 'package:pharma_flutter/application/util/location/location_cubit.dart';
 
 class AppWidget extends StatelessWidget {
   final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      lazy: false,
-      create: (context) =>
-          getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LocationCubit>(
+          create: (BuildContext context) =>
+              getIt<LocationCubit>()..getLocation(),
+        ),
+        BlocProvider<AuthBloc>(
+          create: (BuildContext context) =>
+              getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
+        ),
+      ],
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           return state.maybeMap(

@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
 
-part of 'search_result_bloc.dart';
+part of 'pharmacy_search_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,101 +13,103 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$SearchResultEventTearOff {
-  const _$SearchResultEventTearOff();
+class _$PharmacySearchEventTearOff {
+  const _$PharmacySearchEventTearOff();
 
-  _SearchDrugs searchDrugs(String searchTerm, LatLng location) {
-    return _SearchDrugs(
+  _SearchPharmacies searchPharmacies(String searchTerm, LatLng location) {
+    return _SearchPharmacies(
       searchTerm,
       location,
     );
   }
 
-  _DrugsReceived drugsReceived(
-      Result<SearchFailure, List<Drug>> failureOrDrugs) {
-    return _DrugsReceived(
-      failureOrDrugs,
+  _PharmaciesReceived pharmaciesReceived(
+      Result<SearchFailure, List<Pharmacy>> failureOrPharmacies) {
+    return _PharmaciesReceived(
+      failureOrPharmacies,
     );
   }
 }
 
 /// @nodoc
-const $SearchResultEvent = _$SearchResultEventTearOff();
+const $PharmacySearchEvent = _$PharmacySearchEventTearOff();
 
 /// @nodoc
-mixin _$SearchResultEvent {
+mixin _$PharmacySearchEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm, LatLng location) searchDrugs,
-    required TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)
-        drugsReceived,
+    required TResult Function(String searchTerm, LatLng location)
+        searchPharmacies,
+    required TResult Function(
+            Result<SearchFailure, List<Pharmacy>> failureOrPharmacies)
+        pharmaciesReceived,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm, LatLng location)? searchDrugs,
-    TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)?
-        drugsReceived,
+    TResult Function(String searchTerm, LatLng location)? searchPharmacies,
+    TResult Function(Result<SearchFailure, List<Pharmacy>> failureOrPharmacies)?
+        pharmaciesReceived,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SearchDrugs value) searchDrugs,
-    required TResult Function(_DrugsReceived value) drugsReceived,
+    required TResult Function(_SearchPharmacies value) searchPharmacies,
+    required TResult Function(_PharmaciesReceived value) pharmaciesReceived,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SearchDrugs value)? searchDrugs,
-    TResult Function(_DrugsReceived value)? drugsReceived,
+    TResult Function(_SearchPharmacies value)? searchPharmacies,
+    TResult Function(_PharmaciesReceived value)? pharmaciesReceived,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SearchResultEventCopyWith<$Res> {
-  factory $SearchResultEventCopyWith(
-          SearchResultEvent value, $Res Function(SearchResultEvent) then) =
-      _$SearchResultEventCopyWithImpl<$Res>;
+abstract class $PharmacySearchEventCopyWith<$Res> {
+  factory $PharmacySearchEventCopyWith(
+          PharmacySearchEvent value, $Res Function(PharmacySearchEvent) then) =
+      _$PharmacySearchEventCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$SearchResultEventCopyWithImpl<$Res>
-    implements $SearchResultEventCopyWith<$Res> {
-  _$SearchResultEventCopyWithImpl(this._value, this._then);
+class _$PharmacySearchEventCopyWithImpl<$Res>
+    implements $PharmacySearchEventCopyWith<$Res> {
+  _$PharmacySearchEventCopyWithImpl(this._value, this._then);
 
-  final SearchResultEvent _value;
+  final PharmacySearchEvent _value;
   // ignore: unused_field
-  final $Res Function(SearchResultEvent) _then;
+  final $Res Function(PharmacySearchEvent) _then;
 }
 
 /// @nodoc
-abstract class _$SearchDrugsCopyWith<$Res> {
-  factory _$SearchDrugsCopyWith(
-          _SearchDrugs value, $Res Function(_SearchDrugs) then) =
-      __$SearchDrugsCopyWithImpl<$Res>;
+abstract class _$SearchPharmaciesCopyWith<$Res> {
+  factory _$SearchPharmaciesCopyWith(
+          _SearchPharmacies value, $Res Function(_SearchPharmacies) then) =
+      __$SearchPharmaciesCopyWithImpl<$Res>;
   $Res call({String searchTerm, LatLng location});
 }
 
 /// @nodoc
-class __$SearchDrugsCopyWithImpl<$Res>
-    extends _$SearchResultEventCopyWithImpl<$Res>
-    implements _$SearchDrugsCopyWith<$Res> {
-  __$SearchDrugsCopyWithImpl(
-      _SearchDrugs _value, $Res Function(_SearchDrugs) _then)
-      : super(_value, (v) => _then(v as _SearchDrugs));
+class __$SearchPharmaciesCopyWithImpl<$Res>
+    extends _$PharmacySearchEventCopyWithImpl<$Res>
+    implements _$SearchPharmaciesCopyWith<$Res> {
+  __$SearchPharmaciesCopyWithImpl(
+      _SearchPharmacies _value, $Res Function(_SearchPharmacies) _then)
+      : super(_value, (v) => _then(v as _SearchPharmacies));
 
   @override
-  _SearchDrugs get _value => super._value as _SearchDrugs;
+  _SearchPharmacies get _value => super._value as _SearchPharmacies;
 
   @override
   $Res call({
     Object? searchTerm = freezed,
     Object? location = freezed,
   }) {
-    return _then(_SearchDrugs(
+    return _then(_SearchPharmacies(
       searchTerm == freezed
           ? _value.searchTerm
           : searchTerm // ignore: cast_nullable_to_non_nullable
@@ -122,8 +124,8 @@ class __$SearchDrugsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SearchDrugs implements _SearchDrugs {
-  const _$_SearchDrugs(this.searchTerm, this.location);
+class _$_SearchPharmacies implements _SearchPharmacies {
+  const _$_SearchPharmacies(this.searchTerm, this.location);
 
   @override
   final String searchTerm;
@@ -132,13 +134,13 @@ class _$_SearchDrugs implements _SearchDrugs {
 
   @override
   String toString() {
-    return 'SearchResultEvent.searchDrugs(searchTerm: $searchTerm, location: $location)';
+    return 'PharmacySearchEvent.searchPharmacies(searchTerm: $searchTerm, location: $location)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _SearchDrugs &&
+        (other is _SearchPharmacies &&
             (identical(other.searchTerm, searchTerm) ||
                 const DeepCollectionEquality()
                     .equals(other.searchTerm, searchTerm)) &&
@@ -155,29 +157,31 @@ class _$_SearchDrugs implements _SearchDrugs {
 
   @JsonKey(ignore: true)
   @override
-  _$SearchDrugsCopyWith<_SearchDrugs> get copyWith =>
-      __$SearchDrugsCopyWithImpl<_SearchDrugs>(this, _$identity);
+  _$SearchPharmaciesCopyWith<_SearchPharmacies> get copyWith =>
+      __$SearchPharmaciesCopyWithImpl<_SearchPharmacies>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm, LatLng location) searchDrugs,
-    required TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)
-        drugsReceived,
+    required TResult Function(String searchTerm, LatLng location)
+        searchPharmacies,
+    required TResult Function(
+            Result<SearchFailure, List<Pharmacy>> failureOrPharmacies)
+        pharmaciesReceived,
   }) {
-    return searchDrugs(searchTerm, location);
+    return searchPharmacies(searchTerm, location);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm, LatLng location)? searchDrugs,
-    TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)?
-        drugsReceived,
+    TResult Function(String searchTerm, LatLng location)? searchPharmacies,
+    TResult Function(Result<SearchFailure, List<Pharmacy>> failureOrPharmacies)?
+        pharmaciesReceived,
     required TResult orElse(),
   }) {
-    if (searchDrugs != null) {
-      return searchDrugs(searchTerm, location);
+    if (searchPharmacies != null) {
+      return searchPharmacies(searchTerm, location);
     }
     return orElse();
   }
@@ -185,121 +189,123 @@ class _$_SearchDrugs implements _SearchDrugs {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SearchDrugs value) searchDrugs,
-    required TResult Function(_DrugsReceived value) drugsReceived,
+    required TResult Function(_SearchPharmacies value) searchPharmacies,
+    required TResult Function(_PharmaciesReceived value) pharmaciesReceived,
   }) {
-    return searchDrugs(this);
+    return searchPharmacies(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SearchDrugs value)? searchDrugs,
-    TResult Function(_DrugsReceived value)? drugsReceived,
+    TResult Function(_SearchPharmacies value)? searchPharmacies,
+    TResult Function(_PharmaciesReceived value)? pharmaciesReceived,
     required TResult orElse(),
   }) {
-    if (searchDrugs != null) {
-      return searchDrugs(this);
+    if (searchPharmacies != null) {
+      return searchPharmacies(this);
     }
     return orElse();
   }
 }
 
-abstract class _SearchDrugs implements SearchResultEvent {
-  const factory _SearchDrugs(String searchTerm, LatLng location) =
-      _$_SearchDrugs;
+abstract class _SearchPharmacies implements PharmacySearchEvent {
+  const factory _SearchPharmacies(String searchTerm, LatLng location) =
+      _$_SearchPharmacies;
 
   String get searchTerm => throw _privateConstructorUsedError;
   LatLng get location => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  _$SearchDrugsCopyWith<_SearchDrugs> get copyWith =>
+  _$SearchPharmaciesCopyWith<_SearchPharmacies> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$DrugsReceivedCopyWith<$Res> {
-  factory _$DrugsReceivedCopyWith(
-          _DrugsReceived value, $Res Function(_DrugsReceived) then) =
-      __$DrugsReceivedCopyWithImpl<$Res>;
-  $Res call({Result<SearchFailure, List<Drug>> failureOrDrugs});
+abstract class _$PharmaciesReceivedCopyWith<$Res> {
+  factory _$PharmaciesReceivedCopyWith(
+          _PharmaciesReceived value, $Res Function(_PharmaciesReceived) then) =
+      __$PharmaciesReceivedCopyWithImpl<$Res>;
+  $Res call({Result<SearchFailure, List<Pharmacy>> failureOrPharmacies});
 }
 
 /// @nodoc
-class __$DrugsReceivedCopyWithImpl<$Res>
-    extends _$SearchResultEventCopyWithImpl<$Res>
-    implements _$DrugsReceivedCopyWith<$Res> {
-  __$DrugsReceivedCopyWithImpl(
-      _DrugsReceived _value, $Res Function(_DrugsReceived) _then)
-      : super(_value, (v) => _then(v as _DrugsReceived));
+class __$PharmaciesReceivedCopyWithImpl<$Res>
+    extends _$PharmacySearchEventCopyWithImpl<$Res>
+    implements _$PharmaciesReceivedCopyWith<$Res> {
+  __$PharmaciesReceivedCopyWithImpl(
+      _PharmaciesReceived _value, $Res Function(_PharmaciesReceived) _then)
+      : super(_value, (v) => _then(v as _PharmaciesReceived));
 
   @override
-  _DrugsReceived get _value => super._value as _DrugsReceived;
+  _PharmaciesReceived get _value => super._value as _PharmaciesReceived;
 
   @override
   $Res call({
-    Object? failureOrDrugs = freezed,
+    Object? failureOrPharmacies = freezed,
   }) {
-    return _then(_DrugsReceived(
-      failureOrDrugs == freezed
-          ? _value.failureOrDrugs
-          : failureOrDrugs // ignore: cast_nullable_to_non_nullable
-              as Result<SearchFailure, List<Drug>>,
+    return _then(_PharmaciesReceived(
+      failureOrPharmacies == freezed
+          ? _value.failureOrPharmacies
+          : failureOrPharmacies // ignore: cast_nullable_to_non_nullable
+              as Result<SearchFailure, List<Pharmacy>>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_DrugsReceived implements _DrugsReceived {
-  const _$_DrugsReceived(this.failureOrDrugs);
+class _$_PharmaciesReceived implements _PharmaciesReceived {
+  const _$_PharmaciesReceived(this.failureOrPharmacies);
 
   @override
-  final Result<SearchFailure, List<Drug>> failureOrDrugs;
+  final Result<SearchFailure, List<Pharmacy>> failureOrPharmacies;
 
   @override
   String toString() {
-    return 'SearchResultEvent.drugsReceived(failureOrDrugs: $failureOrDrugs)';
+    return 'PharmacySearchEvent.pharmaciesReceived(failureOrPharmacies: $failureOrPharmacies)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _DrugsReceived &&
-            (identical(other.failureOrDrugs, failureOrDrugs) ||
+        (other is _PharmaciesReceived &&
+            (identical(other.failureOrPharmacies, failureOrPharmacies) ||
                 const DeepCollectionEquality()
-                    .equals(other.failureOrDrugs, failureOrDrugs)));
+                    .equals(other.failureOrPharmacies, failureOrPharmacies)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(failureOrDrugs);
+      const DeepCollectionEquality().hash(failureOrPharmacies);
 
   @JsonKey(ignore: true)
   @override
-  _$DrugsReceivedCopyWith<_DrugsReceived> get copyWith =>
-      __$DrugsReceivedCopyWithImpl<_DrugsReceived>(this, _$identity);
+  _$PharmaciesReceivedCopyWith<_PharmaciesReceived> get copyWith =>
+      __$PharmaciesReceivedCopyWithImpl<_PharmaciesReceived>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm, LatLng location) searchDrugs,
-    required TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)
-        drugsReceived,
+    required TResult Function(String searchTerm, LatLng location)
+        searchPharmacies,
+    required TResult Function(
+            Result<SearchFailure, List<Pharmacy>> failureOrPharmacies)
+        pharmaciesReceived,
   }) {
-    return drugsReceived(failureOrDrugs);
+    return pharmaciesReceived(failureOrPharmacies);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm, LatLng location)? searchDrugs,
-    TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)?
-        drugsReceived,
+    TResult Function(String searchTerm, LatLng location)? searchPharmacies,
+    TResult Function(Result<SearchFailure, List<Pharmacy>> failureOrPharmacies)?
+        pharmaciesReceived,
     required TResult orElse(),
   }) {
-    if (drugsReceived != null) {
-      return drugsReceived(failureOrDrugs);
+    if (pharmaciesReceived != null) {
+      return pharmaciesReceived(failureOrPharmacies);
     }
     return orElse();
   }
@@ -307,40 +313,41 @@ class _$_DrugsReceived implements _DrugsReceived {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_SearchDrugs value) searchDrugs,
-    required TResult Function(_DrugsReceived value) drugsReceived,
+    required TResult Function(_SearchPharmacies value) searchPharmacies,
+    required TResult Function(_PharmaciesReceived value) pharmaciesReceived,
   }) {
-    return drugsReceived(this);
+    return pharmaciesReceived(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SearchDrugs value)? searchDrugs,
-    TResult Function(_DrugsReceived value)? drugsReceived,
+    TResult Function(_SearchPharmacies value)? searchPharmacies,
+    TResult Function(_PharmaciesReceived value)? pharmaciesReceived,
     required TResult orElse(),
   }) {
-    if (drugsReceived != null) {
-      return drugsReceived(this);
+    if (pharmaciesReceived != null) {
+      return pharmaciesReceived(this);
     }
     return orElse();
   }
 }
 
-abstract class _DrugsReceived implements SearchResultEvent {
-  const factory _DrugsReceived(
-      Result<SearchFailure, List<Drug>> failureOrDrugs) = _$_DrugsReceived;
+abstract class _PharmaciesReceived implements PharmacySearchEvent {
+  const factory _PharmaciesReceived(
+          Result<SearchFailure, List<Pharmacy>> failureOrPharmacies) =
+      _$_PharmaciesReceived;
 
-  Result<SearchFailure, List<Drug>> get failureOrDrugs =>
+  Result<SearchFailure, List<Pharmacy>> get failureOrPharmacies =>
       throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  _$DrugsReceivedCopyWith<_DrugsReceived> get copyWith =>
+  _$PharmaciesReceivedCopyWith<_PharmaciesReceived> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-class _$SearchResultStateTearOff {
-  const _$SearchResultStateTearOff();
+class _$PharmacySearchStateTearOff {
+  const _$PharmacySearchStateTearOff();
 
   _Initial initial() {
     return const _Initial();
@@ -350,9 +357,9 @@ class _$SearchResultStateTearOff {
     return const _LoadInProgress();
   }
 
-  _LoadSuccess loadSuccess(List<Drug> drugs) {
+  _LoadSuccess loadSuccess(List<Pharmacy> pharmacies) {
     return _LoadSuccess(
-      drugs,
+      pharmacies,
     );
   }
 
@@ -364,15 +371,15 @@ class _$SearchResultStateTearOff {
 }
 
 /// @nodoc
-const $SearchResultState = _$SearchResultStateTearOff();
+const $PharmacySearchState = _$PharmacySearchStateTearOff();
 
 /// @nodoc
-mixin _$SearchResultState {
+mixin _$PharmacySearchState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
-    required TResult Function(List<Drug> drugs) loadSuccess,
+    required TResult Function(List<Pharmacy> pharmacies) loadSuccess,
     required TResult Function(SearchFailure searchFailure) loadFailure,
   }) =>
       throw _privateConstructorUsedError;
@@ -380,7 +387,7 @@ mixin _$SearchResultState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
-    TResult Function(List<Drug> drugs)? loadSuccess,
+    TResult Function(List<Pharmacy> pharmacies)? loadSuccess,
     TResult Function(SearchFailure searchFailure)? loadFailure,
     required TResult orElse(),
   }) =>
@@ -405,20 +412,20 @@ mixin _$SearchResultState {
 }
 
 /// @nodoc
-abstract class $SearchResultStateCopyWith<$Res> {
-  factory $SearchResultStateCopyWith(
-          SearchResultState value, $Res Function(SearchResultState) then) =
-      _$SearchResultStateCopyWithImpl<$Res>;
+abstract class $PharmacySearchStateCopyWith<$Res> {
+  factory $PharmacySearchStateCopyWith(
+          PharmacySearchState value, $Res Function(PharmacySearchState) then) =
+      _$PharmacySearchStateCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$SearchResultStateCopyWithImpl<$Res>
-    implements $SearchResultStateCopyWith<$Res> {
-  _$SearchResultStateCopyWithImpl(this._value, this._then);
+class _$PharmacySearchStateCopyWithImpl<$Res>
+    implements $PharmacySearchStateCopyWith<$Res> {
+  _$PharmacySearchStateCopyWithImpl(this._value, this._then);
 
-  final SearchResultState _value;
+  final PharmacySearchState _value;
   // ignore: unused_field
-  final $Res Function(SearchResultState) _then;
+  final $Res Function(PharmacySearchState) _then;
 }
 
 /// @nodoc
@@ -428,7 +435,8 @@ abstract class _$InitialCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$InitialCopyWithImpl<$Res> extends _$SearchResultStateCopyWithImpl<$Res>
+class __$InitialCopyWithImpl<$Res>
+    extends _$PharmacySearchStateCopyWithImpl<$Res>
     implements _$InitialCopyWith<$Res> {
   __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
       : super(_value, (v) => _then(v as _Initial));
@@ -444,7 +452,7 @@ class _$_Initial implements _Initial {
 
   @override
   String toString() {
-    return 'SearchResultState.initial()';
+    return 'PharmacySearchState.initial()';
   }
 
   @override
@@ -460,7 +468,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
-    required TResult Function(List<Drug> drugs) loadSuccess,
+    required TResult Function(List<Pharmacy> pharmacies) loadSuccess,
     required TResult Function(SearchFailure searchFailure) loadFailure,
   }) {
     return initial();
@@ -471,7 +479,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
-    TResult Function(List<Drug> drugs)? loadSuccess,
+    TResult Function(List<Pharmacy> pharmacies)? loadSuccess,
     TResult Function(SearchFailure searchFailure)? loadFailure,
     required TResult orElse(),
   }) {
@@ -508,7 +516,7 @@ class _$_Initial implements _Initial {
   }
 }
 
-abstract class _Initial implements SearchResultState {
+abstract class _Initial implements PharmacySearchState {
   const factory _Initial() = _$_Initial;
 }
 
@@ -521,7 +529,7 @@ abstract class _$LoadInProgressCopyWith<$Res> {
 
 /// @nodoc
 class __$LoadInProgressCopyWithImpl<$Res>
-    extends _$SearchResultStateCopyWithImpl<$Res>
+    extends _$PharmacySearchStateCopyWithImpl<$Res>
     implements _$LoadInProgressCopyWith<$Res> {
   __$LoadInProgressCopyWithImpl(
       _LoadInProgress _value, $Res Function(_LoadInProgress) _then)
@@ -538,7 +546,7 @@ class _$_LoadInProgress implements _LoadInProgress {
 
   @override
   String toString() {
-    return 'SearchResultState.loadInProgress()';
+    return 'PharmacySearchState.loadInProgress()';
   }
 
   @override
@@ -554,7 +562,7 @@ class _$_LoadInProgress implements _LoadInProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
-    required TResult Function(List<Drug> drugs) loadSuccess,
+    required TResult Function(List<Pharmacy> pharmacies) loadSuccess,
     required TResult Function(SearchFailure searchFailure) loadFailure,
   }) {
     return loadInProgress();
@@ -565,7 +573,7 @@ class _$_LoadInProgress implements _LoadInProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
-    TResult Function(List<Drug> drugs)? loadSuccess,
+    TResult Function(List<Pharmacy> pharmacies)? loadSuccess,
     TResult Function(SearchFailure searchFailure)? loadFailure,
     required TResult orElse(),
   }) {
@@ -602,7 +610,7 @@ class _$_LoadInProgress implements _LoadInProgress {
   }
 }
 
-abstract class _LoadInProgress implements SearchResultState {
+abstract class _LoadInProgress implements PharmacySearchState {
   const factory _LoadInProgress() = _$_LoadInProgress;
 }
 
@@ -611,12 +619,12 @@ abstract class _$LoadSuccessCopyWith<$Res> {
   factory _$LoadSuccessCopyWith(
           _LoadSuccess value, $Res Function(_LoadSuccess) then) =
       __$LoadSuccessCopyWithImpl<$Res>;
-  $Res call({List<Drug> drugs});
+  $Res call({List<Pharmacy> pharmacies});
 }
 
 /// @nodoc
 class __$LoadSuccessCopyWithImpl<$Res>
-    extends _$SearchResultStateCopyWithImpl<$Res>
+    extends _$PharmacySearchStateCopyWithImpl<$Res>
     implements _$LoadSuccessCopyWith<$Res> {
   __$LoadSuccessCopyWithImpl(
       _LoadSuccess _value, $Res Function(_LoadSuccess) _then)
@@ -627,13 +635,13 @@ class __$LoadSuccessCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? drugs = freezed,
+    Object? pharmacies = freezed,
   }) {
     return _then(_LoadSuccess(
-      drugs == freezed
-          ? _value.drugs
-          : drugs // ignore: cast_nullable_to_non_nullable
-              as List<Drug>,
+      pharmacies == freezed
+          ? _value.pharmacies
+          : pharmacies // ignore: cast_nullable_to_non_nullable
+              as List<Pharmacy>,
     ));
   }
 }
@@ -641,27 +649,28 @@ class __$LoadSuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LoadSuccess implements _LoadSuccess {
-  const _$_LoadSuccess(this.drugs);
+  const _$_LoadSuccess(this.pharmacies);
 
   @override
-  final List<Drug> drugs;
+  final List<Pharmacy> pharmacies;
 
   @override
   String toString() {
-    return 'SearchResultState.loadSuccess(drugs: $drugs)';
+    return 'PharmacySearchState.loadSuccess(pharmacies: $pharmacies)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _LoadSuccess &&
-            (identical(other.drugs, drugs) ||
-                const DeepCollectionEquality().equals(other.drugs, drugs)));
+            (identical(other.pharmacies, pharmacies) ||
+                const DeepCollectionEquality()
+                    .equals(other.pharmacies, pharmacies)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(drugs);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(pharmacies);
 
   @JsonKey(ignore: true)
   @override
@@ -673,10 +682,10 @@ class _$_LoadSuccess implements _LoadSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
-    required TResult Function(List<Drug> drugs) loadSuccess,
+    required TResult Function(List<Pharmacy> pharmacies) loadSuccess,
     required TResult Function(SearchFailure searchFailure) loadFailure,
   }) {
-    return loadSuccess(drugs);
+    return loadSuccess(pharmacies);
   }
 
   @override
@@ -684,12 +693,12 @@ class _$_LoadSuccess implements _LoadSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
-    TResult Function(List<Drug> drugs)? loadSuccess,
+    TResult Function(List<Pharmacy> pharmacies)? loadSuccess,
     TResult Function(SearchFailure searchFailure)? loadFailure,
     required TResult orElse(),
   }) {
     if (loadSuccess != null) {
-      return loadSuccess(drugs);
+      return loadSuccess(pharmacies);
     }
     return orElse();
   }
@@ -721,10 +730,10 @@ class _$_LoadSuccess implements _LoadSuccess {
   }
 }
 
-abstract class _LoadSuccess implements SearchResultState {
-  const factory _LoadSuccess(List<Drug> drugs) = _$_LoadSuccess;
+abstract class _LoadSuccess implements PharmacySearchState {
+  const factory _LoadSuccess(List<Pharmacy> pharmacies) = _$_LoadSuccess;
 
-  List<Drug> get drugs => throw _privateConstructorUsedError;
+  List<Pharmacy> get pharmacies => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$LoadSuccessCopyWith<_LoadSuccess> get copyWith =>
       throw _privateConstructorUsedError;
@@ -742,7 +751,7 @@ abstract class _$LoadFailureCopyWith<$Res> {
 
 /// @nodoc
 class __$LoadFailureCopyWithImpl<$Res>
-    extends _$SearchResultStateCopyWithImpl<$Res>
+    extends _$PharmacySearchStateCopyWithImpl<$Res>
     implements _$LoadFailureCopyWith<$Res> {
   __$LoadFailureCopyWithImpl(
       _LoadFailure _value, $Res Function(_LoadFailure) _then)
@@ -781,7 +790,7 @@ class _$_LoadFailure implements _LoadFailure {
 
   @override
   String toString() {
-    return 'SearchResultState.loadFailure(searchFailure: $searchFailure)';
+    return 'PharmacySearchState.loadFailure(searchFailure: $searchFailure)';
   }
 
   @override
@@ -807,7 +816,7 @@ class _$_LoadFailure implements _LoadFailure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loadInProgress,
-    required TResult Function(List<Drug> drugs) loadSuccess,
+    required TResult Function(List<Pharmacy> pharmacies) loadSuccess,
     required TResult Function(SearchFailure searchFailure) loadFailure,
   }) {
     return loadFailure(searchFailure);
@@ -818,7 +827,7 @@ class _$_LoadFailure implements _LoadFailure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loadInProgress,
-    TResult Function(List<Drug> drugs)? loadSuccess,
+    TResult Function(List<Pharmacy> pharmacies)? loadSuccess,
     TResult Function(SearchFailure searchFailure)? loadFailure,
     required TResult orElse(),
   }) {
@@ -855,7 +864,7 @@ class _$_LoadFailure implements _LoadFailure {
   }
 }
 
-abstract class _LoadFailure implements SearchResultState {
+abstract class _LoadFailure implements PharmacySearchState {
   const factory _LoadFailure(SearchFailure searchFailure) = _$_LoadFailure;
 
   SearchFailure get searchFailure => throw _privateConstructorUsedError;

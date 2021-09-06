@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
@@ -26,7 +27,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       search: (e) async* {
         //yield const SearchState.loadInProgress();
         Result<SearchFailure, List<Recommendation>> result =
-            await _drugRepository.searchRecommendations(e.searchTerm);
+            await _drugRepository.searchRecommendations(
+                e.searchTerm, e.location);
         add(SearchEvent.recommendationsReceived(result));
       },
       recommendationsReceived: (e) async* {
