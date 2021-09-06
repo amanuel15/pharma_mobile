@@ -11,6 +11,7 @@ class RequestFormState with _$RequestFormState {
     required String accessToken,
     required String userId,
     required String userName,
+    required int days,
   }) = _RequestFormState;
 
   factory RequestFormState.initial() => RequestFormState(
@@ -22,5 +23,6 @@ class RequestFormState with _$RequestFormState {
         accessToken: '',
         userId: '',
         userName: '',
+        days: 7,
       );
 }

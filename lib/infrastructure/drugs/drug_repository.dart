@@ -122,7 +122,7 @@ class DrugRepository implements IDrugRepository {
         'http://10.0.2.2:3000/client/search/getPharmacySearchRecomendations/',
         queryParameters: {
           'searchQuery': searchTerm,
-          'radius': 100,
+          'radius': 10000,
           'location': [location.latitude, location.longitude],
           'pageNumber': 0,
         },
@@ -594,6 +594,7 @@ class DrugRepository implements IDrugRepository {
   @override
   Future<Result<ReviewFailure, Unit>> createRequest({
     required Request request,
+    required int days,
     required String userName,
     required String userId,
     required String accessToken,
@@ -604,7 +605,7 @@ class DrugRepository implements IDrugRepository {
         'http://10.0.2.2:3000/client/request/createRequest',
         data: {
           'name': request.drugName.getOrCrash(),
-          'expiresInDays': request.expiresInDays,
+          'expiresInDays': days,
           'pharmacyId': request.pharmacyId,
         },
         options: Options(

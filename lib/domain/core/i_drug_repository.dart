@@ -94,6 +94,7 @@ abstract class IDrugRepository {
   // --- Request related ---
   Future<Result<ReviewFailure, Unit>> createRequest({
     required Request request,
+    required int days,
     required String userName,
     required String userId,
     required String accessToken,

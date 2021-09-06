@@ -32,6 +32,7 @@ class RequestFormBloc extends Bloc<RequestFormEvent, RequestFormState> {
             accessToken: e.accessToken,
             userName: e.userName,
             isEditing: true,
+            days: e.days,
           );
         else
           yield state.copyWith(
@@ -52,6 +53,12 @@ class RequestFormBloc extends Bloc<RequestFormEvent, RequestFormState> {
           requestFailureOrSuccess: null,
         );
       },
+      daysChanged: (e) async* {
+        yield state.copyWith(
+          days: e.daysint,
+          requestFailureOrSuccess: null,
+        );
+      },
       submitPressed: (e) async* {
         Result<ReviewFailure, Unit>? failureOrSuccess;
 
@@ -63,6 +70,7 @@ class RequestFormBloc extends Bloc<RequestFormEvent, RequestFormState> {
         if (state.request.failureOption == null) {
           failureOrSuccess = await _drugRepository.createRequest(
             request: state.request,
+            days: state.days,
             userId: state.userId,
             accessToken: state.accessToken,
             userName: state.userName,

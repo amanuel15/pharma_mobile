@@ -3,7 +3,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:pharma_flutter/application/drugs/request/request_form/request_form_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/pharmacy_review_actor/pharmacy_review_actor_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/pharmacy_review_fetcher/pharmacy_review_fetcher_bloc.dart';
@@ -13,6 +15,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy_review.dart';
 import 'package:pharma_flutter/domain/pharma/request.dart';
+import 'package:pharma_flutter/domain/pharma/value_objects.dart';
 import 'package:pharma_flutter/injection.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/review_body_widget.dart';
 
@@ -34,12 +37,6 @@ class PharmacyPage extends StatelessWidget {
               create: (context) => getIt<PharmacyReviewFetcherBloc>()
                 ..add(PharmacyReviewFetcherEvent.fetchPharmacyReviews(
                     pharmacy.id, user!.token, 0, user!.id, 'Default'))),
-        if (pharmacy.acceptsRequests && user != null)
-          BlocProvider<RequestFormBloc>(
-            create: (context) => getIt<RequestFormBloc>()
-              ..add(RequestFormEvent.initialized(
-                  null, user!.id, user!.token, user!.userName, pharmacy.id)),
-          ),
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -104,147 +101,13 @@ class PharmacyPage extends StatelessWidget {
                         primary: Colors.green[300],
                       ),
                       onPressed: () {
-                        RequestFormBloc requestFormBloc =
-                            BlocProvider.of<RequestFormBloc>(context);
                         showDialog(
                           context: context,
                           builder: (_) {
-                            return BlocProvider<RequestFormBloc>.value(
-                              value: BlocProvider.of<RequestFormBloc>(context),
-                              child: BlocConsumer<RequestFormBloc,
-                                  RequestFormState>(
-                                listenWhen: (p, c) =>
-                                    p.requestFailureOrSuccess !=
-                                    c.requestFailureOrSuccess,
-                                listener: (context, state) {
-                                  state.requestFailureOrSuccess!.when(
-                                    (failure) {
-                                      showFlash(
-                                        context: context,
-                                        duration: const Duration(
-                                          seconds: 3,
-                                        ),
-                                        builder: (context, controller) {
-                                          return Flash.bar(
-                                            controller: controller,
-                                            position: FlashPosition.bottom,
-                                            horizontalDismissDirection:
-                                                HorizontalDismissDirection
-                                                    .startToEnd,
-                                            margin: EdgeInsets.all(8.r),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8.r)),
-                                            forwardAnimationCurve:
-                                                Curves.easeOutBack,
-                                            reverseAnimationCurve:
-                                                Curves.slowMiddle,
-                                            backgroundColor: Colors.amber,
-                                            child: FlashBar(
-                                              title: Text(
-                                                'Request Failure!',
-                                                style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              content: failure.map(
-                                                unauthorizedAccess: (_) => Text(
-                                                    'It seems you don\'t have access!'),
-                                                serverError: (_) =>
-                                                    Text('Server Error!'),
-                                                unableToUpdate: (_) => Text(
-                                                    'Could not perform operation!'),
-                                                unexpected: (_) =>
-                                                    Text('Unexpected Error!'),
-                                              ),
-                                              icon: Icon(
-                                                Icons.warning,
-                                                // This color is also pulled from the theme. Let's change it to black.
-                                                color: Colors.black,
-                                              ),
-                                              shouldIconPulse: false,
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                    (success) => null,
-                                  );
-                                },
-                                buildWhen: (p, c) =>
-                                    p.isSubmitting != c.isSubmitting,
-                                builder: (context, state) {
-                                  return Container(
-                                    //padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
-                                    height: 50.sh,
-                                    child: Card(
-                                      elevation: 2,
-                                      color: Colors.grey[100],
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.r),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(13.r),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Want to requst a drug?',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontSize: 18.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey[700],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10.h,
-                                            ),
-                                            ReviewBodyField(),
-                                            SizedBox(
-                                              height: 2.h,
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 15.h),
-                                              width: double.infinity,
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  elevation: 1,
-                                                  primary: Colors.green[300],
-                                                  padding: EdgeInsets.all(15),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.r),
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  context
-                                                      .read<RequestFormBloc>()
-                                                      .add(
-                                                          const RequestFormEvent
-                                                              .submitPressed());
-                                                },
-                                                child: Text(
-                                                  'Request a Drug!',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18.sp,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
+                            return RequestForm(
+                              pharmacy: pharmacy,
+                              user: user!,
+                              editRequest: null,
                             );
                           },
                         );
@@ -464,10 +327,16 @@ class RequestForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<RequestFormBloc>(
-      create: (context) => getIt<RequestFormBloc>()
+    return BlocProvider<RequestFormBloc>.value(
+      value: BlocProvider.of<RequestFormBloc>(context)
         ..add(RequestFormEvent.initialized(
-            editRequest, user.id, user.token, user.userName, pharmacy.id)),
+          null,
+          user.id,
+          user.token,
+          user.userName,
+          pharmacy.id,
+          7,
+        )),
       child: BlocConsumer<RequestFormBloc, RequestFormState>(
         listenWhen: (p, c) =>
             p.requestFailureOrSuccess != c.requestFailureOrSuccess,
@@ -516,75 +385,168 @@ class RequestForm extends StatelessWidget {
                   );
                 },
               );
+              Navigator.pop(context);
             },
-            (success) => null,
+            (success) {
+              showFlash(
+                context: context,
+                duration: const Duration(
+                  seconds: 3,
+                ),
+                builder: (context, controller) {
+                  return Flash.bar(
+                    controller: controller,
+                    position: FlashPosition.bottom,
+                    boxShadows: kElevationToShadow[4],
+                    horizontalDismissDirection:
+                        HorizontalDismissDirection.horizontal,
+                    backgroundColor: Colors.green[200],
+                    margin: EdgeInsets.all(8.r),
+                    borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                    forwardAnimationCurve: Curves.easeOutBack,
+                    reverseAnimationCurve: Curves.slowMiddle,
+                    child: FlashBar(
+                      content: Text('Successfully created a Request'),
+                      icon: Icon(
+                        Icons.check,
+                        // This color is also pulled from the theme. Let's change it to black.
+                        color: Colors.green,
+                      ),
+                      shouldIconPulse: false,
+                    ),
+                  );
+                },
+              );
+              Navigator.pop(context);
+            },
           );
         },
-        buildWhen: (p, c) => p.isSubmitting != c.isSubmitting,
+        buildWhen: (p, c) =>
+            p.isSubmitting != c.isSubmitting || p.days != c.days,
         builder: (context, state) {
-          return Container(
-            //padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
-            height: 50.sh,
-            child: Card(
-              elevation: 2,
-              color: Colors.grey[100],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.r),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(13.r),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Want to requst a drug?',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    ReviewBodyField(),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 15.h),
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 1,
-                          primary: Colors.green[300],
-                          padding: EdgeInsets.all(15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                        ),
-                        onPressed: () {
-                          context
-                              .read<RequestFormBloc>()
-                              .add(const RequestFormEvent.submitPressed());
-                        },
-                        child: Text(
-                          'Request a Drug!',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+          return AlertDialog(
+            title: Text('Request A Drug'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RequestField(),
+                SizedBox(
+                  height: 2.h,
                 ),
+                Text(
+                  'The request will last for Days:',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 12.sp,
+                  ),
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                NumberPicker(
+                  value: state.days,
+                  minValue: 7,
+                  maxValue: 100,
+                  step: 1,
+                  axis: Axis.horizontal,
+                  onChanged: (value) => context
+                      .read<RequestFormBloc>()
+                      .add(RequestFormEvent.daysChanged(value)),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.black26),
+                  ),
+                  itemWidth: 50.w,
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: 'Pharmacy in question: ',
+                    style: TextStyle(
+                      color: Colors.black87,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: pharmacy.pharmacyName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[400],
+                        ),
+                      ),
+                    ],
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  context
+                      .read<RequestFormBloc>()
+                      .add(const RequestFormEvent.submitPressed());
+                },
+                child: Text('Submit'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancel'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class RequestField extends HookWidget {
+  const RequestField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final textEditingController = useTextEditingController();
+
+    return BlocListener<RequestFormBloc, RequestFormState>(
+      listenWhen: (p, c) => p.isEditing != c.isEditing,
+      listener: (context, state) {
+        textEditingController.text = state.request.drugName.getOrCrash();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: TextFormField(
+          controller: textEditingController,
+          decoration: InputDecoration(
+            labelText: 'Write the Drug Name!',
+            hintText: 'Drug Name',
+            counterText: '',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: const BorderSide(
+                color: Colors.red,
               ),
             ),
-          );
-        },
+          ),
+          maxLength: ReviewBody.maxLength,
+          maxLines: 1,
+          onChanged: (value) => context
+              .read<RequestFormBloc>()
+              .add(RequestFormEvent.requestNameChanged(value)),
+          validator: (_) =>
+              context.read<RequestFormBloc>().state.request.drugName.value.when(
+                    (e) => e.maybeMap(
+                      empty: (_) => 'Cannot be empty',
+                      exceedingLength: (f) => 'Exceeding length, max: ${f.max}',
+                      orElse: () => null,
+                    ),
+                    (_) => null,
+                  ),
+        ),
       ),
     );
   }

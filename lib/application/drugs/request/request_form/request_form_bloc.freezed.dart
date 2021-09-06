@@ -17,19 +17,26 @@ class _$RequestFormEventTearOff {
   const _$RequestFormEventTearOff();
 
   _Initialized initialized(Request? initialReviewOption, String userId,
-      String accessToken, String userName, String pharmacyId) {
+      String accessToken, String userName, String pharmacyId, int days) {
     return _Initialized(
       initialReviewOption,
       userId,
       accessToken,
       userName,
       pharmacyId,
+      days,
     );
   }
 
   _RequestNameChanged requestNameChanged(String requestNameStr) {
     return _RequestNameChanged(
       requestNameStr,
+    );
+  }
+
+  _DaysChanged daysChanged(int daysint) {
+    return _DaysChanged(
+      daysint,
     );
   }
 
@@ -46,18 +53,20 @@ mixin _$RequestFormEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Request? initialReviewOption, String userId,
-            String accessToken, String userName, String pharmacyId)
+            String accessToken, String userName, String pharmacyId, int days)
         initialized,
     required TResult Function(String requestNameStr) requestNameChanged,
+    required TResult Function(int daysint) daysChanged,
     required TResult Function() submitPressed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Request? initialReviewOption, String userId,
-            String accessToken, String userName, String pharmacyId)?
+            String accessToken, String userName, String pharmacyId, int days)?
         initialized,
     TResult Function(String requestNameStr)? requestNameChanged,
+    TResult Function(int daysint)? daysChanged,
     TResult Function()? submitPressed,
     required TResult orElse(),
   }) =>
@@ -66,6 +75,7 @@ mixin _$RequestFormEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initialized value) initialized,
     required TResult Function(_RequestNameChanged value) requestNameChanged,
+    required TResult Function(_DaysChanged value) daysChanged,
     required TResult Function(_SubmitPressed value) submitPressed,
   }) =>
       throw _privateConstructorUsedError;
@@ -73,6 +83,7 @@ mixin _$RequestFormEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initialized value)? initialized,
     TResult Function(_RequestNameChanged value)? requestNameChanged,
+    TResult Function(_DaysChanged value)? daysChanged,
     TResult Function(_SubmitPressed value)? submitPressed,
     required TResult orElse(),
   }) =>
@@ -106,7 +117,8 @@ abstract class _$InitializedCopyWith<$Res> {
       String userId,
       String accessToken,
       String userName,
-      String pharmacyId});
+      String pharmacyId,
+      int days});
 
   $RequestCopyWith<$Res>? get initialReviewOption;
 }
@@ -129,6 +141,7 @@ class __$InitializedCopyWithImpl<$Res>
     Object? accessToken = freezed,
     Object? userName = freezed,
     Object? pharmacyId = freezed,
+    Object? days = freezed,
   }) {
     return _then(_Initialized(
       initialReviewOption == freezed
@@ -151,6 +164,10 @@ class __$InitializedCopyWithImpl<$Res>
           ? _value.pharmacyId
           : pharmacyId // ignore: cast_nullable_to_non_nullable
               as String,
+      days == freezed
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 
@@ -170,7 +187,7 @@ class __$InitializedCopyWithImpl<$Res>
 
 class _$_Initialized implements _Initialized {
   const _$_Initialized(this.initialReviewOption, this.userId, this.accessToken,
-      this.userName, this.pharmacyId);
+      this.userName, this.pharmacyId, this.days);
 
   @override
   final Request? initialReviewOption;
@@ -182,10 +199,12 @@ class _$_Initialized implements _Initialized {
   final String userName;
   @override
   final String pharmacyId;
+  @override
+  final int days;
 
   @override
   String toString() {
-    return 'RequestFormEvent.initialized(initialReviewOption: $initialReviewOption, userId: $userId, accessToken: $accessToken, userName: $userName, pharmacyId: $pharmacyId)';
+    return 'RequestFormEvent.initialized(initialReviewOption: $initialReviewOption, userId: $userId, accessToken: $accessToken, userName: $userName, pharmacyId: $pharmacyId, days: $days)';
   }
 
   @override
@@ -205,7 +224,9 @@ class _$_Initialized implements _Initialized {
                     .equals(other.userName, userName)) &&
             (identical(other.pharmacyId, pharmacyId) ||
                 const DeepCollectionEquality()
-                    .equals(other.pharmacyId, pharmacyId)));
+                    .equals(other.pharmacyId, pharmacyId)) &&
+            (identical(other.days, days) ||
+                const DeepCollectionEquality().equals(other.days, days)));
   }
 
   @override
@@ -215,7 +236,8 @@ class _$_Initialized implements _Initialized {
       const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(accessToken) ^
       const DeepCollectionEquality().hash(userName) ^
-      const DeepCollectionEquality().hash(pharmacyId);
+      const DeepCollectionEquality().hash(pharmacyId) ^
+      const DeepCollectionEquality().hash(days);
 
   @JsonKey(ignore: true)
   @override
@@ -226,28 +248,30 @@ class _$_Initialized implements _Initialized {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Request? initialReviewOption, String userId,
-            String accessToken, String userName, String pharmacyId)
+            String accessToken, String userName, String pharmacyId, int days)
         initialized,
     required TResult Function(String requestNameStr) requestNameChanged,
+    required TResult Function(int daysint) daysChanged,
     required TResult Function() submitPressed,
   }) {
     return initialized(
-        initialReviewOption, userId, accessToken, userName, pharmacyId);
+        initialReviewOption, userId, accessToken, userName, pharmacyId, days);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Request? initialReviewOption, String userId,
-            String accessToken, String userName, String pharmacyId)?
+            String accessToken, String userName, String pharmacyId, int days)?
         initialized,
     TResult Function(String requestNameStr)? requestNameChanged,
+    TResult Function(int daysint)? daysChanged,
     TResult Function()? submitPressed,
     required TResult orElse(),
   }) {
     if (initialized != null) {
       return initialized(
-          initialReviewOption, userId, accessToken, userName, pharmacyId);
+          initialReviewOption, userId, accessToken, userName, pharmacyId, days);
     }
     return orElse();
   }
@@ -257,6 +281,7 @@ class _$_Initialized implements _Initialized {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initialized value) initialized,
     required TResult Function(_RequestNameChanged value) requestNameChanged,
+    required TResult Function(_DaysChanged value) daysChanged,
     required TResult Function(_SubmitPressed value) submitPressed,
   }) {
     return initialized(this);
@@ -267,6 +292,7 @@ class _$_Initialized implements _Initialized {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initialized value)? initialized,
     TResult Function(_RequestNameChanged value)? requestNameChanged,
+    TResult Function(_DaysChanged value)? daysChanged,
     TResult Function(_SubmitPressed value)? submitPressed,
     required TResult orElse(),
   }) {
@@ -278,14 +304,20 @@ class _$_Initialized implements _Initialized {
 }
 
 abstract class _Initialized implements RequestFormEvent {
-  const factory _Initialized(Request? initialReviewOption, String userId,
-      String accessToken, String userName, String pharmacyId) = _$_Initialized;
+  const factory _Initialized(
+      Request? initialReviewOption,
+      String userId,
+      String accessToken,
+      String userName,
+      String pharmacyId,
+      int days) = _$_Initialized;
 
   Request? get initialReviewOption => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get accessToken => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get pharmacyId => throw _privateConstructorUsedError;
+  int get days => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$InitializedCopyWith<_Initialized> get copyWith =>
       throw _privateConstructorUsedError;
@@ -359,9 +391,10 @@ class _$_RequestNameChanged implements _RequestNameChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Request? initialReviewOption, String userId,
-            String accessToken, String userName, String pharmacyId)
+            String accessToken, String userName, String pharmacyId, int days)
         initialized,
     required TResult Function(String requestNameStr) requestNameChanged,
+    required TResult Function(int daysint) daysChanged,
     required TResult Function() submitPressed,
   }) {
     return requestNameChanged(requestNameStr);
@@ -371,9 +404,10 @@ class _$_RequestNameChanged implements _RequestNameChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Request? initialReviewOption, String userId,
-            String accessToken, String userName, String pharmacyId)?
+            String accessToken, String userName, String pharmacyId, int days)?
         initialized,
     TResult Function(String requestNameStr)? requestNameChanged,
+    TResult Function(int daysint)? daysChanged,
     TResult Function()? submitPressed,
     required TResult orElse(),
   }) {
@@ -388,6 +422,7 @@ class _$_RequestNameChanged implements _RequestNameChanged {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initialized value) initialized,
     required TResult Function(_RequestNameChanged value) requestNameChanged,
+    required TResult Function(_DaysChanged value) daysChanged,
     required TResult Function(_SubmitPressed value) submitPressed,
   }) {
     return requestNameChanged(this);
@@ -398,6 +433,7 @@ class _$_RequestNameChanged implements _RequestNameChanged {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initialized value)? initialized,
     TResult Function(_RequestNameChanged value)? requestNameChanged,
+    TResult Function(_DaysChanged value)? daysChanged,
     TResult Function(_SubmitPressed value)? submitPressed,
     required TResult orElse(),
   }) {
@@ -415,6 +451,134 @@ abstract class _RequestNameChanged implements RequestFormEvent {
   String get requestNameStr => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$RequestNameChangedCopyWith<_RequestNameChanged> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$DaysChangedCopyWith<$Res> {
+  factory _$DaysChangedCopyWith(
+          _DaysChanged value, $Res Function(_DaysChanged) then) =
+      __$DaysChangedCopyWithImpl<$Res>;
+  $Res call({int daysint});
+}
+
+/// @nodoc
+class __$DaysChangedCopyWithImpl<$Res>
+    extends _$RequestFormEventCopyWithImpl<$Res>
+    implements _$DaysChangedCopyWith<$Res> {
+  __$DaysChangedCopyWithImpl(
+      _DaysChanged _value, $Res Function(_DaysChanged) _then)
+      : super(_value, (v) => _then(v as _DaysChanged));
+
+  @override
+  _DaysChanged get _value => super._value as _DaysChanged;
+
+  @override
+  $Res call({
+    Object? daysint = freezed,
+  }) {
+    return _then(_DaysChanged(
+      daysint == freezed
+          ? _value.daysint
+          : daysint // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_DaysChanged implements _DaysChanged {
+  const _$_DaysChanged(this.daysint);
+
+  @override
+  final int daysint;
+
+  @override
+  String toString() {
+    return 'RequestFormEvent.daysChanged(daysint: $daysint)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _DaysChanged &&
+            (identical(other.daysint, daysint) ||
+                const DeepCollectionEquality().equals(other.daysint, daysint)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(daysint);
+
+  @JsonKey(ignore: true)
+  @override
+  _$DaysChangedCopyWith<_DaysChanged> get copyWith =>
+      __$DaysChangedCopyWithImpl<_DaysChanged>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Request? initialReviewOption, String userId,
+            String accessToken, String userName, String pharmacyId, int days)
+        initialized,
+    required TResult Function(String requestNameStr) requestNameChanged,
+    required TResult Function(int daysint) daysChanged,
+    required TResult Function() submitPressed,
+  }) {
+    return daysChanged(daysint);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Request? initialReviewOption, String userId,
+            String accessToken, String userName, String pharmacyId, int days)?
+        initialized,
+    TResult Function(String requestNameStr)? requestNameChanged,
+    TResult Function(int daysint)? daysChanged,
+    TResult Function()? submitPressed,
+    required TResult orElse(),
+  }) {
+    if (daysChanged != null) {
+      return daysChanged(daysint);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_RequestNameChanged value) requestNameChanged,
+    required TResult Function(_DaysChanged value) daysChanged,
+    required TResult Function(_SubmitPressed value) submitPressed,
+  }) {
+    return daysChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_RequestNameChanged value)? requestNameChanged,
+    TResult Function(_DaysChanged value)? daysChanged,
+    TResult Function(_SubmitPressed value)? submitPressed,
+    required TResult orElse(),
+  }) {
+    if (daysChanged != null) {
+      return daysChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DaysChanged implements RequestFormEvent {
+  const factory _DaysChanged(int daysint) = _$_DaysChanged;
+
+  int get daysint => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  _$DaysChangedCopyWith<_DaysChanged> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -459,9 +623,10 @@ class _$_SubmitPressed implements _SubmitPressed {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Request? initialReviewOption, String userId,
-            String accessToken, String userName, String pharmacyId)
+            String accessToken, String userName, String pharmacyId, int days)
         initialized,
     required TResult Function(String requestNameStr) requestNameChanged,
+    required TResult Function(int daysint) daysChanged,
     required TResult Function() submitPressed,
   }) {
     return submitPressed();
@@ -471,9 +636,10 @@ class _$_SubmitPressed implements _SubmitPressed {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(Request? initialReviewOption, String userId,
-            String accessToken, String userName, String pharmacyId)?
+            String accessToken, String userName, String pharmacyId, int days)?
         initialized,
     TResult Function(String requestNameStr)? requestNameChanged,
+    TResult Function(int daysint)? daysChanged,
     TResult Function()? submitPressed,
     required TResult orElse(),
   }) {
@@ -488,6 +654,7 @@ class _$_SubmitPressed implements _SubmitPressed {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initialized value) initialized,
     required TResult Function(_RequestNameChanged value) requestNameChanged,
+    required TResult Function(_DaysChanged value) daysChanged,
     required TResult Function(_SubmitPressed value) submitPressed,
   }) {
     return submitPressed(this);
@@ -498,6 +665,7 @@ class _$_SubmitPressed implements _SubmitPressed {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initialized value)? initialized,
     TResult Function(_RequestNameChanged value)? requestNameChanged,
+    TResult Function(_DaysChanged value)? daysChanged,
     TResult Function(_SubmitPressed value)? submitPressed,
     required TResult orElse(),
   }) {
@@ -524,7 +692,8 @@ class _$RequestFormStateTearOff {
       required Result<ReviewFailure, Unit>? requestFailureOrSuccess,
       required String accessToken,
       required String userId,
-      required String userName}) {
+      required String userName,
+      required int days}) {
     return _RequestFormState(
       request: request,
       showErrorMessages: showErrorMessages,
@@ -534,6 +703,7 @@ class _$RequestFormStateTearOff {
       accessToken: accessToken,
       userId: userId,
       userName: userName,
+      days: days,
     );
   }
 }
@@ -552,6 +722,7 @@ mixin _$RequestFormState {
   String get accessToken => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
+  int get days => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RequestFormStateCopyWith<RequestFormState> get copyWith =>
@@ -571,7 +742,8 @@ abstract class $RequestFormStateCopyWith<$Res> {
       Result<ReviewFailure, Unit>? requestFailureOrSuccess,
       String accessToken,
       String userId,
-      String userName});
+      String userName,
+      int days});
 
   $RequestCopyWith<$Res> get request;
 }
@@ -595,6 +767,7 @@ class _$RequestFormStateCopyWithImpl<$Res>
     Object? accessToken = freezed,
     Object? userId = freezed,
     Object? userName = freezed,
+    Object? days = freezed,
   }) {
     return _then(_value.copyWith(
       request: request == freezed
@@ -629,6 +802,10 @@ class _$RequestFormStateCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
+      days: days == freezed
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 
@@ -655,7 +832,8 @@ abstract class _$RequestFormStateCopyWith<$Res>
       Result<ReviewFailure, Unit>? requestFailureOrSuccess,
       String accessToken,
       String userId,
-      String userName});
+      String userName,
+      int days});
 
   @override
   $RequestCopyWith<$Res> get request;
@@ -682,6 +860,7 @@ class __$RequestFormStateCopyWithImpl<$Res>
     Object? accessToken = freezed,
     Object? userId = freezed,
     Object? userName = freezed,
+    Object? days = freezed,
   }) {
     return _then(_RequestFormState(
       request: request == freezed
@@ -716,6 +895,10 @@ class __$RequestFormStateCopyWithImpl<$Res>
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
               as String,
+      days: days == freezed
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -731,7 +914,8 @@ class _$_RequestFormState implements _RequestFormState {
       required this.requestFailureOrSuccess,
       required this.accessToken,
       required this.userId,
-      required this.userName});
+      required this.userName,
+      required this.days});
 
   @override
   final Request request;
@@ -749,10 +933,12 @@ class _$_RequestFormState implements _RequestFormState {
   final String userId;
   @override
   final String userName;
+  @override
+  final int days;
 
   @override
   String toString() {
-    return 'RequestFormState(request: $request, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSubmitting: $isSubmitting, requestFailureOrSuccess: $requestFailureOrSuccess, accessToken: $accessToken, userId: $userId, userName: $userName)';
+    return 'RequestFormState(request: $request, showErrorMessages: $showErrorMessages, isEditing: $isEditing, isSubmitting: $isSubmitting, requestFailureOrSuccess: $requestFailureOrSuccess, accessToken: $accessToken, userId: $userId, userName: $userName, days: $days)';
   }
 
   @override
@@ -782,7 +968,9 @@ class _$_RequestFormState implements _RequestFormState {
                 const DeepCollectionEquality().equals(other.userId, userId)) &&
             (identical(other.userName, userName) ||
                 const DeepCollectionEquality()
-                    .equals(other.userName, userName)));
+                    .equals(other.userName, userName)) &&
+            (identical(other.days, days) ||
+                const DeepCollectionEquality().equals(other.days, days)));
   }
 
   @override
@@ -795,7 +983,8 @@ class _$_RequestFormState implements _RequestFormState {
       const DeepCollectionEquality().hash(requestFailureOrSuccess) ^
       const DeepCollectionEquality().hash(accessToken) ^
       const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(userName);
+      const DeepCollectionEquality().hash(userName) ^
+      const DeepCollectionEquality().hash(days);
 
   @JsonKey(ignore: true)
   @override
@@ -812,7 +1001,8 @@ abstract class _RequestFormState implements RequestFormState {
       required Result<ReviewFailure, Unit>? requestFailureOrSuccess,
       required String accessToken,
       required String userId,
-      required String userName}) = _$_RequestFormState;
+      required String userName,
+      required int days}) = _$_RequestFormState;
 
   @override
   Request get request => throw _privateConstructorUsedError;
@@ -831,6 +1021,8 @@ abstract class _RequestFormState implements RequestFormState {
   String get userId => throw _privateConstructorUsedError;
   @override
   String get userName => throw _privateConstructorUsedError;
+  @override
+  int get days => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$RequestFormStateCopyWith<_RequestFormState> get copyWith =>

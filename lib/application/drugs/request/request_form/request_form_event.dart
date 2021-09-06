@@ -8,8 +8,10 @@ class RequestFormEvent with _$RequestFormEvent {
     String accessToken,
     String userName,
     String pharmacyId,
+    int days,
   ) = _Initialized;
   const factory RequestFormEvent.requestNameChanged(String requestNameStr) =
       _RequestNameChanged;
+  const factory RequestFormEvent.daysChanged(int daysint) = _DaysChanged;
   const factory RequestFormEvent.submitPressed() = _SubmitPressed;
 }
