@@ -99,6 +99,11 @@ abstract class IDrugRepository {
     required String userId,
     required String accessToken,
   });
+  Future<Result<ReviewFailure, Unit>> deleteRequest({
+    required Request request,
+    required String accessToken,
+    required String userId,
+  });
 
   Future<Result<ReviewFailure, List<Request>>> fetchMyRequests({
     required String userId,

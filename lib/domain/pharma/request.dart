@@ -10,7 +10,7 @@ abstract class Request implements _$Request {
 
   const factory Request({
     required String id,
-    required String userId,
+    // required String userId,
     required ReviewBody drugName,
     required int expiresInDays,
     required String userName,
@@ -24,7 +24,7 @@ abstract class Request implements _$Request {
 
   factory Request.empty() => Request(
         id: '',
-        userId: '',
+        // userId: '',
         drugName: ReviewBody(''),
         expiresInDays: 0,
         userName: '',

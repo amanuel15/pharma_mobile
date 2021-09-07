@@ -18,7 +18,6 @@ class _$RequestTearOff {
 
   _Request call(
       {required String id,
-      required String userId,
       required ReviewBody drugName,
       required int expiresInDays,
       required String userName,
@@ -30,7 +29,6 @@ class _$RequestTearOff {
       required bool declined}) {
     return _Request(
       id: id,
-      userId: userId,
       drugName: drugName,
       expiresInDays: expiresInDays,
       userName: userName,
@@ -49,8 +47,8 @@ const $Request = _$RequestTearOff();
 
 /// @nodoc
 mixin _$Request {
-  String get id => throw _privateConstructorUsedError;
-  String get userId => throw _privateConstructorUsedError;
+  String get id =>
+      throw _privateConstructorUsedError; // required String userId,
   ReviewBody get drugName => throw _privateConstructorUsedError;
   int get expiresInDays => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
@@ -71,7 +69,6 @@ abstract class $RequestCopyWith<$Res> {
       _$RequestCopyWithImpl<$Res>;
   $Res call(
       {String id,
-      String userId,
       ReviewBody drugName,
       int expiresInDays,
       String userName,
@@ -94,7 +91,6 @@ class _$RequestCopyWithImpl<$Res> implements $RequestCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = freezed,
     Object? drugName = freezed,
     Object? expiresInDays = freezed,
     Object? userName = freezed,
@@ -109,10 +105,6 @@ class _$RequestCopyWithImpl<$Res> implements $RequestCopyWith<$Res> {
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: userId == freezed
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       drugName: drugName == freezed
           ? _value.drugName
@@ -161,7 +153,6 @@ abstract class _$RequestCopyWith<$Res> implements $RequestCopyWith<$Res> {
   @override
   $Res call(
       {String id,
-      String userId,
       ReviewBody drugName,
       int expiresInDays,
       String userName,
@@ -185,7 +176,6 @@ class __$RequestCopyWithImpl<$Res> extends _$RequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? userId = freezed,
     Object? drugName = freezed,
     Object? expiresInDays = freezed,
     Object? userName = freezed,
@@ -200,10 +190,6 @@ class __$RequestCopyWithImpl<$Res> extends _$RequestCopyWithImpl<$Res>
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: userId == freezed
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       drugName: drugName == freezed
           ? _value.drugName
@@ -250,7 +236,6 @@ class __$RequestCopyWithImpl<$Res> extends _$RequestCopyWithImpl<$Res>
 class _$_Request extends _Request {
   const _$_Request(
       {required this.id,
-      required this.userId,
       required this.drugName,
       required this.expiresInDays,
       required this.userName,
@@ -264,9 +249,7 @@ class _$_Request extends _Request {
 
   @override
   final String id;
-  @override
-  final String userId;
-  @override
+  @override // required String userId,
   final ReviewBody drugName;
   @override
   final int expiresInDays;
@@ -287,7 +270,7 @@ class _$_Request extends _Request {
 
   @override
   String toString() {
-    return 'Request(id: $id, userId: $userId, drugName: $drugName, expiresInDays: $expiresInDays, userName: $userName, drugId: $drugId, pharmacyId: $pharmacyId, creationDate: $creationDate, subscriberCount: $subscriberCount, isAvailable: $isAvailable, declined: $declined)';
+    return 'Request(id: $id, drugName: $drugName, expiresInDays: $expiresInDays, userName: $userName, drugId: $drugId, pharmacyId: $pharmacyId, creationDate: $creationDate, subscriberCount: $subscriberCount, isAvailable: $isAvailable, declined: $declined)';
   }
 
   @override
@@ -296,8 +279,6 @@ class _$_Request extends _Request {
         (other is _Request &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
             (identical(other.drugName, drugName) ||
                 const DeepCollectionEquality()
                     .equals(other.drugName, drugName)) &&
@@ -330,7 +311,6 @@ class _$_Request extends _Request {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(drugName) ^
       const DeepCollectionEquality().hash(expiresInDays) ^
       const DeepCollectionEquality().hash(userName) ^
@@ -350,7 +330,6 @@ class _$_Request extends _Request {
 abstract class _Request extends Request {
   const factory _Request(
       {required String id,
-      required String userId,
       required ReviewBody drugName,
       required int expiresInDays,
       required String userName,
@@ -364,9 +343,7 @@ abstract class _Request extends Request {
 
   @override
   String get id => throw _privateConstructorUsedError;
-  @override
-  String get userId => throw _privateConstructorUsedError;
-  @override
+  @override // required String userId,
   ReviewBody get drugName => throw _privateConstructorUsedError;
   @override
   int get expiresInDays => throw _privateConstructorUsedError;

@@ -45,9 +45,10 @@ class ProfileStackWidget extends StatelessWidget {
                           context.router.push(MyReviewsRoute(user: state.user)),
                     ),
                     ProfileMenu(
-                      text: "Help Center",
-                      icon: Icons.help,
-                      press: () {},
+                      text: "My Requests",
+                      icon: Icons.request_page,
+                      press: () =>
+                          context.router.push(MyRequestRoute(user: state.user)),
                     ),
                     ProfileMenu(
                       text: "Log Out",

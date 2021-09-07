@@ -7,11 +7,12 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
-import '../../domain/auth/user.dart' as _i11;
-import '../../domain/pharma/drug.dart' as _i10;
-import '../../domain/pharma/pharmacy.dart' as _i12;
+import '../../domain/auth/user.dart' as _i12;
+import '../../domain/pharma/drug.dart' as _i11;
+import '../../domain/pharma/pharmacy.dart' as _i13;
 import '../drugs/drug_detail_page.dart' as _i6;
 import '../drugs/drugs_overview_page.dart' as _i3;
+import '../drugs/my_requests_page.dart' as _i10;
 import '../drugs/my_reviews_page.dart' as _i7;
 import '../drugs/my_subscriptions_page.dart' as _i9;
 import '../drugs/pharmacy_page.dart' as _i8;
@@ -63,6 +64,12 @@ class AppRouter extends _i1.RootStackRouter {
         builder: (data) {
           final args = data.argsAs<MySubscriptionsRouteArgs>();
           return _i9.MySubscriptionsPage(key: args.key, user: args.user);
+        }),
+    MyRequestRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (data) {
+          final args = data.argsAs<MyRequestRouteArgs>();
+          return _i10.MyRequestPage(key: args.key, user: args.user);
         })
   };
 
@@ -75,7 +82,8 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(MyReviewsRoute.name, path: '/my-reviews-page'),
         _i1.RouteConfig(PharmacyRoute.name, path: '/pharmacy-page'),
         _i1.RouteConfig(MySubscriptionsRoute.name,
-            path: '/my-subscriptions-page')
+            path: '/my-subscriptions-page'),
+        _i1.RouteConfig(MyRequestRoute.name, path: '/my-request-page')
       ];
 }
 
@@ -98,7 +106,7 @@ class SignUpRoute extends _i1.PageRouteInfo {
 }
 
 class DrugDetailRoute extends _i1.PageRouteInfo<DrugDetailRouteArgs> {
-  DrugDetailRoute({_i2.Key? key, required _i10.Drug drug})
+  DrugDetailRoute({_i2.Key? key, required _i11.Drug drug})
       : super(name,
             path: '/drug-detail-page',
             args: DrugDetailRouteArgs(key: key, drug: drug));
@@ -111,11 +119,11 @@ class DrugDetailRouteArgs {
 
   final _i2.Key? key;
 
-  final _i10.Drug drug;
+  final _i11.Drug drug;
 }
 
 class MyReviewsRoute extends _i1.PageRouteInfo<MyReviewsRouteArgs> {
-  MyReviewsRoute({_i2.Key? key, required _i11.User user})
+  MyReviewsRoute({_i2.Key? key, required _i12.User user})
       : super(name,
             path: '/my-reviews-page',
             args: MyReviewsRouteArgs(key: key, user: user));
@@ -128,12 +136,12 @@ class MyReviewsRouteArgs {
 
   final _i2.Key? key;
 
-  final _i11.User user;
+  final _i12.User user;
 }
 
 class PharmacyRoute extends _i1.PageRouteInfo<PharmacyRouteArgs> {
   PharmacyRoute(
-      {_i2.Key? key, required _i12.Pharmacy pharmacy, required _i11.User? user})
+      {_i2.Key? key, required _i13.Pharmacy pharmacy, required _i12.User? user})
       : super(name,
             path: '/pharmacy-page',
             args: PharmacyRouteArgs(key: key, pharmacy: pharmacy, user: user));
@@ -147,13 +155,13 @@ class PharmacyRouteArgs {
 
   final _i2.Key? key;
 
-  final _i12.Pharmacy pharmacy;
+  final _i13.Pharmacy pharmacy;
 
-  final _i11.User? user;
+  final _i12.User? user;
 }
 
 class MySubscriptionsRoute extends _i1.PageRouteInfo<MySubscriptionsRouteArgs> {
-  MySubscriptionsRoute({_i2.Key? key, required _i11.User user})
+  MySubscriptionsRoute({_i2.Key? key, required _i12.User user})
       : super(name,
             path: '/my-subscriptions-page',
             args: MySubscriptionsRouteArgs(key: key, user: user));
@@ -166,5 +174,22 @@ class MySubscriptionsRouteArgs {
 
   final _i2.Key? key;
 
-  final _i11.User user;
+  final _i12.User user;
+}
+
+class MyRequestRoute extends _i1.PageRouteInfo<MyRequestRouteArgs> {
+  MyRequestRoute({_i2.Key? key, required _i12.User user})
+      : super(name,
+            path: '/my-request-page',
+            args: MyRequestRouteArgs(key: key, user: user));
+
+  static const String name = 'MyRequestRoute';
+}
+
+class MyRequestRouteArgs {
+  const MyRequestRouteArgs({this.key, required this.user});
+
+  final _i2.Key? key;
+
+  final _i12.User user;
 }

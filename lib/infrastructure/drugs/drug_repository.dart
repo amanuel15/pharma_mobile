@@ -622,6 +622,35 @@ class DrugRepository implements IDrugRepository {
   }
 
   @override
+  Future<Result<ReviewFailure, Unit>> deleteRequest({
+    required Request request,
+    required String accessToken,
+    required String userId,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.post(
+        'http://10.0.2.2:3000/client/request/removeRequest/',
+        data: {
+          'requestId': request.id,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      return Success(unit);
+    } on DioError catch (e) {
+      if (e.response?.data['status'] == 'Invalid Owner')
+        return Error(ReviewFailure.unauthorizedAccess());
+      else
+        return Error(ReviewFailure.unexpected());
+    }
+  }
+
+  @override
   Future<Result<ReviewFailure, List<Request>>> fetchMyRequests({
     required String userId,
     required String accessToken,
@@ -630,7 +659,6 @@ class DrugRepository implements IDrugRepository {
     try {
       response = await _dio.get(
         'http://10.0.2.2:3000/client/request/getMyRequests',
-        queryParameters: {},
         options: Options(
           headers: {
             'id': userId,
@@ -638,22 +666,22 @@ class DrugRepository implements IDrugRepository {
           },
         ),
       );
-      List revs = response.data['data']['requests'];
+      List revs = response.data['data'][0]['requests'];
       return Success(
         revs
             .map(
               (e) => Request(
                 id: e['_id'],
-                userId: e['userId'],
-                drugName: e['name'],
-                expiresInDays: e['expiresInDays'],
-                userName: e['userName'],
-                drugId: e['drugId'],
+                // userId: e['userId'],
+                drugName: ReviewBody(e['name']),
+                expiresInDays: 0,
+                userName: e['userName'] ?? '', // TODO: correct this
+                drugId: e['drugId'] ?? '',
                 pharmacyId: e['pharmacyId'],
                 creationDate: e['creationDate'],
                 subscriberCount: e['subscriberCount'],
                 isAvailable: e['isAvailable'],
-                declined: e['decline'],
+                declined: e['decline'] ?? false,
               ),
             )
             .toList(),
@@ -691,7 +719,7 @@ class DrugRepository implements IDrugRepository {
             .map(
               (e) => Request(
                 id: e['_id'],
-                userId: e['userId'],
+                // userId: e['userId'],
                 drugName: e['name'],
                 expiresInDays: e['expiresInDays'],
                 userName: e['userName'],
