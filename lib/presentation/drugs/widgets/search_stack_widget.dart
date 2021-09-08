@@ -37,22 +37,12 @@ class SearchStackWidget extends StatelessWidget {
                     );
                   },
                   loadSuccess: (state) {
-                    return Column(
-                      children: [
-                        FlatButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Can\'t find What You are looking for?',
-                          ),
-                        ),
-                        ListView.builder(
-                          itemBuilder: (context, index) {
-                            final drug = state.drugs[index];
-                            return DrugCard(drug: drug);
-                          },
-                          itemCount: state.drugs.length,
-                        ),
-                      ],
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        final drug = state.drugs[index];
+                        return DrugCard(drug: drug);
+                      },
+                      itemCount: state.drugs.length,
                     );
                   },
                   loadFailure: (state) {

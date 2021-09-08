@@ -37,7 +37,7 @@ class DrugRepository implements IDrugRepository {
         'http://10.0.2.2:3000/client/search/getDrugSearchRecomendations/',
         queryParameters: {
           'searchQuery': searchTerm,
-          'radius': 5,
+          'radius': 10000,
           'location': [location.latitude, location.longitude],
         },
       );
@@ -69,7 +69,7 @@ class DrugRepository implements IDrugRepository {
         'http://10.0.2.2:3000/client/search/getDrugsByQuery/',
         queryParameters: {
           'searchQuery': searchTerm,
-          'radius': 5,
+          'radius': 10000,
           'location': [
             location.latitude,
             location.longitude

@@ -31,340 +31,340 @@ class DrugDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<ReviewActorBloc>(
-          create: (context) => getIt<ReviewActorBloc>(),
-        ),
-        BlocProvider<ReviewFetcherBloc>(
-          create: (context) => getIt<ReviewFetcherBloc>(),
-        ),
-        BlocProvider<FetchDrugPharmacyBloc>(
-          create: (context) => getIt<FetchDrugPharmacyBloc>()
-            ..add(
-              FetchDrugPharmacyEvent.fetchPharmacy(drug.pharmacyId),
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, stateAuth) {
+        User? user = stateAuth.maybeWhen(
+          authenticated: (user) => user,
+          orElse: () => null,
+        );
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<ReviewActorBloc>(
+              create: (context) => getIt<ReviewActorBloc>(),
             ),
-        ),
-        BlocProvider<SubscriptionActorBloc>(
-          create: (context) => getIt<SubscriptionActorBloc>(),
-        ),
-      ],
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<ReviewActorBloc, ReviewActorState>(
-            listener: (context, state) {
-              state.maybeMap(
-                deleteFailure: (state) {
-                  flashBarWidget(context, state);
-                },
-                orElse: () {},
-              );
-            },
-          ),
-        ],
-        child: Scaffold(
-          body: SafeArea(
-            child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: Container(
-                padding: EdgeInsets.all(5.r),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
+            if (user != null)
+              BlocProvider<ReviewFetcherBloc>(
+                  create: (context) => getIt<ReviewFetcherBloc>()
+                    ..add(
+                      ReviewFetcherEvent.fetchReviews(
+                        drug.id,
+                        user.token,
+                        0,
+                        user.id,
+                        'Least-Helpful',
+                      ),
+                    )),
+            BlocProvider<FetchDrugPharmacyBloc>(
+              create: (context) => getIt<FetchDrugPharmacyBloc>()
+                ..add(
+                  FetchDrugPharmacyEvent.fetchPharmacy(drug.pharmacyId),
                 ),
-                child: ListView(
-                  children: [
-                    Text(
-                      drug.drugName,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(8.r),
-                      ),
-                      child: Image(
-                        image: AssetImage('assets/d.jpg'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            drug.drugDetail,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 4,
-                          ),
+            ),
+            BlocProvider<SubscriptionActorBloc>(
+              create: (context) => getIt<SubscriptionActorBloc>(),
+            ),
+          ],
+          child: Scaffold(
+            body: SafeArea(
+              child: GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: Container(
+                  padding: EdgeInsets.all(5.r),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                  ),
+                  child: ListView(
+                    children: [
+                      Text(
+                        drug.drugName,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.bold,
                         ),
-                        if (drug.stock == 0)
-                          Container(
-                            child: BlocBuilder<AuthBloc, AuthState>(
-                              builder: (context, state) {
-                                return state.maybeMap(
-                                  authenticated: (authState) {
-                                    return BlocBuilder<SubscriptionFetcherBloc,
-                                        SubscriptionFetcherState>(
-                                      builder: (context, featcherState) {
-                                        return BlocConsumer<
-                                            SubscriptionActorBloc,
-                                            SubscriptionActorState>(
-                                          listener: (context, state) {
-                                            state.maybeMap(
-                                              actionFailure: (state) {
-                                                flashBarWidget(context, state);
-                                              },
-                                              actionSuccess: (state) => context
-                                                  .read<
-                                                      SubscriptionFetcherBloc>()
-                                                  .add(
-                                                    SubscriptionFetcherEvent
-                                                        .fetchSubscriptions(
-                                                            authState
-                                                                .user.token,
-                                                            authState.user.id),
-                                                  ),
-                                              orElse: () {},
-                                            );
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(8.r),
+                        ),
+                        child: Image(
+                          image: AssetImage('assets/d.jpg'),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              drug.drugDetail,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 4,
+                            ),
+                          ),
+                          if (drug.stock == 0)
+                            stateAuth.maybeMap(
+                              authenticated: (authState) {
+                                return BlocBuilder<SubscriptionFetcherBloc,
+                                    SubscriptionFetcherState>(
+                                  builder: (context, featcherState) {
+                                    return BlocConsumer<SubscriptionActorBloc,
+                                        SubscriptionActorState>(
+                                      listener: (context, state) {
+                                        state.maybeMap(
+                                          actionFailure: (state) {
+                                            flashBarWidget(context, state);
                                           },
-                                          builder: (context, state) {
-                                            bool disableButton = state.maybeMap(
-                                              actionInProgress: (_) => true,
-                                              orElse: () => false,
-                                            );
-                                            bool isSubbed = false;
-                                            String subscriptionId = '';
-                                            List<Subscription> subs =
-                                                featcherState.maybeWhen(
-                                              loadSuccess: (subs) => subs,
-                                              orElse: () => [],
-                                            );
-                                            subs.forEach(
-                                              (e) {
-                                                if (e.drugId == drug.id)
-                                                  isSubbed = true;
-                                                subscriptionId = e.id;
-                                              },
-                                            );
-                                            if (isSubbed)
-                                              return ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  elevation: 2,
-                                                  primary: Colors.grey[400],
-                                                  padding: EdgeInsets.all(15),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                ),
-                                                onPressed: disableButton
-                                                    ? null
-                                                    : () {
-                                                        context
-                                                            .read<
-                                                                SubscriptionActorBloc>()
-                                                            .add(
-                                                              SubscriptionActorEvent
-                                                                  .unsubscribed(
-                                                                subscriptionId,
-                                                                authState
-                                                                    .user.token,
-                                                                authState
-                                                                    .user.id,
-                                                              ),
-                                                            );
-                                                      },
-                                                child: Text(
-                                                  'Unsubscribe',
-                                                  style: TextStyle(
-                                                    fontSize: 18.sp,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              );
-                                            else
-                                              return ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  elevation: 2,
-                                                  primary: Colors.green[400],
-                                                  padding: EdgeInsets.all(15),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                ),
-                                                onPressed: disableButton
-                                                    ? null
-                                                    : () {
-                                                        context
-                                                            .read<
-                                                                SubscriptionActorBloc>()
-                                                            .add(
-                                                              SubscriptionActorEvent
-                                                                  .subscribed(
-                                                                drug.id,
-                                                                21,
-                                                                authState
-                                                                    .user.token,
-                                                                authState
-                                                                    .user.id,
-                                                              ),
-                                                            );
-                                                      },
-                                                child: Text(
-                                                  'Subscribe',
-                                                  style: TextStyle(
-                                                    fontSize: 18.sp,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              );
+                                          actionSuccess: (state) => context
+                                              .read<SubscriptionFetcherBloc>()
+                                              .add(
+                                                SubscriptionFetcherEvent
+                                                    .fetchSubscriptions(
+                                                        authState.user.token,
+                                                        authState.user.id),
+                                              ),
+                                          orElse: () {},
+                                        );
+                                      },
+                                      builder: (context, state) {
+                                        bool disableButton = state.maybeMap(
+                                          actionInProgress: (_) => true,
+                                          orElse: () => false,
+                                        );
+                                        bool isSubbed = false;
+                                        String subscriptionId = '';
+                                        List<Subscription> subs =
+                                            featcherState.maybeWhen(
+                                          loadSuccess: (subs) => subs,
+                                          orElse: () => [],
+                                        );
+                                        subs.forEach(
+                                          (e) {
+                                            if (e.drugId == drug.id)
+                                              isSubbed = true;
+                                            subscriptionId = e.id;
                                           },
                                         );
+                                        if (isSubbed)
+                                          return ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 2,
+                                              primary: Colors.grey[400],
+                                              padding: EdgeInsets.all(15),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                            ),
+                                            onPressed: disableButton
+                                                ? null
+                                                : () {
+                                                    context
+                                                        .read<
+                                                            SubscriptionActorBloc>()
+                                                        .add(
+                                                          SubscriptionActorEvent
+                                                              .unsubscribed(
+                                                            subscriptionId,
+                                                            authState
+                                                                .user.token,
+                                                            authState.user.id,
+                                                          ),
+                                                        );
+                                                  },
+                                            child: Text(
+                                              'Unsubscribe',
+                                              style: TextStyle(
+                                                fontSize: 18.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          );
+                                        else
+                                          return ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 2,
+                                              primary: Colors.green[400],
+                                              padding: EdgeInsets.all(15),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                            ),
+                                            onPressed: disableButton
+                                                ? null
+                                                : () {
+                                                    context
+                                                        .read<
+                                                            SubscriptionActorBloc>()
+                                                        .add(
+                                                          SubscriptionActorEvent
+                                                              .subscribed(
+                                                            drug.id,
+                                                            21,
+                                                            authState
+                                                                .user.token,
+                                                            authState.user.id,
+                                                          ),
+                                                        );
+                                                  },
+                                            child: Text(
+                                              'Subscribe',
+                                              style: TextStyle(
+                                                fontSize: 18.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          );
                                       },
                                     );
                                   },
-                                  orElse: () => SizedBox.shrink(),
                                 );
                               },
+                              orElse: () => SizedBox.shrink(),
                             ),
-                          ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    BlocBuilder<FetchDrugPharmacyBloc, FetchDrugPharmacyState>(
-                      builder: (context, state) {
-                        return state.map(
-                          initial: (state) => SizedBox.shrink(),
-                          loadSuccess: (state) {
-                            return BlocBuilder<AuthBloc, AuthState>(
-                              builder: (context, stateA) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 10.w,
-                                  ),
-                                  child: FlatButton(
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      BlocBuilder<FetchDrugPharmacyBloc,
+                          FetchDrugPharmacyState>(
+                        builder: (context, state) {
+                          return state.map(
+                            initial: (state) => SizedBox.shrink(),
+                            loadSuccess: (state) {
+                              return BlocBuilder<AuthBloc, AuthState>(
+                                builder: (context, stateA) {
+                                  return Padding(
                                     padding: EdgeInsets.symmetric(
-                                      horizontal: 0.w,
+                                      horizontal: 10.w,
                                     ),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
-                                    color: Color(0xFFF1FFF5),
-                                    onPressed: () {
-                                      context.router.push(
-                                        PharmacyRoute(
-                                          pharmacy: state.pharmacy,
-                                          user: stateA.maybeWhen(
-                                            authenticated: (state) => state,
-                                            orElse: () => null,
+                                    child: FlatButton(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 0.w,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      color: Color(0xFFF1FFF5),
+                                      onPressed: () {
+                                        context.router.push(
+                                          PharmacyRoute(
+                                            pharmacy: state.pharmacy,
+                                            user: stateA.maybeWhen(
+                                              authenticated: (state) => state,
+                                              orElse: () => null,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    child: ListTile(
-                                      leading: SizedBox(
-                                        height: 50.r,
-                                        width: 50.r,
-                                        child: Stack(
-                                          fit: StackFit.expand,
-                                          overflow: Overflow.visible,
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor:
-                                                  Color(0xFFE1E2E5),
-                                              child: Text(
-                                                state.pharmacy.pharmacyName[0],
-                                                style: TextStyle(
-                                                  fontSize: 35.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
+                                        );
+                                      },
+                                      child: ListTile(
+                                        leading: SizedBox(
+                                          height: 50.r,
+                                          width: 50.r,
+                                          child: Stack(
+                                            fit: StackFit.expand,
+                                            overflow: Overflow.visible,
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                    Color(0xFFE1E2E5),
+                                                child: Text(
+                                                  state
+                                                      .pharmacy.pharmacyName[0],
+                                                  style: TextStyle(
+                                                    fontSize: 35.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
+                                            ],
+                                          ),
+                                        ),
+                                        title: Text(
+                                          state.pharmacy.pharmacyName,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        subtitle: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              state.pharmacy.pharmacyEmail,
+                                            ),
+                                            RatingBarIndicator(
+                                              rating: state.pharmacy.rating,
+                                              itemBuilder: (context, index) =>
+                                                  Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
+                                              itemCount: 5,
+                                              itemSize: 18.r,
+                                              unratedColor:
+                                                  Colors.amber.withAlpha(50),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      title: Text(
-                                        state.pharmacy.pharmacyName,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      subtitle: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            state.pharmacy.pharmacyEmail,
-                                          ),
-                                          RatingBarIndicator(
-                                            rating: drug.rating,
-                                            itemBuilder: (context, index) =>
-                                                Icon(
-                                              Icons.star,
-                                              color: Colors.amber,
-                                            ),
-                                            itemCount: 5,
-                                            itemSize: 18.r,
-                                            unratedColor:
-                                                Colors.amber.withAlpha(50),
-                                          ),
-                                        ],
-                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          loadFailure: (state) {
-                            return Text(
-                              'It seems we weren\'t able to get the pharmacy info',
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        return state.maybeMap(
-                          authenticated: (stateAuth) {
-                            context.read<ReviewFetcherBloc>().add(
-                                  ReviewFetcherEvent.fetchReviews(
-                                    drug.id,
-                                    stateAuth.user.token,
-                                    0,
-                                    stateAuth.user.id,
-                                    'Least-Helpful',
-                                  ),
-                                );
-                            return Column(
-                              children: [
-                                ReviewForm(
-                                  user: stateAuth.user,
-                                  drug: drug,
-                                ),
-                                BlocBuilder<ReviewFetcherBloc,
+                                  );
+                                },
+                              );
+                            },
+                            loadFailure: (state) {
+                              return Text(
+                                'It seems we weren\'t able to get the pharmacy info',
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      stateAuth.maybeMap(
+                        authenticated: (stateAuth) {
+                          return Column(
+                            children: [
+                              ReviewForm(
+                                user: stateAuth.user,
+                                drug: drug,
+                              ),
+                              BlocListener<ReviewActorBloc, ReviewActorState>(
+                                listener: (context, state) {
+                                  state.maybeMap(
+                                    deleteFailure: (state) {
+                                      flashBarWidget(context, state);
+                                    },
+                                    deleteSuccess: (state) {
+                                      context.read<ReviewFetcherBloc>().add(
+                                            ReviewFetcherEvent.fetchReviews(
+                                              drug.id,
+                                              stateAuth.user.token,
+                                              0,
+                                              stateAuth.user.id,
+                                              'Least-Helpful',
+                                            ),
+                                          );
+                                    },
+                                    orElse: () {},
+                                  );
+                                },
+                                child: BlocBuilder<ReviewFetcherBloc,
                                     ReviewFetcherState>(
                                   builder: (context, state) {
                                     return state.map(
@@ -387,8 +387,10 @@ class DrugDetailPage extends StatelessWidget {
                                         return Column(children: [
                                           ...state.reviews
                                               .map((review) => ReviewCard(
-                                                  review: review,
-                                                  user: stateAuth.user))
+                                                    review: review,
+                                                    user: stateAuth.user,
+                                                    drug: drug,
+                                                  ))
                                               .toList()
                                         ]);
                                         // return ListView.builder(
@@ -408,34 +410,34 @@ class DrugDetailPage extends StatelessWidget {
                                     );
                                   },
                                 ),
-                              ],
-                            );
-                          },
-                          orElse: () => SizedBox.shrink(),
-                        );
-                      },
-                    ),
+                              ),
+                            ],
+                          );
+                        },
+                        orElse: () => SizedBox.shrink(),
+                      )
 
-                    // ReviewCard(
-                    //   review: Review(
-                    //     id: '6asd67adsad',
-                    //     userId: 'sdfsd454fdgfdg',
-                    //     reviewBody: ReviewBody(
-                    //         'The best drug ever! im sooo high right now'),
-                    //     userName: 'John Tadmen',
-                    //     reviewStar: ReviewStar(3.5),
-                    //     drugId: 'drugId',
-                    //     pharmacyId: 'pharmacyId',
-                    //     creationDate: 'Aug 8, 2020',
-                    //   ),
-                    // ),
-                  ],
+                      // ReviewCard(
+                      //   review: Review(
+                      //     id: '6asd67adsad',
+                      //     userId: 'sdfsd454fdgfdg',
+                      //     reviewBody: ReviewBody(
+                      //         'The best drug ever! im sooo high right now'),
+                      //     userName: 'John Tadmen',
+                      //     reviewStar: ReviewStar(3.5),
+                      //     drugId: 'drugId',
+                      //     pharmacyId: 'pharmacyId',
+                      //     creationDate: 'Aug 8, 2020',
+                      //   ),
+                      // ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -458,8 +460,10 @@ class DrugDetailPage extends StatelessWidget {
 class ReviewCard extends StatelessWidget {
   final Review review;
   final User user;
+  final Drug? drug;
 
-  const ReviewCard({Key? key, required this.review, required this.user})
+  const ReviewCard(
+      {Key? key, required this.review, required this.user, this.drug})
       : super(key: key);
 
   @override
@@ -492,41 +496,42 @@ class ReviewCard extends StatelessWidget {
                         constraints: BoxConstraints(),
                         onPressed: () {
                           showDialog(
-                              context: context,
-                              builder: (_) {
-                                return AlertDialog(
-                                  title: Text(
-                                    'Warning',
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24.sp,
-                                    ),
+                            context: context,
+                            builder: (_) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Warning',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24.sp,
                                   ),
-                                  content: Text(
-                                    'Are you sure you want to delete this review?',
+                                ),
+                                content: Text(
+                                  'Are you sure you want to delete this review?',
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      context
+                                          .read<ReviewActorBloc>()
+                                          .add(ReviewActorEvent.deleted(
+                                            review,
+                                            user.token,
+                                            user.id,
+                                          ));
+                                    },
+                                    child: Text('YES'),
                                   ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        context
-                                            .read<ReviewActorBloc>()
-                                            .add(ReviewActorEvent.deleted(
-                                              review,
-                                              user.token,
-                                              user.id,
-                                            ));
-                                      },
-                                      child: Text('YES'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text('NO'),
-                                    ),
-                                  ],
-                                );
-                              });
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('NO'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                         icon: Icon(
                           Icons.delete,
@@ -539,7 +544,14 @@ class ReviewCard extends StatelessWidget {
                       IconButton(
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return ReviewForm(user: user, drug: drug!);
+                            },
+                          );
+                        },
                         icon: Icon(
                           Icons.edit,
                           size: 24.r,
@@ -655,7 +667,24 @@ class ReviewForm extends StatelessWidget {
                 },
               );
             },
-            (success) => null,
+            (success) {
+              context.read<ReviewFormBloc>().add(ReviewFormEvent.initialized(
+                    null,
+                    user.id,
+                    user.token,
+                    user.userName,
+                    drug.id,
+                  ));
+              context.read<ReviewFetcherBloc>().add(
+                    ReviewFetcherEvent.fetchReviews(
+                      drug.id,
+                      user.token,
+                      0,
+                      user.id,
+                      'Least-Helpful',
+                    ),
+                  );
+            },
           );
         },
         buildWhen: (p, c) => p.isSubmitting != c.isSubmitting,
