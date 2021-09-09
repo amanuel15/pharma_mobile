@@ -342,7 +342,7 @@ class DrugDetailPage extends StatelessWidget {
                             children: [
                               ReviewForm(
                                 user: stateAuth.user,
-                                drug: drug,
+                                drugId: drug.id,
                               ),
                               BlocListener<ReviewActorBloc, ReviewActorState>(
                                 listener: (context, state) {
@@ -544,13 +544,36 @@ class ReviewCard extends StatelessWidget {
                       IconButton(
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
-                        onPressed: () {
-                          showDialog(
+                        onPressed: () async {
+                          var updated = await showDialog(
                             context: context,
                             builder: (_) {
-                              return ReviewForm(user: user, drug: drug!);
+                              return ReviewForm(
+                                user: user,
+                                editReview: review,
+                              );
                             },
                           );
+                          if (updated != null && updated) {
+                            if (drug != null)
+                              context.read<ReviewFetcherBloc>().add(
+                                    ReviewFetcherEvent.fetchReviews(
+                                      review.id,
+                                      user.token,
+                                      0,
+                                      user.id,
+                                      'Least-Helpful',
+                                    ),
+                                  );
+                            else
+                              context
+                                  .read<ReviewFetcherBloc>()
+                                  .add(ReviewFetcherEvent.fetchMyReviews(
+                                    user.token,
+                                    0,
+                                    user.id,
+                                  ));
+                          }
                         },
                         icon: Icon(
                           Icons.edit,
@@ -605,10 +628,9 @@ class ReviewCard extends StatelessWidget {
 class ReviewForm extends StatelessWidget {
   final Review? editReview;
   final User user;
-  final Drug drug;
+  final String? drugId;
 
-  const ReviewForm(
-      {Key? key, this.editReview, required this.user, required this.drug})
+  const ReviewForm({Key? key, this.editReview, required this.user, this.drugId})
       : super(key: key);
 
   @override
@@ -616,8 +638,8 @@ class ReviewForm extends StatelessWidget {
     print(user);
     return BlocProvider(
       create: (context) => getIt<ReviewFormBloc>()
-        ..add(ReviewFormEvent.initialized(
-            editReview, user.id, user.token, user.userName, drug.id)),
+        ..add(ReviewFormEvent.initialized(editReview, user.id, user.token,
+            user.userName, drugId ?? editReview!.drugId)),
       child: BlocConsumer<ReviewFormBloc, ReviewFormState>(
         listenWhen: (p, c) =>
             p.reviewFailureOrSuccess != c.reviewFailureOrSuccess,
@@ -668,89 +690,70 @@ class ReviewForm extends StatelessWidget {
               );
             },
             (success) {
-              context.read<ReviewFormBloc>().add(ReviewFormEvent.initialized(
-                    null,
-                    user.id,
-                    user.token,
-                    user.userName,
-                    drug.id,
-                  ));
-              context.read<ReviewFetcherBloc>().add(
-                    ReviewFetcherEvent.fetchReviews(
-                      drug.id,
-                      user.token,
-                      0,
-                      user.id,
-                      'Least-Helpful',
-                    ),
-                  );
+              Navigator.pop(context, true);
             },
           );
         },
         buildWhen: (p, c) => p.isSubmitting != c.isSubmitting,
         builder: (context, state) {
-          return Container(
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.r))),
             //padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
-            child: Card(
-              elevation: 2,
-              color: Colors.grey[100],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.r),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(13.r),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Want to share a review?',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[700],
-                      ),
+            child: Padding(
+              padding: EdgeInsets.all(13.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Want to share a review?',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[700],
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    ReviewBodyField(),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    ReviewStarField(),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 15.h),
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 1,
-                          primary: Colors.green[300],
-                          padding: EdgeInsets.all(15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  ReviewBodyField(),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  ReviewStarField(),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 15.h),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 1,
+                        primary: Colors.green[300],
+                        padding: EdgeInsets.all(15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
-                        onPressed: () {
-                          context
-                              .read<ReviewFormBloc>()
-                              .add(const ReviewFormEvent.reviewBtnPressed());
-                        },
-                        child: Text(
-                          'Post A Review!',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      ),
+                      onPressed: () {
+                        context
+                            .read<ReviewFormBloc>()
+                            .add(const ReviewFormEvent.reviewBtnPressed());
+                      },
+                      child: Text(
+                        'Post A Review!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );
