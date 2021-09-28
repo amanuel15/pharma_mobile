@@ -47,7 +47,7 @@ class DrugCard extends StatelessWidget {
                           left: Radius.circular(8.r),
                         ),
                         child: Image(
-                          image: AssetImage('assets/d.jpg'),
+                          image: AssetImage('assets/b.jpg'),
                         ),
                       ),
                     ),

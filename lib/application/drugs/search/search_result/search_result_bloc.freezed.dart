@@ -16,10 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SearchResultEventTearOff {
   const _$SearchResultEventTearOff();
 
-  _SearchDrugs searchDrugs(String searchTerm, LatLng location) {
+  _SearchDrugs searchDrugs(String searchTerm, LatLng location, String filter) {
     return _SearchDrugs(
       searchTerm,
       location,
+      filter,
     );
   }
 
@@ -38,14 +39,16 @@ const $SearchResultEvent = _$SearchResultEventTearOff();
 mixin _$SearchResultEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm, LatLng location) searchDrugs,
+    required TResult Function(String searchTerm, LatLng location, String filter)
+        searchDrugs,
     required TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)
         drugsReceived,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm, LatLng location)? searchDrugs,
+    TResult Function(String searchTerm, LatLng location, String filter)?
+        searchDrugs,
     TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)?
         drugsReceived,
     required TResult orElse(),
@@ -88,7 +91,7 @@ abstract class _$SearchDrugsCopyWith<$Res> {
   factory _$SearchDrugsCopyWith(
           _SearchDrugs value, $Res Function(_SearchDrugs) then) =
       __$SearchDrugsCopyWithImpl<$Res>;
-  $Res call({String searchTerm, LatLng location});
+  $Res call({String searchTerm, LatLng location, String filter});
 }
 
 /// @nodoc
@@ -106,6 +109,7 @@ class __$SearchDrugsCopyWithImpl<$Res>
   $Res call({
     Object? searchTerm = freezed,
     Object? location = freezed,
+    Object? filter = freezed,
   }) {
     return _then(_SearchDrugs(
       searchTerm == freezed
@@ -116,6 +120,10 @@ class __$SearchDrugsCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as LatLng,
+      filter == freezed
+          ? _value.filter
+          : filter // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -123,16 +131,18 @@ class __$SearchDrugsCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SearchDrugs implements _SearchDrugs {
-  const _$_SearchDrugs(this.searchTerm, this.location);
+  const _$_SearchDrugs(this.searchTerm, this.location, this.filter);
 
   @override
   final String searchTerm;
   @override
   final LatLng location;
+  @override
+  final String filter;
 
   @override
   String toString() {
-    return 'SearchResultEvent.searchDrugs(searchTerm: $searchTerm, location: $location)';
+    return 'SearchResultEvent.searchDrugs(searchTerm: $searchTerm, location: $location, filter: $filter)';
   }
 
   @override
@@ -144,14 +154,17 @@ class _$_SearchDrugs implements _SearchDrugs {
                     .equals(other.searchTerm, searchTerm)) &&
             (identical(other.location, location) ||
                 const DeepCollectionEquality()
-                    .equals(other.location, location)));
+                    .equals(other.location, location)) &&
+            (identical(other.filter, filter) ||
+                const DeepCollectionEquality().equals(other.filter, filter)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(searchTerm) ^
-      const DeepCollectionEquality().hash(location);
+      const DeepCollectionEquality().hash(location) ^
+      const DeepCollectionEquality().hash(filter);
 
   @JsonKey(ignore: true)
   @override
@@ -161,23 +174,25 @@ class _$_SearchDrugs implements _SearchDrugs {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm, LatLng location) searchDrugs,
+    required TResult Function(String searchTerm, LatLng location, String filter)
+        searchDrugs,
     required TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)
         drugsReceived,
   }) {
-    return searchDrugs(searchTerm, location);
+    return searchDrugs(searchTerm, location, filter);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm, LatLng location)? searchDrugs,
+    TResult Function(String searchTerm, LatLng location, String filter)?
+        searchDrugs,
     TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)?
         drugsReceived,
     required TResult orElse(),
   }) {
     if (searchDrugs != null) {
-      return searchDrugs(searchTerm, location);
+      return searchDrugs(searchTerm, location, filter);
     }
     return orElse();
   }
@@ -206,11 +221,12 @@ class _$_SearchDrugs implements _SearchDrugs {
 }
 
 abstract class _SearchDrugs implements SearchResultEvent {
-  const factory _SearchDrugs(String searchTerm, LatLng location) =
-      _$_SearchDrugs;
+  const factory _SearchDrugs(
+      String searchTerm, LatLng location, String filter) = _$_SearchDrugs;
 
   String get searchTerm => throw _privateConstructorUsedError;
   LatLng get location => throw _privateConstructorUsedError;
+  String get filter => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$SearchDrugsCopyWith<_SearchDrugs> get copyWith =>
       throw _privateConstructorUsedError;
@@ -283,7 +299,8 @@ class _$_DrugsReceived implements _DrugsReceived {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String searchTerm, LatLng location) searchDrugs,
+    required TResult Function(String searchTerm, LatLng location, String filter)
+        searchDrugs,
     required TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)
         drugsReceived,
   }) {
@@ -293,7 +310,8 @@ class _$_DrugsReceived implements _DrugsReceived {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String searchTerm, LatLng location)? searchDrugs,
+    TResult Function(String searchTerm, LatLng location, String filter)?
+        searchDrugs,
     TResult Function(Result<SearchFailure, List<Drug>> failureOrDrugs)?
         drugsReceived,
     required TResult orElse(),

@@ -6,6 +6,7 @@ import 'package:pharma_flutter/application/util/search_history/search_history_cu
 import 'package:pharma_flutter/domain/pharma/drug.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/drug_card_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pharma_flutter/presentation/drugs/widgets/home_stack_widget.dart';
 
 class SearchStackWidget extends StatelessWidget {
   const SearchStackWidget({Key? key}) : super(key: key);
@@ -152,7 +153,7 @@ class SearchStackWidget extends StatelessWidget {
               },
             ),
           ),
-          FloatingSearchBarWidge(),
+          FloatingSearchBarWidget(),
         ],
       ),
     );
@@ -242,31 +243,37 @@ class FloatingSearchBarWidge extends StatelessWidget {
                               SizedBox(height: 8.h),
                               //Now we will create a widget because we will use it many time
                               _buildCategory(
+                                context: context,
                                 category: "Books",
                                 iconData: Icons.book,
                                 color: Colors.blue,
                               ),
                               _buildCategory(
+                                context: context,
                                 category: "Video Games",
                                 iconData: Icons.sports_esports,
                                 color: Colors.deepOrange,
                               ),
                               _buildCategory(
+                                context: context,
                                 category: "Music & Movies",
                                 iconData: Icons.movie,
                                 color: Colors.blue,
                               ),
                               _buildCategory(
+                                context: context,
                                 category: "Grocery",
                                 iconData: Icons.local_grocery_store,
                                 color: Colors.cyan,
                               ),
                               _buildCategory(
+                                context: context,
                                 category: "Health & Beauty",
                                 iconData: Icons.healing,
                                 color: Colors.yellow.shade700,
                               ),
                               _buildCategory(
+                                context: context,
                                 category: "Sports",
                                 iconData: Icons.sports_basketball_rounded,
                                 color: Colors.red,
@@ -360,6 +367,7 @@ class FloatingSearchBarWidge extends StatelessWidget {
   }
 
   Widget _buildCategory({
+    required BuildContext context,
     required String category,
     required IconData iconData,
     required Color color,
@@ -369,7 +377,9 @@ class FloatingSearchBarWidge extends StatelessWidget {
         vertical: 8.h,
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pop(context);
+        },
         borderRadius: BorderRadius.circular(25),
         child: Container(
           width: double.infinity,

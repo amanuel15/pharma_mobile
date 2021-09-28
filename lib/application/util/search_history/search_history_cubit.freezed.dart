@@ -20,12 +20,14 @@ class _$SearchHistoryStateTearOff {
       {required List<Search> searches,
       required String typedTerm,
       required List<Search> filteredSearchHistory,
-      required FloatingSearchBarController floatingSearchBarController}) {
+      required FloatingSearchBarController floatingSearchBarController,
+      required String filterBy}) {
     return _SearchHistoryState(
       searches: searches,
       typedTerm: typedTerm,
       filteredSearchHistory: filteredSearchHistory,
       floatingSearchBarController: floatingSearchBarController,
+      filterBy: filterBy,
     );
   }
 }
@@ -40,6 +42,7 @@ mixin _$SearchHistoryState {
   List<Search> get filteredSearchHistory => throw _privateConstructorUsedError;
   FloatingSearchBarController get floatingSearchBarController =>
       throw _privateConstructorUsedError;
+  String get filterBy => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SearchHistoryStateCopyWith<SearchHistoryState> get copyWith =>
@@ -55,7 +58,8 @@ abstract class $SearchHistoryStateCopyWith<$Res> {
       {List<Search> searches,
       String typedTerm,
       List<Search> filteredSearchHistory,
-      FloatingSearchBarController floatingSearchBarController});
+      FloatingSearchBarController floatingSearchBarController,
+      String filterBy});
 }
 
 /// @nodoc
@@ -73,6 +77,7 @@ class _$SearchHistoryStateCopyWithImpl<$Res>
     Object? typedTerm = freezed,
     Object? filteredSearchHistory = freezed,
     Object? floatingSearchBarController = freezed,
+    Object? filterBy = freezed,
   }) {
     return _then(_value.copyWith(
       searches: searches == freezed
@@ -91,6 +96,10 @@ class _$SearchHistoryStateCopyWithImpl<$Res>
           ? _value.floatingSearchBarController
           : floatingSearchBarController // ignore: cast_nullable_to_non_nullable
               as FloatingSearchBarController,
+      filterBy: filterBy == freezed
+          ? _value.filterBy
+          : filterBy // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -106,7 +115,8 @@ abstract class _$SearchHistoryStateCopyWith<$Res>
       {List<Search> searches,
       String typedTerm,
       List<Search> filteredSearchHistory,
-      FloatingSearchBarController floatingSearchBarController});
+      FloatingSearchBarController floatingSearchBarController,
+      String filterBy});
 }
 
 /// @nodoc
@@ -126,6 +136,7 @@ class __$SearchHistoryStateCopyWithImpl<$Res>
     Object? typedTerm = freezed,
     Object? filteredSearchHistory = freezed,
     Object? floatingSearchBarController = freezed,
+    Object? filterBy = freezed,
   }) {
     return _then(_SearchHistoryState(
       searches: searches == freezed
@@ -144,6 +155,10 @@ class __$SearchHistoryStateCopyWithImpl<$Res>
           ? _value.floatingSearchBarController
           : floatingSearchBarController // ignore: cast_nullable_to_non_nullable
               as FloatingSearchBarController,
+      filterBy: filterBy == freezed
+          ? _value.filterBy
+          : filterBy // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -155,7 +170,8 @@ class _$_SearchHistoryState implements _SearchHistoryState {
       {required this.searches,
       required this.typedTerm,
       required this.filteredSearchHistory,
-      required this.floatingSearchBarController});
+      required this.floatingSearchBarController,
+      required this.filterBy});
 
   @override
   final List<Search> searches;
@@ -165,10 +181,12 @@ class _$_SearchHistoryState implements _SearchHistoryState {
   final List<Search> filteredSearchHistory;
   @override
   final FloatingSearchBarController floatingSearchBarController;
+  @override
+  final String filterBy;
 
   @override
   String toString() {
-    return 'SearchHistoryState(searches: $searches, typedTerm: $typedTerm, filteredSearchHistory: $filteredSearchHistory, floatingSearchBarController: $floatingSearchBarController)';
+    return 'SearchHistoryState(searches: $searches, typedTerm: $typedTerm, filteredSearchHistory: $filteredSearchHistory, floatingSearchBarController: $floatingSearchBarController, filterBy: $filterBy)';
   }
 
   @override
@@ -188,7 +206,10 @@ class _$_SearchHistoryState implements _SearchHistoryState {
                     floatingSearchBarController) ||
                 const DeepCollectionEquality().equals(
                     other.floatingSearchBarController,
-                    floatingSearchBarController)));
+                    floatingSearchBarController)) &&
+            (identical(other.filterBy, filterBy) ||
+                const DeepCollectionEquality()
+                    .equals(other.filterBy, filterBy)));
   }
 
   @override
@@ -197,7 +218,8 @@ class _$_SearchHistoryState implements _SearchHistoryState {
       const DeepCollectionEquality().hash(searches) ^
       const DeepCollectionEquality().hash(typedTerm) ^
       const DeepCollectionEquality().hash(filteredSearchHistory) ^
-      const DeepCollectionEquality().hash(floatingSearchBarController);
+      const DeepCollectionEquality().hash(floatingSearchBarController) ^
+      const DeepCollectionEquality().hash(filterBy);
 
   @JsonKey(ignore: true)
   @override
@@ -207,11 +229,11 @@ class _$_SearchHistoryState implements _SearchHistoryState {
 
 abstract class _SearchHistoryState implements SearchHistoryState {
   const factory _SearchHistoryState(
-          {required List<Search> searches,
-          required String typedTerm,
-          required List<Search> filteredSearchHistory,
-          required FloatingSearchBarController floatingSearchBarController}) =
-      _$_SearchHistoryState;
+      {required List<Search> searches,
+      required String typedTerm,
+      required List<Search> filteredSearchHistory,
+      required FloatingSearchBarController floatingSearchBarController,
+      required String filterBy}) = _$_SearchHistoryState;
 
   @override
   List<Search> get searches => throw _privateConstructorUsedError;
@@ -222,6 +244,8 @@ abstract class _SearchHistoryState implements SearchHistoryState {
   @override
   FloatingSearchBarController get floatingSearchBarController =>
       throw _privateConstructorUsedError;
+  @override
+  String get filterBy => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SearchHistoryStateCopyWith<_SearchHistoryState> get copyWith =>

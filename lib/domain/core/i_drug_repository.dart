@@ -18,7 +18,10 @@ abstract class IDrugRepository {
   Future<Result<SearchFailure, List<Recommendation>>> searchRecommendations(
       String searchTerm, LatLng location);
   Future<Result<SearchFailure, List<Drug>>> searchDrugs(
-      String searchTerm, LatLng location);
+    String searchTerm,
+    LatLng location,
+    String filter,
+  );
   Future<Result<SearchFailure, List<Pharmacy>>> searchPharmacies(
       String searchTerm, LatLng location);
   Future<Result<PharmaFailure, Drug>> getDrug({
@@ -44,6 +47,12 @@ abstract class IDrugRepository {
     required Review review,
     required String accessToken,
     required String userId,
+  });
+  Future<Result<ReviewFailure, Unit>> createOrEditPharmacyReview({
+    required PharmacyReview review,
+    required String accessToken,
+    required String userId,
+    required String userName,
   });
   Future<Result<ReviewFailure, Unit>> deletePharmacyReview({
     required PharmacyReview review,

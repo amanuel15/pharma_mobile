@@ -24,6 +24,7 @@ class ReviewFetcherBloc extends Bloc<ReviewFetcherEvent, ReviewFetcherState> {
   ) async* {
     yield* event.map(
       fetchReviews: (e) async* {
+        yield ReviewFetcherState.loadInProgress();
         Result<ReviewFailure, List<Review>> result =
             await _drugRepository.getReviewsForDrug(
           drugId: e.drugId,
@@ -35,6 +36,7 @@ class ReviewFetcherBloc extends Bloc<ReviewFetcherEvent, ReviewFetcherState> {
         add(ReviewFetcherEvent.reviewsReceived(result));
       },
       fetchMyReviews: (e) async* {
+        yield ReviewFetcherState.loadInProgress();
         Result<ReviewFailure, List<Review>> result =
             await _drugRepository.getReviewsForUser(
           pageNumber: e.pageNumber,

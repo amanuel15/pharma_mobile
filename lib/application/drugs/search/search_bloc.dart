@@ -25,7 +25,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   ) async* {
     yield* event.map(
       search: (e) async* {
-        //yield const SearchState.loadInProgress();
+        yield const SearchState.loadInProgress();
         Result<SearchFailure, List<Recommendation>> result =
             await _drugRepository.searchRecommendations(
                 e.searchTerm, e.location);

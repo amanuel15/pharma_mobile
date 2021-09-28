@@ -119,7 +119,11 @@ class FloatingSearchBarWidget extends StatelessWidget {
                       context.read<MainNavigationCubit>().setIndex(1);
                       context
                           .read<SearchResultBloc>()
-                          .add(SearchResultEvent.searchDrugs(query, location));
+                          .add(SearchResultEvent.searchDrugs(
+                            query,
+                            location,
+                            state.filterBy,
+                          ));
                       if (query.isNotEmpty)
                         BlocProvider.of<SearchHistoryCubit>(context)
                             .addSearchTerm(query);
@@ -130,13 +134,69 @@ class FloatingSearchBarWidget extends StatelessWidget {
                       FloatingSearchBarAction(
                         showIfOpened: false,
                         child: CircularButton(
-                          icon: const Icon(Icons.place),
-                          onPressed: () {
-                            //context.router.pushNamed('/sign-in-page');
-                            // AutoRouter.of(context).push(SignInRoute());
-                            context
-                                .read<AuthBloc>()
-                                .add(const AuthEvent.signedOut());
+                          icon: const Icon(Icons.filter_alt),
+                          onPressed: () async {
+                            String filter = await showModalBottomSheet(
+                              context: context,
+                              builder: (context) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 40,
+                                ),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 40.0),
+                                      Text(
+                                        "Search by",
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Filter",
+                                            style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.search,
+                                            color: Colors.deepOrange,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8.h),
+                                      //Now we will create a widget because we will use it many time
+                                      _buildCategory(
+                                        context: context,
+                                        category: 'Location',
+                                        iconData: Icons.location_pin,
+                                        color: Colors.blue,
+                                      ),
+                                      _buildCategory(
+                                        context: context,
+                                        category: 'Price',
+                                        iconData: Icons.price_change,
+                                        color: Colors.deepOrange,
+                                      ),
+                                      // 6 Categories
+                                      SizedBox(height: 40.0),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                            if (filter.isNotEmpty) {
+                              context
+                                  .read<SearchHistoryCubit>()
+                                  .setFilter('price');
+                            }
                           },
                         ),
                       ),
@@ -190,7 +250,9 @@ class FloatingSearchBarWidget extends StatelessWidget {
                                             .setIndex(1);
                                         context.read<SearchResultBloc>().add(
                                             SearchResultEvent.searchDrugs(
-                                                state.typedTerm, location));
+                                                state.typedTerm,
+                                                location,
+                                                state.filterBy));
                                         context
                                             .read<SearchHistoryCubit>()
                                             .addSearchTerm(state
@@ -241,7 +303,8 @@ class FloatingSearchBarWidget extends StatelessWidget {
                                                     .add(SearchResultEvent
                                                         .searchDrugs(
                                                             search.searchTerm,
-                                                            location));
+                                                            location,
+                                                            state.filterBy));
                                                 context
                                                     .read<SearchHistoryCubit>()
                                                     .addSearchTerm(
@@ -301,9 +364,10 @@ class FloatingSearchBarWidget extends StatelessWidget {
                                                       .read<SearchResultBloc>()
                                                       .add(SearchResultEvent
                                                           .searchDrugs(
-                                                              recommendation
-                                                                  .name,
-                                                              location));
+                                                        recommendation.name,
+                                                        location,
+                                                        state.filterBy,
+                                                      ));
                                                   context
                                                       .read<
                                                           SearchHistoryCubit>()
@@ -336,6 +400,48 @@ class FloatingSearchBarWidget extends StatelessWidget {
             },
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildCategory({
+    required BuildContext context,
+    required String category,
+    required IconData iconData,
+    required Color color,
+  }) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 8.h,
+      ),
+      child: InkWell(
+        onTap: () {
+          Navigator.pop(context, category);
+        },
+        borderRadius: BorderRadius.circular(25),
+        child: Container(
+          width: double.infinity,
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 16.h,
+            children: [
+              CircleAvatar(
+                backgroundColor: color,
+                child: Icon(
+                  iconData,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                category,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

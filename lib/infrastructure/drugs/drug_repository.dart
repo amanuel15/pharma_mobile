@@ -62,7 +62,10 @@ class DrugRepository implements IDrugRepository {
 
   @override
   Future<Result<SearchFailure, List<Drug>>> searchDrugs(
-      String searchTerm, LatLng location) async {
+    String searchTerm,
+    LatLng location,
+    String filter,
+  ) async {
     Response response;
     try {
       response = await _dio.get(
@@ -74,7 +77,7 @@ class DrugRepository implements IDrugRepository {
             location.latitude,
             location.longitude
           ], //TODO: get location from user
-          'filterBy': 'location',
+          'filterBy': filter,
           'pageNumber': 0,
         },
       );
@@ -100,7 +103,8 @@ class DrugRepository implements IDrugRepository {
                 'lng': e['location']['coordinates'][1]
               },
             ],
-            brandName: e['brandName'],
+            brandName:
+                e['brandName'] ?? '', // TODO: brand name might not be present
             pharmacyRating: e['pharmacyRating'],
             requiresPrescription: e['requiresPrescription'],
             reviews: a,
@@ -213,6 +217,36 @@ class DrugRepository implements IDrugRepository {
         return Error(ReviewFailure.unauthorizedAccess());
       else
         return Error(ReviewFailure.unexpected());
+    }
+  }
+
+  @override
+  Future<Result<ReviewFailure, Unit>> createOrEditPharmacyReview({
+    required PharmacyReview review,
+    required String accessToken,
+    required String userId,
+    required String userName,
+  }) async {
+    Response response;
+    try {
+      response = await _dio.post(
+        'http://10.0.2.2:3000/client/review/createOrEditPharmacyReview/',
+        data: {
+          'rating': review.reviewStar.getOrCrash(),
+          'pharmacyId': review.pharmacyId,
+          'description': review.reviewBody.getOrCrash(),
+          'name': userName,
+        },
+        options: Options(
+          headers: {
+            'id': userId,
+            'X-Access-Token': accessToken,
+          },
+        ),
+      );
+      return Success(unit);
+    } on DioError catch (e) {
+      return Error(ReviewFailure.unexpected());
     }
   }
 
