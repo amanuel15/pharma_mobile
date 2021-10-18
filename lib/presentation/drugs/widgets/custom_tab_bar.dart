@@ -19,14 +19,14 @@ class CustomTabBar extends StatelessWidget {
       color: Colors.grey[100],
       child: TabBar(
         indicatorPadding: EdgeInsets.zero,
-        indicator: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: Colors.blue,
-              width: 3.r,
-            ),
-          ),
-        ),
+        // indicator: BoxDecoration(
+        //   border: Border(
+        //     top: BorderSide(
+        //       color: Colors.blue,
+        //       width: 3.r,
+        //     ),
+        //   ),
+        // ),
         tabs: icons
             .asMap()
             .map(

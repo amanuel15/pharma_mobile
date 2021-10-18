@@ -136,7 +136,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
                         child: CircularButton(
                           icon: const Icon(Icons.filter_alt),
                           onPressed: () async {
-                            String filter = await showModalBottomSheet(
+                            String? filter = await showModalBottomSheet(
                               context: context,
                               builder: (context) => Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -192,7 +192,7 @@ class FloatingSearchBarWidget extends StatelessWidget {
                                 ),
                               ),
                             );
-                            if (filter.isNotEmpty) {
+                            if (filter != null && filter.isNotEmpty) {
                               context
                                   .read<SearchHistoryCubit>()
                                   .setFilter('price');

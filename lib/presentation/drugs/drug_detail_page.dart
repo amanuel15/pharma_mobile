@@ -109,6 +109,9 @@ class DrugDetailPage extends StatelessWidget {
                                 drug.drugDetail,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 4,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                ),
                               ),
                             ),
                             if (drug.stock == 0)
@@ -236,6 +239,28 @@ class DrugDetailPage extends StatelessWidget {
                         ),
                         SizedBox(
                           height: 5.h,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Origin of drug: ',
+                            style: TextStyle(
+                              color: Colors.black54,
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: drug.drugOrigin,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green[400],
+                                ),
+                              ),
+                            ],
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(
+                          height: 10.h,
                         ),
                         BlocBuilder<FetchDrugPharmacyBloc,
                             FetchDrugPharmacyState>(

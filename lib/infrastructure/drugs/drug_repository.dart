@@ -105,7 +105,7 @@ class DrugRepository implements IDrugRepository {
             ],
             brandName:
                 e['brandName'] ?? '', // TODO: brand name might not be present
-            pharmacyRating: e['pharmacyRating'],
+            pharmacyRating: e['pharmacyRating'].toDouble(),
             requiresPrescription: e['requiresPrescription'],
             reviews: a,
             score: e['score'].toDouble(),
@@ -307,14 +307,15 @@ class DrugRepository implements IDrugRepository {
       return Success(revs
           .map(
             (e) => Review(
-                id: e['_id'],
-                userId: e['userId'],
-                reviewBody: ReviewBody(e['description']),
-                userName: e['name'],
-                reviewStar: ReviewStar(e['rating'].toDouble()),
-                drugId: e['drugId'],
-                creationDate: e['creationDate'],
-                pharmacyId: e['pharmacyId']),
+              id: e['_id'],
+              userId: e['userId'],
+              reviewBody: ReviewBody(e['description']),
+              userName: e['name'],
+              reviewStar: ReviewStar(e['rating'].toDouble()),
+              drugId: e['drugId'],
+              creationDate: e['creationDate'],
+              pharmacyId: e['pharmacyId'],
+            ),
           )
           .toList());
     } on DioError catch (e) {
