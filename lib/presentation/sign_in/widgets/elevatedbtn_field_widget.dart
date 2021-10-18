@@ -25,7 +25,7 @@ class ElevatedBtnWidget extends StatelessWidget {
         child: Text(
           type,
           style: TextStyle(
-            color: Color(0xff5ac18e),
+            color: Color.fromRGBO(144, 84, 248, 1.0),
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
           ),

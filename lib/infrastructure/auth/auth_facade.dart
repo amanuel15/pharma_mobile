@@ -13,6 +13,7 @@ import 'package:pharma_flutter/infrastructure/core/database/moor_database.dart';
 class AuthFacade implements IAuthFacade {
   final Dio _dio;
   final IDatabaseFacade _databaseFacade;
+  final host = 'http://10.0.2.2:3000';
 
   AuthFacade(this._dio, this._databaseFacade);
 
@@ -35,7 +36,7 @@ class AuthFacade implements IAuthFacade {
     Response response;
     try {
       response = await _dio.post(
-        'http://10.0.2.2:3000/client/user/register',
+        '${host}/client/user/register',
         data: {
           'email': emailAddress.getOrCrash(),
           'password': password.getOrCrash(),
@@ -65,7 +66,7 @@ class AuthFacade implements IAuthFacade {
     Response response;
     try {
       response = await _dio.post(
-        'http://10.0.2.2:3000/client/user/login',
+        '${host}/client/user/login',
         data: {
           'email': emailAddress.getOrCrash(),
           'password': password.getOrCrash()

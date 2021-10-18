@@ -39,7 +39,7 @@ class PharmacyLocationsCubit extends Cubit<PharmacyLocationsState> {
     );
     BitmapDescriptor mapMarker = await setCustomMarker();
     possiblePharmacies.when(
-      (error) => null,
+      (error) => print("has failed to load pharmacies "),
       (success) {
         success.forEach(
           (pharmacy) {

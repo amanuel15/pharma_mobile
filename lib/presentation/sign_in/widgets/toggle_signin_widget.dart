@@ -24,7 +24,10 @@ class ToggleSigninBtn extends StatelessWidget {
           TextSpan(
             text: type[1],
             style: TextStyle(
-                color: Colors.white,
+                decoration: TextDecoration.underline,
+                decorationThickness: 1,
+                decorationStyle: TextDecorationStyle.wavy,
+                color: Color.fromRGBO(212, 248, 84, 1.0),
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold),
           ),

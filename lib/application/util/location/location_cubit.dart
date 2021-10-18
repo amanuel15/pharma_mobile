@@ -9,6 +9,7 @@ part 'location_cubit.freezed.dart';
 
 @injectable
 class LocationCubit extends Cubit<LocationState> {
+  //TODO get location from cache
   LatLng _location = LatLng(8.1251, 37.551);
 
   final Location location = new Location();
@@ -20,6 +21,7 @@ class LocationCubit extends Cubit<LocationState> {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
+        print("service is not enabled");
         emit(LocationState.locationLoaded(_location));
         return;
       }
@@ -37,6 +39,7 @@ class LocationCubit extends Cubit<LocationState> {
     LocationData _locationData = await location.getLocation();
     _location = LatLng(
         _locationData.latitude ?? 8.9806, _locationData.longitude ?? 38.7578);
+    print(location);
     emit(LocationState.locationLoaded(_location));
   }
 }

@@ -59,7 +59,7 @@ class FormFieldWidget extends StatelessWidget {
             contentPadding: EdgeInsets.only(top: 14.h),
             prefixIcon: Icon(
               icon,
-              color: Color(0xff5ac18e),
+              color: Color.fromRGBO(144, 84, 248, 1.0),
             ),
             suffixIcon: text == 'Password'
                 ? obscureText
