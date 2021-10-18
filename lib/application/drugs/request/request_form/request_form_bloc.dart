@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_request_repository.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/pharma/request.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
@@ -16,8 +17,8 @@ part 'request_form_bloc.freezed.dart';
 
 @injectable
 class RequestFormBloc extends Bloc<RequestFormEvent, RequestFormState> {
-  final IDrugRepository _drugRepository;
-  RequestFormBloc(this._drugRepository) : super(RequestFormState.initial());
+  final IRequestRepository _requestRepository;
+  RequestFormBloc(this._requestRepository) : super(RequestFormState.initial());
 
   @override
   Stream<RequestFormState> mapEventToState(
@@ -68,7 +69,7 @@ class RequestFormBloc extends Bloc<RequestFormEvent, RequestFormState> {
         );
 
         if (state.request.failureOption == null) {
-          failureOrSuccess = await _drugRepository.createRequest(
+          failureOrSuccess = await _requestRepository.createRequest(
             request: state.request,
             days: state.days,
             userId: state.userId,

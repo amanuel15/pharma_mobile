@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
-import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_review_repository.dart';
 import 'package:pharma_flutter/domain/pharma/review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 
@@ -14,9 +14,10 @@ part 'review_fetcher_bloc.freezed.dart';
 
 @injectable
 class ReviewFetcherBloc extends Bloc<ReviewFetcherEvent, ReviewFetcherState> {
-  final IDrugRepository _drugRepository;
+  final IReviewRepository _reviewRepository;
 
-  ReviewFetcherBloc(this._drugRepository) : super(_Initial());
+  ReviewFetcherBloc(this._reviewRepository)
+      : super(const ReviewFetcherState.initial());
 
   @override
   Stream<ReviewFetcherState> mapEventToState(
@@ -26,7 +27,7 @@ class ReviewFetcherBloc extends Bloc<ReviewFetcherEvent, ReviewFetcherState> {
       fetchReviews: (e) async* {
         yield ReviewFetcherState.loadInProgress();
         Result<ReviewFailure, List<Review>> result =
-            await _drugRepository.getReviewsForDrug(
+            await _reviewRepository.getReviewsForDrug(
           drugId: e.drugId,
           filterBy: e.filterBy,
           pageNumber: e.pageNumber,
@@ -38,7 +39,7 @@ class ReviewFetcherBloc extends Bloc<ReviewFetcherEvent, ReviewFetcherState> {
       fetchMyReviews: (e) async* {
         yield ReviewFetcherState.loadInProgress();
         Result<ReviewFailure, List<Review>> result =
-            await _drugRepository.getReviewsForUser(
+            await _reviewRepository.getReviewsForUser(
           pageNumber: e.pageNumber,
           accessToken: e.accessToken,
           userId: e.userId,

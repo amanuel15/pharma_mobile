@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_review_repository.dart';
 import 'package:pharma_flutter/domain/core/unit.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy_review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
@@ -15,9 +16,9 @@ part 'pharmacy_review_form_bloc.freezed.dart';
 @injectable
 class PharmacyReviewFormBloc
     extends Bloc<PharmacyReviewFormEvent, PharmacyReviewFormState> {
-  final IDrugRepository _drugRepository;
+  final IReviewRepository _reviewRepository;
 
-  PharmacyReviewFormBloc(this._drugRepository)
+  PharmacyReviewFormBloc(this._reviewRepository)
       : super(PharmacyReviewFormState.initial());
 
   @override
@@ -67,7 +68,7 @@ class PharmacyReviewFormBloc
         );
 
         if (state.review.failureOption == null) {
-          failureOrSuccess = await _drugRepository.createOrEditPharmacyReview(
+          failureOrSuccess = await _reviewRepository.createOrEditPharmacyReview(
             review: state.review,
             userId: state.userId,
             accessToken: state.accessToken,

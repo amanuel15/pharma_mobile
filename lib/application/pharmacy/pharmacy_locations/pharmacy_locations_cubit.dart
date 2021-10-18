@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_pharmacy_repository.dart';
 import 'package:pharma_flutter/domain/core/pharma_failure.dart';
 import 'package:pharma_flutter/domain/pharma/markers_failure.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
@@ -18,8 +19,8 @@ part 'pharmacy_locations_cubit.freezed.dart';
 
 @injectable
 class PharmacyLocationsCubit extends Cubit<PharmacyLocationsState> {
-  final IDrugRepository _drugRepository;
-  PharmacyLocationsCubit(this._drugRepository)
+  final IPharmacyRepository _pharmacyRepository;
+  PharmacyLocationsCubit(this._pharmacyRepository)
       : super(PharmacyLocationsState.initial());
 
   Set<Marker> _markers = {};
@@ -32,7 +33,7 @@ class PharmacyLocationsCubit extends Cubit<PharmacyLocationsState> {
     //     await _drugRepository.fetchNearestPharmacies(
     //         radius: 100, location: currentLocation);
     Result<PharmaFailure, List<Pharmacy>> possiblePharmacies =
-        await _drugRepository.fetchNearestPharmacies(
+        await _pharmacyRepository.fetchNearestPharmacies(
       radius: 100,
       location: currentLocation,
     );

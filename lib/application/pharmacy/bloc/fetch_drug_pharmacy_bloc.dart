@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
-import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_pharmacy_repository.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 
@@ -15,8 +15,8 @@ part 'fetch_drug_pharmacy_bloc.freezed.dart';
 @injectable
 class FetchDrugPharmacyBloc
     extends Bloc<FetchDrugPharmacyEvent, FetchDrugPharmacyState> {
-  final IDrugRepository _drugRepository;
-  FetchDrugPharmacyBloc(this._drugRepository)
+  final IPharmacyRepository _pharmacyRepository;
+  FetchDrugPharmacyBloc(this._pharmacyRepository)
       : super(const FetchDrugPharmacyState.initial());
 
   @override
@@ -26,7 +26,7 @@ class FetchDrugPharmacyBloc
     yield* event.map(
       fetchPharmacy: (e) async* {
         Result<ReviewFailure, Pharmacy> result =
-            await _drugRepository.fetchPharmacy(pharmacyId: e.pharmacyId);
+            await _pharmacyRepository.fetchPharmacy(pharmacyId: e.pharmacyId);
         add(FetchDrugPharmacyEvent.pharmacyReceived(result));
       },
       pharmacyReceived: (e) async* {
