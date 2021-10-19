@@ -25,6 +25,7 @@ import 'package:pharma_flutter/domain/pharma/value_objects.dart';
 @LazySingleton(as: IDrugRepository)
 class DrugRepository implements IDrugRepository {
   final Dio _dio;
+  final host = 'http://10.0.2.2:3000';
 
   DrugRepository(this._dio);
 
@@ -34,7 +35,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/search/getDrugSearchRecomendations/',
+        '${host}/client/search/getDrugSearchRecomendations/',
         queryParameters: {
           'searchQuery': searchTerm,
           'radius': 10000,
@@ -66,7 +67,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/search/getDrugsByQuery/',
+        '${host}/client/search/getDrugsByQuery/',
         queryParameters: {
           'searchQuery': searchTerm,
           'radius': 10000,
@@ -119,7 +120,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/search/getPharmacySearchRecomendations/',
+        '${host}/client/search/getPharmacySearchRecomendations/',
         queryParameters: {
           'searchQuery': searchTerm,
           'radius': 10000,
@@ -167,7 +168,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.post(
-        'http://10.0.2.2:3000/client/review/createOrEditDrugReview/',
+        '${host}/client/review/createOrEditDrugReview/',
         data: {
           'rating': review.reviewStar.getOrCrash(),
           'drugId': review.drugId,
@@ -196,7 +197,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.post(
-        'http://10.0.2.2:3000/client/review/deleteDrugReview/',
+        '${host}/client/review/deleteDrugReview/',
         data: {
           'reviewId': review.id,
         },
@@ -225,7 +226,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.post(
-        'http://10.0.2.2:3000/client/review/deletePharmacyReview/',
+        '${host}/client/review/deletePharmacyReview/',
         data: {
           'reviewId': review.id,
         },
@@ -256,7 +257,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/review/getDrugReviews/',
+        '${host}/client/review/getDrugReviews/',
         queryParameters: {
           'drugId': drugId,
           'filterBy': filterBy,
@@ -297,7 +298,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/review/getMyDrugReviews/',
+        '${host}/client/review/getMyDrugReviews/',
         queryParameters: {
           'pageNumber': pageNumber,
         },
@@ -338,7 +339,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/review/getPharmacyReviews/',
+        '${host}/client/review/getPharmacyReviews/',
         queryParameters: {
           'pharmacyId': pharmacyId,
           'filterBy': filterBy,
@@ -381,7 +382,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.post(
-        'http://10.0.2.2:3000/client/subscribe/subscribeToDrugOrExtend',
+        '${host}/client/subscribe/subscribeToDrugOrExtend',
         data: {
           'drugId': drugId,
           'expiresInDays': expiresInDays,
@@ -411,7 +412,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.post(
-        'http://10.0.2.2:3000/client/subscribe/removeSubscription',
+        '${host}/client/subscribe/removeSubscription',
         data: {
           'subscriptionId': subscriptionId,
         },
@@ -436,7 +437,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/search/getNearByPharmacies/',
+        '${host}/client/search/getNearByPharmacies/',
         queryParameters: {
           'radius': radius,
           'location': [location.latitude, location.longitude],
@@ -478,7 +479,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/search/getPharmacy/',
+        '${host}/client/search/getPharmacy/',
         queryParameters: {
           'id': pharmacyId,
         },
@@ -513,7 +514,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/subscribe/getMySubscriptions/',
+        '${host}/client/subscribe/getMySubscriptions/',
         queryParameters: {},
         options: Options(
           headers: {
@@ -551,7 +552,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/drug/getDtrug', // TODO: change url
+        '${host}/client/drug/getDtrug', // TODO: change url
         queryParameters: {'drugId': drugId},
         options: Options(
           headers: {
@@ -602,7 +603,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.post(
-        'http://10.0.2.2:3000/client/request/createRequest',
+        '${host}/client/request/createRequest',
         data: {
           'name': request.drugName.getOrCrash(),
           'expiresInDays': days,
@@ -630,7 +631,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.post(
-        'http://10.0.2.2:3000/client/request/removeRequest/',
+        '${host}/client/request/removeRequest/',
         data: {
           'requestId': request.id,
         },
@@ -658,7 +659,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/request/getMyRequests',
+        '${host}/client/request/getMyRequests',
         options: Options(
           headers: {
             'id': userId,
@@ -701,7 +702,7 @@ class DrugRepository implements IDrugRepository {
     Response response;
     try {
       response = await _dio.get(
-        'http://10.0.2.2:3000/client/request/getRequests',
+        '${host}/client/request/getRequests',
         queryParameters: {
           'pageNumber': pageNumber,
           'filterBy': filterBy,
