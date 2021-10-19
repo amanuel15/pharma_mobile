@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_subscription_repository.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 
 part 'subscription_actor_event.dart';
@@ -13,9 +13,9 @@ part 'subscription_actor_bloc.freezed.dart';
 @injectable
 class SubscriptionActorBloc
     extends Bloc<SubscriptionActorEvent, SubscriptionActorState> {
-  final IDrugRepository _drugRepository;
+  final ISubscriptionRepository SubscriptionFetcherState;
 
-  SubscriptionActorBloc(this._drugRepository)
+  SubscriptionActorBloc(this.SubscriptionFetcherState)
       : super(const SubscriptionActorState.initial());
 
   @override
@@ -25,7 +25,7 @@ class SubscriptionActorBloc
     yield* event.map(
       subscribed: (e) async* {
         yield const SubscriptionActorState.actionInProgress();
-        final possibleFailure = await _drugRepository.subscribeToDrug(
+        final possibleFailure = await SubscriptionFetcherState.subscribeToDrug(
           drugId: e.drugId,
           accessToken: e.accessToken,
           userId: e.userId,
@@ -38,7 +38,8 @@ class SubscriptionActorBloc
       },
       unsubscribed: (e) async* {
         yield const SubscriptionActorState.actionInProgress();
-        final possibleFailure = await _drugRepository.unsubscribeFromDrug(
+        final possibleFailure =
+            await SubscriptionFetcherState.unsubscribeFromDrug(
           subscriptionId: e.subscriptionId,
           accessToken: e.accessToken,
           userId: e.userId,

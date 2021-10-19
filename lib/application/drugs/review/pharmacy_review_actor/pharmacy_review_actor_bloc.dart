@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_review_repository.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy_review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 
@@ -14,9 +15,9 @@ part 'pharmacy_review_actor_bloc.freezed.dart';
 @injectable
 class PharmacyReviewActorBloc
     extends Bloc<PharmacyReviewActorEvent, PharmacyReviewActorState> {
-  final IDrugRepository _drugRepository;
+  final IReviewRepository _reviewRepository;
 
-  PharmacyReviewActorBloc(this._drugRepository)
+  PharmacyReviewActorBloc(this._reviewRepository)
       : super(const PharmacyReviewActorState.initial());
 
   @override
@@ -26,7 +27,7 @@ class PharmacyReviewActorBloc
     yield* event.map(
       deleted: (e) async* {
         yield const PharmacyReviewActorState.actionInProgress();
-        final possibleFailure = await _drugRepository.deletePharmacyReview(
+        final possibleFailure = await _reviewRepository.deletePharmacyReview(
             review: e.review, userId: e.userId, accessToken: e.accessToken);
         yield possibleFailure.when(
           (f) => PharmacyReviewActorState.deleteFailure(f),

@@ -28,7 +28,7 @@ class _$DrugTearOff {
       required String createdDate,
       required List<String> imageUrls,
       required List<Map<String, dynamic>> location,
-      required int pharmacyRating,
+      required double pharmacyRating,
       required String brandName,
       required double score,
       required bool requiresPrescription,
@@ -70,7 +70,7 @@ mixin _$Drug {
   String get createdDate => throw _privateConstructorUsedError;
   List<String> get imageUrls => throw _privateConstructorUsedError;
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
-  int get pharmacyRating => throw _privateConstructorUsedError;
+  double get pharmacyRating => throw _privateConstructorUsedError;
   String get brandName => throw _privateConstructorUsedError;
   double get score => throw _privateConstructorUsedError;
   bool get requiresPrescription => throw _privateConstructorUsedError;
@@ -96,7 +96,7 @@ abstract class $DrugCopyWith<$Res> {
       String createdDate,
       List<String> imageUrls,
       List<Map<String, dynamic>> location,
-      int pharmacyRating,
+      double pharmacyRating,
       String brandName,
       double score,
       bool requiresPrescription,
@@ -178,7 +178,7 @@ class _$DrugCopyWithImpl<$Res> implements $DrugCopyWith<$Res> {
       pharmacyRating: pharmacyRating == freezed
           ? _value.pharmacyRating
           : pharmacyRating // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       brandName: brandName == freezed
           ? _value.brandName
           : brandName // ignore: cast_nullable_to_non_nullable
@@ -216,7 +216,7 @@ abstract class _$DrugCopyWith<$Res> implements $DrugCopyWith<$Res> {
       String createdDate,
       List<String> imageUrls,
       List<Map<String, dynamic>> location,
-      int pharmacyRating,
+      double pharmacyRating,
       String brandName,
       double score,
       bool requiresPrescription,
@@ -299,7 +299,7 @@ class __$DrugCopyWithImpl<$Res> extends _$DrugCopyWithImpl<$Res>
       pharmacyRating: pharmacyRating == freezed
           ? _value.pharmacyRating
           : pharmacyRating // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       brandName: brandName == freezed
           ? _value.brandName
           : brandName // ignore: cast_nullable_to_non_nullable
@@ -365,7 +365,7 @@ class _$_Drug extends _Drug {
   @override
   final List<Map<String, dynamic>> location;
   @override
-  final int pharmacyRating;
+  final double pharmacyRating;
   @override
   final String brandName;
   @override
@@ -468,7 +468,7 @@ abstract class _Drug extends Drug {
       required String createdDate,
       required List<String> imageUrls,
       required List<Map<String, dynamic>> location,
-      required int pharmacyRating,
+      required double pharmacyRating,
       required String brandName,
       required double score,
       required bool requiresPrescription,
@@ -498,7 +498,7 @@ abstract class _Drug extends Drug {
   @override
   List<Map<String, dynamic>> get location => throw _privateConstructorUsedError;
   @override
-  int get pharmacyRating => throw _privateConstructorUsedError;
+  double get pharmacyRating => throw _privateConstructorUsedError;
   @override
   String get brandName => throw _privateConstructorUsedError;
   @override

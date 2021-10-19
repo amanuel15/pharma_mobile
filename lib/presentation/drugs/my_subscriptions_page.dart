@@ -115,7 +115,7 @@ class SubscriptionCard extends StatelessWidget {
           ),
           subtitle: Text(
             subscription.isAvailable
-                ? 'This drug is now Vailable'
+                ? 'This drug is now available'
                 : 'This drug is still not available',
           ),
         ),

@@ -9,6 +9,7 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:pharma_flutter/application/drugs/request/request_form/request_form_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/pharmacy_review_actor/pharmacy_review_actor_bloc.dart';
 import 'package:pharma_flutter/application/drugs/review/pharmacy_review_fetcher/pharmacy_review_fetcher_bloc.dart';
+import 'package:pharma_flutter/application/drugs/review/pharmacy_review_form/pharmacy_review_form_bloc.dart';
 import 'package:pharma_flutter/domain/auth/user.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
 import 'package:auto_route/auto_route.dart';
@@ -17,7 +18,9 @@ import 'package:pharma_flutter/domain/pharma/pharmacy_review.dart';
 import 'package:pharma_flutter/domain/pharma/request.dart';
 import 'package:pharma_flutter/domain/pharma/value_objects.dart';
 import 'package:pharma_flutter/injection.dart';
+import 'package:pharma_flutter/presentation/drugs/widgets/flashbar_widget.dart';
 import 'package:pharma_flutter/presentation/drugs/widgets/review_body_widget.dart';
+import 'package:pharma_flutter/presentation/drugs/widgets/review_star_widget.dart';
 
 class PharmacyPage extends StatelessWidget {
   final Pharmacy pharmacy;
@@ -36,7 +39,12 @@ class PharmacyPage extends StatelessWidget {
           BlocProvider<PharmacyReviewFetcherBloc>(
               create: (context) => getIt<PharmacyReviewFetcherBloc>()
                 ..add(PharmacyReviewFetcherEvent.fetchPharmacyReviews(
-                    pharmacy.id, user!.token, 0, user!.id, 'Default'))),
+                  pharmacy.id,
+                  user!.token,
+                  0,
+                  user!.id,
+                  'Default',
+                ))),
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -61,122 +69,197 @@ class PharmacyPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: 10.w,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CarouselSlider(
-                options: CarouselOptions(
-                  initialPage: 0,
-                  // autoPlay: true,
-                  // autoPlayInterval: Duration(seconds: 3),
+          child: Builder(
+            builder: (context) => ListView(
+              children: [
+                CarouselSlider(
+                  options: CarouselOptions(
+                    initialPage: 0,
+                    // autoPlay: true,
+                    // autoPlayInterval: Duration(seconds: 3),
+                  ),
+                  items: pharmacy.imageUrls
+                      .map(
+                        (image) => Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.w),
+                          child: CachedNetworkImage(
+                            imageUrl: image,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
-                items: pharmacy.imageUrls
-                    .map(
-                      (image) => Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: CachedNetworkImage(
-                          imageUrl: image,
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                                  CircularProgressIndicator(
-                                      value: downloadProgress.progress),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                SizedBox(
+                  height: 5.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(pharmacy.locationDescription),
+                    if (pharmacy.acceptsRequests && user != null)
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green[300],
+                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return RequestForm(
+                                pharmacy: pharmacy,
+                                user: user!,
+                                editRequest: null,
+                              );
+                            },
+                          );
+                        },
+                        child: Text(
+                          'Request a drug',
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(pharmacy.locationDescription),
-                  if (pharmacy.acceptsRequests && user != null)
-                    ElevatedButton(
+                  ],
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: RatingBarIndicator(
+                    rating: pharmacy.rating,
+                    itemBuilder: (context, index) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    itemCount: 5,
+                    itemSize: 35.r,
+                    unratedColor: Colors.amber.withAlpha(50),
+                  ),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                if (user != null)
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 15.h),
+                    width: double.infinity,
+                    child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
+                        elevation: 1,
                         primary: Colors.green[300],
+                        padding: EdgeInsets.all(15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
                       ),
-                      onPressed: () {
-                        showDialog(
+                      onPressed: () async {
+                        var updated = await showDialog(
                           context: context,
                           builder: (_) {
-                            return RequestForm(
-                              pharmacy: pharmacy,
+                            return PharmacyReviewForm(
                               user: user!,
-                              editRequest: null,
+                              pharmacyId: pharmacy.id,
                             );
                           },
                         );
+                        if (updated != null && updated) {
+                          context.read<PharmacyReviewFetcherBloc>().add(
+                                PharmacyReviewFetcherEvent.fetchPharmacyReviews(
+                                  pharmacy.id,
+                                  user!.token,
+                                  0,
+                                  user!.id,
+                                  'Default',
+                                ),
+                              );
+                        }
                       },
                       child: Text(
-                        'Request a drug',
+                        'Post A Review!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                ],
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: RatingBarIndicator(
-                  rating: pharmacy.rating,
-                  itemBuilder: (context, index) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
                   ),
-                  itemCount: 5,
-                  itemSize: 35.r,
-                  unratedColor: Colors.amber.withAlpha(50),
+                SizedBox(
+                  height: 5.h,
                 ),
-              ),
-              if (user != null)
-                BlocBuilder<PharmacyReviewFetcherBloc,
-                    PharmacyReviewFetcherState>(
-                  builder: (context, state) {
-                    return state.map(
-                      initial: (_) => Center(
-                        child: Text('Initializing...'),
-                      ),
-                      loadInProgress: (state) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                      loadSuccess: (state) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return PharmacyReviewCard(
-                              review: state.reviews[index],
-                              user: user!,
+                if (user != null)
+                  BlocListener<PharmacyReviewActorBloc,
+                      PharmacyReviewActorState>(
+                    listener: (context, state) {
+                      state.maybeMap(
+                        deleteFailure: (state) {
+                          flashBarWidget(context, state);
+                        },
+                        deleteSuccess: (state) {
+                          context.read<PharmacyReviewFetcherBloc>().add(
+                                PharmacyReviewFetcherEvent.fetchPharmacyReviews(
+                                  pharmacy.id,
+                                  user!.token,
+                                  0,
+                                  user!.id,
+                                  'Default',
+                                ),
+                              );
+                        },
+                        orElse: () {},
+                      );
+                    },
+                    child: BlocBuilder<PharmacyReviewFetcherBloc,
+                        PharmacyReviewFetcherState>(
+                      builder: (context, state) {
+                        return state.map(
+                          initial: (_) => Center(
+                            child: Text('Initializing...'),
+                          ),
+                          loadInProgress: (state) {
+                            return Center(
+                              child: CircularProgressIndicator(),
                             );
                           },
-                          itemCount: state.reviews.length,
-                        );
-                      },
-                      loadFailure: (state) {
-                        return Container(
-                          color: Colors.amber,
-                          child: Center(
-                            child: Text(
-                              'We were unable to fetch reiews!!!',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24.sp,
+                          loadSuccess: (state) {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return PharmacyReviewCard(
+                                  review: state.reviews[index],
+                                  user: user!,
+                                  pharmacy: pharmacy,
+                                );
+                              },
+                              itemCount: state.reviews.length,
+                            );
+                          },
+                          loadFailure: (state) {
+                            return Container(
+                              color: Colors.amber,
+                              child: Center(
+                                child: Text(
+                                  'We were unable to fetch reiews!!!',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24.sp,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                ),
-            ],
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -187,8 +270,10 @@ class PharmacyPage extends StatelessWidget {
 class PharmacyReviewCard extends StatelessWidget {
   final PharmacyReview review;
   final User user;
+  final Pharmacy? pharmacy;
 
-  const PharmacyReviewCard({Key? key, required this.review, required this.user})
+  const PharmacyReviewCard(
+      {Key? key, required this.review, required this.user, this.pharmacy})
       : super(key: key);
 
   @override
@@ -242,8 +327,11 @@ class PharmacyReviewCard extends StatelessWidget {
                                         context
                                             .read<PharmacyReviewActorBloc>()
                                             .add(PharmacyReviewActorEvent
-                                                .deleted(review, user.token,
-                                                    user.id));
+                                                .deleted(
+                                              review,
+                                              user.token,
+                                              user.id,
+                                            ));
                                       },
                                       child: Text('YES'),
                                     ),
@@ -266,7 +354,38 @@ class PharmacyReviewCard extends StatelessWidget {
                       IconButton(
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
-                        onPressed: () {},
+                        onPressed: () async {
+                          var updated = await showDialog(
+                            context: context,
+                            builder: (_) {
+                              return PharmacyReviewForm(
+                                user: user,
+                                editReview: review,
+                              );
+                            },
+                          );
+                          if (updated != null && updated) {
+                            if (pharmacy != null)
+                              context.read<PharmacyReviewFetcherBloc>().add(
+                                    PharmacyReviewFetcherEvent
+                                        .fetchPharmacyReviews(
+                                      pharmacy!.id,
+                                      user.token,
+                                      0,
+                                      user.id,
+                                      'Least-Helpful',
+                                    ),
+                                  );
+                            else
+                              context.read<PharmacyReviewFetcherBloc>().add(
+                                      PharmacyReviewFetcherEvent
+                                          .fetchMyPharmacyReviews(
+                                    user.token,
+                                    0,
+                                    user.id,
+                                  ));
+                          }
+                        },
                         icon: Icon(
                           Icons.edit,
                           size: 24.r,
@@ -547,6 +666,144 @@ class RequestField extends HookWidget {
                     (_) => null,
                   ),
         ),
+      ),
+    );
+  }
+}
+
+class PharmacyReviewForm extends StatelessWidget {
+  final PharmacyReview? editReview;
+  final User user;
+  final String? pharmacyId;
+
+  const PharmacyReviewForm(
+      {Key? key, this.editReview, required this.user, this.pharmacyId})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print(user);
+    return BlocProvider(
+      create: (context) => getIt<PharmacyReviewFormBloc>()
+        ..add(PharmacyReviewFormEvent.initialized(editReview, user.id,
+            user.token, user.userName, pharmacyId ?? editReview!.pharmacyId)),
+      child: BlocConsumer<PharmacyReviewFormBloc, PharmacyReviewFormState>(
+        listenWhen: (p, c) =>
+            p.reviewFailureOrSuccess != c.reviewFailureOrSuccess,
+        listener: (context, state) {
+          state.reviewFailureOrSuccess?.when(
+            (failure) {
+              showFlash(
+                context: context,
+                duration: const Duration(
+                  seconds: 3,
+                ),
+                builder: (context, controller) {
+                  return Flash.bar(
+                    controller: controller,
+                    position: FlashPosition.bottom,
+                    horizontalDismissDirection:
+                        HorizontalDismissDirection.startToEnd,
+                    margin: EdgeInsets.all(8.r),
+                    borderRadius: BorderRadius.all(Radius.circular(8.r)),
+                    forwardAnimationCurve: Curves.easeOutBack,
+                    reverseAnimationCurve: Curves.slowMiddle,
+                    backgroundColor: Colors.amber,
+                    child: FlashBar(
+                      title: Text(
+                        'Review Failure!',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      content: failure.map(
+                        unauthorizedAccess: (_) =>
+                            Text('It seems you don\'t have access!'),
+                        serverError: (_) => Text('Server Error!'),
+                        unableToUpdate: (_) =>
+                            Text('Could not perform operation!'),
+                        unexpected: (_) => Text('Unexpected Error!'),
+                      ),
+                      icon: Icon(
+                        Icons.warning,
+                        // This color is also pulled from the theme. Let's change it to black.
+                        color: Colors.black,
+                      ),
+                      shouldIconPulse: false,
+                    ),
+                  );
+                },
+              );
+            },
+            (success) {
+              Navigator.pop(context, true);
+            },
+          );
+        },
+        buildWhen: (p, c) => p.isSubmitting != c.isSubmitting,
+        builder: (context, state) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.r))),
+            //padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
+            child: Padding(
+              padding: EdgeInsets.all(13.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Want to share a review?',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  PharmacyReviewBodyField(),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  PharmacyReviewStarField(),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 15.h),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 1,
+                        primary: Colors.green[300],
+                        padding: EdgeInsets.all(15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      ),
+                      onPressed: () {
+                        context.read<PharmacyReviewFormBloc>().add(
+                            const PharmacyReviewFormEvent.reviewBtnPressed());
+                      },
+                      child: Text(
+                        'Post A Review!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

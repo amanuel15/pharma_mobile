@@ -8,6 +8,7 @@ abstract class SearchHistoryState with _$SearchHistoryState {
     required String typedTerm,
     required List<Search> filteredSearchHistory,
     required FloatingSearchBarController floatingSearchBarController,
+    required String filterBy,
   }) = _SearchHistoryState;
 
   factory SearchHistoryState.initial() => SearchHistoryState(
@@ -15,5 +16,6 @@ abstract class SearchHistoryState with _$SearchHistoryState {
         typedTerm: '',
         filteredSearchHistory: [],
         floatingSearchBarController: FloatingSearchBarController(),
+        filterBy: 'location',
       );
 }

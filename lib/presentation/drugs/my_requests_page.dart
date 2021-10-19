@@ -7,6 +7,7 @@ import 'package:pharma_flutter/domain/pharma/request.dart';
 import 'package:pharma_flutter/injection.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:pharma_flutter/presentation/drugs/widgets/flashbar_widget.dart';
 
 class MyRequestPage extends StatelessWidget {
   final User user;
@@ -36,48 +37,63 @@ class MyRequestPage extends StatelessWidget {
       body: BlocProvider<RequestFetcherBloc>(
         create: (context) => getIt<RequestFetcherBloc>()
           ..add(RequestFetcherEvent.fetchMyRequests(user.token, user.id)),
-        child: BlocBuilder<RequestFetcherBloc, RequestFetcherState>(
-          builder: (context, state) {
-            return state.map(
-              initial: (_) => Center(
-                child: Text('Initializing...'),
-              ),
-              loadInProgress: (state) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+        child: BlocListener<RequestActorBloc, RequestActorState>(
+          listener: (context, state) {
+            state.maybeMap(
+              deleteFailure: (state) {
+                flashBarWidget(context, state);
               },
-              loadSuccess: (state) {
-                return Container(
-                  color: Color(0xFFF5F6F9),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: 5.h,
-                    ),
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        final request = state.requests[index];
-                        if (request.failureOption != null) {
-                          return ErrorRequestCard(request: request);
-                        } else {
-                          return RequestCard(
-                            request: request,
-                            user: user,
-                          );
-                        }
-                      },
-                      itemCount: state.requests.length,
-                    ),
-                  ),
-                );
+              deleteSuccess: (state) {
+                context.read<RequestFetcherBloc>().add(
+                      RequestFetcherEvent.fetchMyRequests(user.token, user.id),
+                    );
               },
-              loadFailure: (state) {
-                return Center(
-                  child: Text('Load Failure!'),
-                );
-              },
+              orElse: () {},
             );
           },
+          child: BlocBuilder<RequestFetcherBloc, RequestFetcherState>(
+            builder: (context, state) {
+              return state.map(
+                initial: (_) => Center(
+                  child: Text('Initializing...'),
+                ),
+                loadInProgress: (state) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+                loadSuccess: (state) {
+                  return Container(
+                    color: Color(0xFFF5F6F9),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: 5.h,
+                      ),
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          final request = state.requests[index];
+                          if (request.failureOption != null) {
+                            return ErrorRequestCard(request: request);
+                          } else {
+                            return RequestCard(
+                              request: request,
+                              user: user,
+                            );
+                          }
+                        },
+                        itemCount: state.requests.length,
+                      ),
+                    ),
+                  );
+                },
+                loadFailure: (state) {
+                  return Center(
+                    child: Text('Load Failure!'),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -133,7 +149,7 @@ class RequestCard extends StatelessWidget {
                                     ),
                                   ),
                                   content: Text(
-                                    'Are you sure you want to delete this review?',
+                                    'Are you sure you want to remove this request?',
                                   ),
                                   actions: <Widget>[
                                     TextButton(

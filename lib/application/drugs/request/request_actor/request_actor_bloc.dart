@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_request_repository.dart';
 import 'package:pharma_flutter/domain/pharma/request.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 
@@ -13,9 +14,9 @@ part 'request_actor_bloc.freezed.dart';
 
 @injectable
 class RequestActorBloc extends Bloc<RequestActorEvent, RequestActorState> {
-  final IDrugRepository _drugRepository;
+  final IRequestRepository _requestRepository;
 
-  RequestActorBloc(this._drugRepository)
+  RequestActorBloc(this._requestRepository)
       : super(const RequestActorState.initial());
 
   @override
@@ -23,7 +24,7 @@ class RequestActorBloc extends Bloc<RequestActorEvent, RequestActorState> {
     RequestActorEvent event,
   ) async* {
     yield const RequestActorState.actionInProgress();
-    final possibleFailure = await _drugRepository.deleteRequest(
+    final possibleFailure = await _requestRepository.deleteRequest(
       request: event.request,
       accessToken: event.accessToken,
       userId: event.userId,

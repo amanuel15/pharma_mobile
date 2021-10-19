@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_search_repository.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy.dart';
 import 'package:pharma_flutter/domain/pharma/search/search_failure.dart';
 
@@ -16,9 +17,9 @@ part 'pharmacy_search_bloc.freezed.dart';
 @injectable
 class PharmacySearchBloc
     extends Bloc<PharmacySearchEvent, PharmacySearchState> {
-  final IDrugRepository _drugRepository;
+  final ISearchRepository _searchRepository;
 
-  PharmacySearchBloc(this._drugRepository)
+  PharmacySearchBloc(this._searchRepository)
       : super(const PharmacySearchState.initial());
 
   @override
@@ -28,7 +29,7 @@ class PharmacySearchBloc
     yield* event.map(
       searchPharmacies: (e) async* {
         Result<SearchFailure, List<Pharmacy>> result =
-            await _drugRepository.searchPharmacies(e.searchTerm, e.location);
+            await _searchRepository.searchPharmacies(e.searchTerm, e.location);
         add(PharmacySearchEvent.pharmaciesReceived(result));
       },
       pharmaciesReceived: (e) async* {

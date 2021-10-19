@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:pharma_flutter/domain/core/i_drug_repository.dart';
+import 'package:pharma_flutter/domain/core/i_review_repository.dart';
 import 'package:pharma_flutter/domain/pharma/pharmacy_review.dart';
 import 'package:pharma_flutter/domain/pharma/review_failure.dart';
 
@@ -15,8 +16,8 @@ part 'pharmacy_review_fetcher_bloc.freezed.dart';
 @injectable
 class PharmacyReviewFetcherBloc
     extends Bloc<PharmacyReviewFetcherEvent, PharmacyReviewFetcherState> {
-  final IDrugRepository _drugRepository;
-  PharmacyReviewFetcherBloc(this._drugRepository)
+  final IReviewRepository _reviewRepository;
+  PharmacyReviewFetcherBloc(this._reviewRepository)
       : super(const PharmacyReviewFetcherState.initial());
 
   @override
@@ -26,7 +27,7 @@ class PharmacyReviewFetcherBloc
     yield* event.map(
       fetchPharmacyReviews: (e) async* {
         Result<ReviewFailure, List<PharmacyReview>> result =
-            await _drugRepository.getReviewsForPharmacy(
+            await _reviewRepository.getReviewsForPharmacy(
           filterBy: e.filterBy,
           pageNumber: e.pageNumber,
           accessToken: e.accessToken,

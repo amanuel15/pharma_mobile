@@ -78,4 +78,8 @@ class SearchHistoryCubit extends Cubit<SearchHistoryState> {
       // return _searchHistory.reversed.toList();
     }
   }
+
+  void setFilter(String filter) {
+    emit(state.copyWith(filterBy: filter));
+  }
 }

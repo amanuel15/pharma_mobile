@@ -47,7 +47,7 @@ class DrugCard extends StatelessWidget {
                           left: Radius.circular(8.r),
                         ),
                         child: Image(
-                          image: AssetImage('assets/d.jpg'),
+                          image: AssetImage('assets/b.jpg'),
                         ),
                       ),
                     ),
@@ -102,18 +102,17 @@ class DrugCard extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                RatingBarIndicator(
-                                  rating: drug.rating,
-                                  itemBuilder: (context, index) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
+                                Expanded(
+                                  child: RatingBarIndicator(
+                                    rating: drug.rating,
+                                    itemBuilder: (context, index) => Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    itemCount: 5,
+                                    itemSize: 24.r,
+                                    unratedColor: Colors.amber.withAlpha(50),
                                   ),
-                                  itemCount: 5,
-                                  itemSize: 24.r,
-                                  unratedColor: Colors.amber.withAlpha(50),
-                                ),
-                                SizedBox(
-                                  width: 5.w,
                                 ),
                                 Text(
                                   '(${drug.reviews.length})',
